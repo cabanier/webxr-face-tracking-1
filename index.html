@@ -1,0 +1,1911 @@
+<!doctype html><html lang="en">
+ <head>
+  <meta content="text/html; charset=utf-8" http-equiv="Content-Type">
+  <meta content="width=device-width, initial-scale=1, shrink-to-fit=no" name="viewport">
+  <title>WebXR Face Tracking - Level 1</title>
+  <meta content="UD" name="w3c-status">
+  <link href="https://www.w3.org/StyleSheets/TR/2021/W3C-UD" rel="stylesheet">
+  <link href="https://www.w3.org/2008/site/images/favicon.ico" rel="icon">
+  <meta content="Bikeshed version f683df408, updated Tue Nov 29 13:46:10 2022 -0800" name="generator">
+  <link href="https://cabanier.github.io/webxr-face-tracking-1/" rel="canonical">
+  <meta content="65e901869a898157211a1583b2075c710a345683" name="document-revision">
+  <link href="favicon-32x32.png" rel="icon" sizes="32x32" type="image/png">
+  <link href="favicon-96x96.png" rel="icon" sizes="96x96" type="image/png">
+<style>
+<style>
+  .non-normative::before {
+    content: "This section is non-normative.";
+    font-style: italic;
+  }
+  .tg {
+    border-collapse: collapse;
+    border-spacing: 0;
+  }
+  .tg th {
+    border-style: solid;
+    border-width: 1px;
+    background: #90b8de;
+    color: #fff;
+    font-family: sans-serif;
+    font-weight: bold;
+    border-color: grey;
+  }
+  .tg td {
+    padding: 4px 5px;
+    background-color: rgb(221, 238, 255);
+    font-family: monospace;
+    border-style: solid;
+    border-width: 1px;
+    border-color: grey;
+    overflow: hidden;
+    word-break: normal;
+  }
+  .unstable::before {
+    content: "This section is not stable";
+    display: block;
+    font-weight: bold;
+    text-align: right;
+    color: red;
+  }
+  .unstable {
+    border: thin solid pink;
+    border-radius: .5em;
+    padding: .5em;
+    margin: .5em calc(-0.5em - 1px);
+    background-image: url("data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' width='300' height='290'><text transform='rotate(-45)' text-anchor='middle' font-family='sans-serif' font-weight='bold' font-size='70' y='210' opacity='.1' fill='white'>Unstable</text></svg>");
+    background-repeat: repeat;
+    background-color: #282828;
+  }
+  @media (prefers-color-scheme: light) {
+    .unstable {
+      background-image: url("data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' width='300' height='290'><text transform='rotate(-45)' text-anchor='middle' font-family='sans-serif' font-weight='bold' font-size='70' y='210' opacity='.1'>Unstable</text></svg>");
+      background-color: #FFF4F4;
+    }
+  }
+  .unstable h3:first-of-type {
+    margin-top: 0.5rem;
+  }
+  .unstable.example:not(.no-marker)::before {
+    content: "Example " counter(example) " (Unstable)";
+    float: none;
+  }
+</style>
+<style>/* style-autolinks */
+
+.css.css, .property.property, .descriptor.descriptor {
+    color: var(--a-normal-text);
+    font-size: inherit;
+    font-family: inherit;
+}
+.css::before, .property::before, .descriptor::before {
+    content: "‘";
+}
+.css::after, .property::after, .descriptor::after {
+    content: "’";
+}
+.property, .descriptor {
+    /* Don't wrap property and descriptor names */
+    white-space: nowrap;
+}
+.type { /* CSS value <type> */
+    font-style: italic;
+}
+pre .property::before, pre .property::after {
+    content: "";
+}
+[data-link-type="property"]::before,
+[data-link-type="propdesc"]::before,
+[data-link-type="descriptor"]::before,
+[data-link-type="value"]::before,
+[data-link-type="function"]::before,
+[data-link-type="at-rule"]::before,
+[data-link-type="selector"]::before,
+[data-link-type="maybe"]::before {
+    content: "‘";
+}
+[data-link-type="property"]::after,
+[data-link-type="propdesc"]::after,
+[data-link-type="descriptor"]::after,
+[data-link-type="value"]::after,
+[data-link-type="function"]::after,
+[data-link-type="at-rule"]::after,
+[data-link-type="selector"]::after,
+[data-link-type="maybe"]::after {
+    content: "’";
+}
+
+[data-link-type].production::before,
+[data-link-type].production::after,
+.prod [data-link-type]::before,
+.prod [data-link-type]::after {
+    content: "";
+}
+
+[data-link-type=element],
+[data-link-type=element-attr] {
+    font-family: Menlo, Consolas, "DejaVu Sans Mono", monospace;
+    font-size: .9em;
+}
+[data-link-type=element]::before { content: "<" }
+[data-link-type=element]::after  { content: ">" }
+
+[data-link-type=biblio] {
+    white-space: pre;
+}</style>
+<style>/* style-colors */
+
+/* Any --*-text not paired with a --*-bg is assumed to have a transparent bg */
+:root {
+    color-scheme: light dark;
+
+    --text: black;
+    --bg: white;
+
+    --unofficial-watermark: url(https://www.w3.org/StyleSheets/TR/2016/logos/UD-watermark);
+
+    --logo-bg: #1a5e9a;
+    --logo-active-bg: #c00;
+    --logo-text: white;
+
+    --tocnav-normal-text: #707070;
+    --tocnav-normal-bg: var(--bg);
+    --tocnav-hover-text: var(--tocnav-normal-text);
+    --tocnav-hover-bg: #f8f8f8;
+    --tocnav-active-text: #c00;
+    --tocnav-active-bg: var(--tocnav-normal-bg);
+
+    --tocsidebar-text: var(--text);
+    --tocsidebar-bg: #f7f8f9;
+    --tocsidebar-shadow: rgba(0,0,0,.1);
+    --tocsidebar-heading-text: hsla(203,20%,40%,.7);
+
+    --toclink-text: var(--text);
+    --toclink-underline: #3980b5;
+    --toclink-visited-text: var(--toclink-text);
+    --toclink-visited-underline: #054572;
+
+    --heading-text: #005a9c;
+
+    --hr-text: var(--text);
+
+    --algo-border: #def;
+
+    --del-text: red;
+    --del-bg: transparent;
+    --ins-text: #080;
+    --ins-bg: transparent;
+
+    --a-normal-text: #034575;
+    --a-normal-underline: #bbb;
+    --a-visited-text: var(--a-normal-text);
+    --a-visited-underline: #707070;
+    --a-hover-bg: rgba(75%, 75%, 75%, .25);
+    --a-active-text: #c00;
+    --a-active-underline: #c00;
+
+    --blockquote-border: silver;
+    --blockquote-bg: transparent;
+    --blockquote-text: currentcolor;
+
+    --issue-border: #e05252;
+    --issue-bg: #fbe9e9;
+    --issue-text: var(--text);
+    --issueheading-text: #831616;
+
+    --example-border: #e0cb52;
+    --example-bg: #fcfaee;
+    --example-text: var(--text);
+    --exampleheading-text: #574b0f;
+
+    --note-border: #52e052;
+    --note-bg: #e9fbe9;
+    --note-text: var(--text);
+    --noteheading-text: hsl(120, 70%, 30%);
+    --notesummary-underline: silver;
+
+    --assertion-border: #aaa;
+    --assertion-bg: #eee;
+    --assertion-text: black;
+
+    --advisement-border: orange;
+    --advisement-bg: #fec;
+    --advisement-text: var(--text);
+    --advisementheading-text: #b35f00;
+
+    --warning-border: red;
+    --warning-bg: hsla(40,100%,50%,0.95);
+    --warning-text: var(--text);
+
+    --amendment-border: #330099;
+    --amendment-bg: #F5F0FF;
+    --amendment-text: var(--text);
+    --amendmentheading-text: #220066;
+
+    --def-border: #8ccbf2;
+    --def-bg: #def;
+    --def-text: var(--text);
+    --defrow-border: #bbd7e9;
+
+    --datacell-border: silver;
+
+    --indexinfo-text: #707070;
+
+    --indextable-hover-text: black;
+    --indextable-hover-bg: #f7f8f9;
+
+    --outdatedspec-bg: rgba(0, 0, 0, .5);
+    --outdatedspec-text: black;
+    --outdated-bg: maroon;
+    --outdated-text: white;
+    --outdated-shadow: red;
+
+    --editedrec-bg: darkorange;
+}</style>
+<style>/* style-counters */
+
+body {
+    counter-reset: example figure issue;
+}
+.issue {
+    counter-increment: issue;
+}
+.issue:not(.no-marker)::before {
+    content: "Issue " counter(issue);
+}
+
+.example {
+    counter-increment: example;
+}
+.example:not(.no-marker)::before {
+    content: "Example " counter(example);
+}
+.invalid.example:not(.no-marker)::before,
+.illegal.example:not(.no-marker)::before {
+    content: "Invalid Example" counter(example);
+}
+
+figcaption {
+    counter-increment: figure;
+}
+figcaption:not(.no-marker)::before {
+    content: "Figure " counter(figure) " ";
+}</style>
+<style>/* style-dfn-panel */
+
+:root {
+    --dfnpanel-bg: #ddd;
+    --dfnpanel-text: var(--text);
+}
+.dfn-panel {
+    position: absolute;
+    z-index: 35;
+    height: auto;
+    width: -webkit-fit-content;
+    width: fit-content;
+    max-width: 300px;
+    max-height: 500px;
+    overflow: auto;
+    padding: 0.5em 0.75em;
+    font: small Helvetica Neue, sans-serif, Droid Sans Fallback;
+    background: var(--dfnpanel-bg);
+    color: var(--dfnpanel-text);
+    border: outset 0.2em;
+}
+.dfn-panel:not(.on) { display: none; }
+.dfn-panel * { margin: 0; padding: 0; text-indent: 0; }
+.dfn-panel > b { display: block; }
+.dfn-panel a { color: var(--dfnpanel-text); }
+.dfn-panel a:not(:hover) { text-decoration: none !important; border-bottom: none !important; }
+.dfn-panel > b + b { margin-top: 0.25em; }
+.dfn-panel ul { padding: 0; }
+.dfn-panel li { list-style: inside; }
+.dfn-panel.activated {
+    display: inline-block;
+    position: fixed;
+    left: .5em;
+    bottom: 2em;
+    margin: 0 auto;
+    max-width: calc(100vw - 1.5em - .4em - .5em);
+    max-height: 30vh;
+}
+
+.dfn-paneled { cursor: pointer; }
+</style>
+<style>/* style-issues */
+
+a[href].issue-return {
+    float: right;
+    float: inline-end;
+    color: var(--issueheading-text);
+    font-weight: bold;
+    text-decoration: none;
+}
+</style>
+<style>/* style-md-lists */
+
+/* This is a weird hack for me not yet following the commonmark spec
+   regarding paragraph and lists. */
+[data-md] > :first-child {
+    margin-top: 0;
+}
+[data-md] > :last-child {
+    margin-bottom: 0;
+}</style>
+<style>/* style-selflinks */
+
+:root {
+    --selflink-text: white;
+    --selflink-bg: gray;
+    --selflink-hover-text: black;
+}
+.heading, .issue, .note, .example, li, dt {
+    position: relative;
+}
+a.self-link {
+    position: absolute;
+    top: 0;
+    left: calc(-1 * (3.5rem - 26px));
+    width: calc(3.5rem - 26px);
+    height: 2em;
+    text-align: center;
+    border: none;
+    transition: opacity .2s;
+    opacity: .5;
+}
+a.self-link:hover {
+    opacity: 1;
+}
+.heading > a.self-link {
+    font-size: 83%;
+}
+.example > a.self-link,
+.note > a.self-link,
+.issue > a.self-link {
+    /* These blocks are overflow:auto, so positioning outside
+       doesn't work. */
+    left: auto;
+    right: 0;
+}
+li > a.self-link {
+    left: calc(-1 * (3.5rem - 26px) - 2em);
+}
+dfn > a.self-link {
+    top: auto;
+    left: auto;
+    opacity: 0;
+    width: 1.5em;
+    height: 1.5em;
+    background: var(--selflink-bg);
+    color: var(--selflink-text);
+    font-style: normal;
+    transition: opacity .2s, background-color .2s, color .2s;
+}
+dfn:hover > a.self-link {
+    opacity: 1;
+}
+dfn > a.self-link:hover {
+    color: var(--selflink-hover-text);
+}
+
+a.self-link::before            { content: "¶"; }
+.heading > a.self-link::before { content: "§"; }
+dfn > a.self-link::before      { content: "#"; }
+</style>
+<style>/* style-syntax-highlighting */
+
+            pre.idl.highlight {
+                background: var(--borderedblock-bg, var(--def-bg));
+            }
+            
+code.highlight { padding: .1em; border-radius: .3em; }
+pre.highlight, pre > code.highlight { display: block; padding: 1em; margin: .5em 0; overflow: auto; border-radius: 0; }
+
+.highlight:not(.idl) { background: rgba(0, 0, 0, .03); }
+c-[a] { color: #990055 } /* Keyword.Declaration */
+c-[b] { color: #990055 } /* Keyword.Type */
+c-[c] { color: #708090 } /* Comment */
+c-[d] { color: #708090 } /* Comment.Multiline */
+c-[e] { color: #0077aa } /* Name.Attribute */
+c-[f] { color: #669900 } /* Name.Tag */
+c-[g] { color: #222222 } /* Name.Variable */
+c-[k] { color: #990055 } /* Keyword */
+c-[l] { color: #000000 } /* Literal */
+c-[m] { color: #000000 } /* Literal.Number */
+c-[n] { color: #0077aa } /* Name */
+c-[o] { color: #999999 } /* Operator */
+c-[p] { color: #999999 } /* Punctuation */
+c-[s] { color: #a67f59 } /* Literal.String */
+c-[t] { color: #a67f59 } /* Literal.String.Single */
+c-[u] { color: #a67f59 } /* Literal.String.Double */
+c-[cp] { color: #708090 } /* Comment.Preproc */
+c-[c1] { color: #708090 } /* Comment.Single */
+c-[cs] { color: #708090 } /* Comment.Special */
+c-[kc] { color: #990055 } /* Keyword.Constant */
+c-[kn] { color: #990055 } /* Keyword.Namespace */
+c-[kp] { color: #990055 } /* Keyword.Pseudo */
+c-[kr] { color: #990055 } /* Keyword.Reserved */
+c-[ld] { color: #000000 } /* Literal.Date */
+c-[nc] { color: #0077aa } /* Name.Class */
+c-[no] { color: #0077aa } /* Name.Constant */
+c-[nd] { color: #0077aa } /* Name.Decorator */
+c-[ni] { color: #0077aa } /* Name.Entity */
+c-[ne] { color: #0077aa } /* Name.Exception */
+c-[nf] { color: #0077aa } /* Name.Function */
+c-[nl] { color: #0077aa } /* Name.Label */
+c-[nn] { color: #0077aa } /* Name.Namespace */
+c-[py] { color: #0077aa } /* Name.Property */
+c-[ow] { color: #999999 } /* Operator.Word */
+c-[mb] { color: #000000 } /* Literal.Number.Bin */
+c-[mf] { color: #000000 } /* Literal.Number.Float */
+c-[mh] { color: #000000 } /* Literal.Number.Hex */
+c-[mi] { color: #000000 } /* Literal.Number.Integer */
+c-[mo] { color: #000000 } /* Literal.Number.Oct */
+c-[sb] { color: #a67f59 } /* Literal.String.Backtick */
+c-[sc] { color: #a67f59 } /* Literal.String.Char */
+c-[sd] { color: #a67f59 } /* Literal.String.Doc */
+c-[se] { color: #a67f59 } /* Literal.String.Escape */
+c-[sh] { color: #a67f59 } /* Literal.String.Heredoc */
+c-[si] { color: #a67f59 } /* Literal.String.Interpol */
+c-[sx] { color: #a67f59 } /* Literal.String.Other */
+c-[sr] { color: #a67f59 } /* Literal.String.Regex */
+c-[ss] { color: #a67f59 } /* Literal.String.Symbol */
+c-[vc] { color: #0077aa } /* Name.Variable.Class */
+c-[vg] { color: #0077aa } /* Name.Variable.Global */
+c-[vi] { color: #0077aa } /* Name.Variable.Instance */
+c-[il] { color: #000000 } /* Literal.Number.Integer.Long */
+</style>
+<style>/* style-darkmode */
+
+@media (prefers-color-scheme: dark) {
+    :root {
+        --text: #ddd;
+        --bg: black;
+
+        --unofficial-watermark: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='400' height='400'%3E%3Cg fill='%23100808' transform='translate(200 200) rotate(-45) translate(-200 -200)' stroke='%23100808' stroke-width='3'%3E%3Ctext x='50%25' y='220' style='font: bold 70px sans-serif; text-anchor: middle; letter-spacing: 6px;'%3EUNOFFICIAL%3C/text%3E%3Ctext x='50%25' y='305' style='font: bold 70px sans-serif; text-anchor: middle; letter-spacing: 6px;'%3EDRAFT%3C/text%3E%3C/g%3E%3C/svg%3E");
+
+        --logo-bg: #1a5e9a;
+        --logo-active-bg: #c00;
+        --logo-text: white;
+
+        --tocnav-normal-text: #999;
+        --tocnav-normal-bg: var(--bg);
+        --tocnav-hover-text: var(--tocnav-normal-text);
+        --tocnav-hover-bg: #080808;
+        --tocnav-active-text: #f44;
+        --tocnav-active-bg: var(--tocnav-normal-bg);
+
+        --tocsidebar-text: var(--text);
+        --tocsidebar-bg: #080808;
+        --tocsidebar-shadow: rgba(255,255,255,.1);
+        --tocsidebar-heading-text: hsla(203,20%,40%,.7);
+
+        --toclink-text: var(--text);
+        --toclink-underline: #6af;
+        --toclink-visited-text: var(--toclink-text);
+        --toclink-visited-underline: #054572;
+
+        --heading-text: #8af;
+
+        --hr-text: var(--text);
+
+        --algo-border: #456;
+
+        --del-text: #f44;
+        --del-bg: transparent;
+        --ins-text: #4a4;
+        --ins-bg: transparent;
+
+        --a-normal-text: #6af;
+        --a-normal-underline: #555;
+        --a-visited-text: var(--a-normal-text);
+        --a-visited-underline: var(--a-normal-underline);
+        --a-hover-bg: rgba(25%, 25%, 25%, .2);
+        --a-active-text: #f44;
+        --a-active-underline: var(--a-active-text);
+
+        --borderedblock-bg: rgba(255, 255, 255, .05);
+
+        --blockquote-border: silver;
+        --blockquote-bg: var(--borderedblock-bg);
+        --blockquote-text: currentcolor;
+
+        --issue-border: #e05252;
+        --issue-bg: var(--borderedblock-bg);
+        --issue-text: var(--text);
+        --issueheading-text: hsl(0deg, 70%, 70%);
+
+        --example-border: hsl(50deg, 90%, 60%);
+        --example-bg: var(--borderedblock-bg);
+        --example-text: var(--text);
+        --exampleheading-text: hsl(50deg, 70%, 70%);
+
+        --note-border: hsl(120deg, 100%, 35%);
+        --note-bg: var(--borderedblock-bg);
+        --note-text: var(--text);
+        --noteheading-text: hsl(120, 70%, 70%);
+        --notesummary-underline: silver;
+
+        --assertion-border: #444;
+        --assertion-bg: var(--borderedblock-bg);
+        --assertion-text: var(--text);
+
+        --advisement-border: orange;
+        --advisement-bg: #222218;
+        --advisement-text: var(--text);
+        --advisementheading-text: #f84;
+
+        --warning-border: red;
+        --warning-bg: hsla(40,100%,20%,0.95);
+        --warning-text: var(--text);
+
+        --amendment-border: #330099;
+        --amendment-bg: #080010;
+        --amendment-text: var(--text);
+        --amendmentheading-text: #cc00ff;
+
+        --def-border: #8ccbf2;
+        --def-bg: #080818;
+        --def-text: var(--text);
+        --defrow-border: #136;
+
+        --datacell-border: silver;
+
+        --indexinfo-text: #aaa;
+
+        --indextable-hover-text: var(--text);
+        --indextable-hover-bg: #181818;
+
+        --outdatedspec-bg: rgba(255, 255, 255, .5);
+        --outdatedspec-text: black;
+        --outdated-bg: maroon;
+        --outdated-text: white;
+        --outdated-shadow: red;
+
+        --editedrec-bg: darkorange;
+    }
+    /* In case a transparent-bg image doesn't expect to be on a dark bg,
+       which is quite common in practice... */
+    img { background: white; }
+}
+@media (prefers-color-scheme: dark) {
+    :root {
+        --selflink-text: black;
+        --selflink-bg: silver;
+        --selflink-hover-text: white;
+    }
+}
+
+@media (prefers-color-scheme: dark) {
+    :root {
+        --dfnpanel-bg: #222;
+        --dfnpanel-text: var(--text);
+    }
+}
+@media (prefers-color-scheme: dark) {
+    .highlight:not(.idl) { background: rgba(255, 255, 255, .05); }
+
+    c-[a] { color: #d33682 } /* Keyword.Declaration */
+    c-[b] { color: #d33682 } /* Keyword.Type */
+    c-[c] { color: #2aa198 } /* Comment */
+    c-[d] { color: #2aa198 } /* Comment.Multiline */
+    c-[e] { color: #268bd2 } /* Name.Attribute */
+    c-[f] { color: #b58900 } /* Name.Tag */
+    c-[g] { color: #cb4b16 } /* Name.Variable */
+    c-[k] { color: #d33682 } /* Keyword */
+    c-[l] { color: #657b83 } /* Literal */
+    c-[m] { color: #657b83 } /* Literal.Number */
+    c-[n] { color: #268bd2 } /* Name */
+    c-[o] { color: #657b83 } /* Operator */
+    c-[p] { color: #657b83 } /* Punctuation */
+    c-[s] { color: #6c71c4 } /* Literal.String */
+    c-[t] { color: #6c71c4 } /* Literal.String.Single */
+    c-[u] { color: #6c71c4 } /* Literal.String.Double */
+    c-[ch] { color: #2aa198 } /* Comment.Hashbang */
+    c-[cp] { color: #2aa198 } /* Comment.Preproc */
+    c-[cpf] { color: #2aa198 } /* Comment.PreprocFile */
+    c-[c1] { color: #2aa198 } /* Comment.Single */
+    c-[cs] { color: #2aa198 } /* Comment.Special */
+    c-[kc] { color: #d33682 } /* Keyword.Constant */
+    c-[kn] { color: #d33682 } /* Keyword.Namespace */
+    c-[kp] { color: #d33682 } /* Keyword.Pseudo */
+    c-[kr] { color: #d33682 } /* Keyword.Reserved */
+    c-[ld] { color: #657b83 } /* Literal.Date */
+    c-[nc] { color: #268bd2 } /* Name.Class */
+    c-[no] { color: #268bd2 } /* Name.Constant */
+    c-[nd] { color: #268bd2 } /* Name.Decorator */
+    c-[ni] { color: #268bd2 } /* Name.Entity */
+    c-[ne] { color: #268bd2 } /* Name.Exception */
+    c-[nf] { color: #268bd2 } /* Name.Function */
+    c-[nl] { color: #268bd2 } /* Name.Label */
+    c-[nn] { color: #268bd2 } /* Name.Namespace */
+    c-[py] { color: #268bd2 } /* Name.Property */
+    c-[ow] { color: #657b83 } /* Operator.Word */
+    c-[mb] { color: #657b83 } /* Literal.Number.Bin */
+    c-[mf] { color: #657b83 } /* Literal.Number.Float */
+    c-[mh] { color: #657b83 } /* Literal.Number.Hex */
+    c-[mi] { color: #657b83 } /* Literal.Number.Integer */
+    c-[mo] { color: #657b83 } /* Literal.Number.Oct */
+    c-[sa] { color: #6c71c4 } /* Literal.String.Affix */
+    c-[sb] { color: #6c71c4 } /* Literal.String.Backtick */
+    c-[sc] { color: #6c71c4 } /* Literal.String.Char */
+    c-[dl] { color: #6c71c4 } /* Literal.String.Delimiter */
+    c-[sd] { color: #6c71c4 } /* Literal.String.Doc */
+    c-[se] { color: #6c71c4 } /* Literal.String.Escape */
+    c-[sh] { color: #6c71c4 } /* Literal.String.Heredoc */
+    c-[si] { color: #6c71c4 } /* Literal.String.Interpol */
+    c-[sx] { color: #6c71c4 } /* Literal.String.Other */
+    c-[sr] { color: #6c71c4 } /* Literal.String.Regex */
+    c-[ss] { color: #6c71c4 } /* Literal.String.Symbol */
+    c-[fm] { color: #268bd2 } /* Name.Function.Magic */
+    c-[vc] { color: #cb4b16 } /* Name.Variable.Class */
+    c-[vg] { color: #cb4b16 } /* Name.Variable.Global */
+    c-[vi] { color: #cb4b16 } /* Name.Variable.Instance */
+    c-[vm] { color: #cb4b16 } /* Name.Variable.Magic */
+    c-[il] { color: #657b83 } /* Literal.Number.Integer.Long */
+}
+</style>
+ <body class="h-entry">
+  <div class="head">
+   <p data-fill-with="logo"><a class="logo" href="https://www.w3.org/"> <img alt="W3C" height="48" src="https://www.w3.org/StyleSheets/TR/2021/logos/W3C" width="72"> </a> </p>
+   <h1 class="p-name no-ref" id="title">WebXR Face Tracking - Level 1</h1>
+   <p id="w3c-state"><a href="https://www.w3.org/standards/types#UD">Unofficial Proposal Draft</a>, <time class="dt-updated" datetime="2022-11-29">29 November 2022</time></p>
+   <details open>
+    <summary>More details about this document</summary>
+    <div data-fill-with="spec-metadata">
+     <dl>
+      <dt>This version:
+      <dd><a class="u-url" href="https://cabanier.github.io/webxr-face-tracking-1/">https://cabanier.github.io/webxr-face-tracking-1/</a>
+      <dt>Issue Tracking:
+      <dd><a href="https://github.com/cabanier/webxr-face-tracking-1/issues/">GitHub</a>
+      <dt class="editor">Editor:
+      <dd class="editor p-author h-card vcard"><a class="p-name fn u-email email" href="mailto:cabanier@meta.com">Rik Cabanier</a> (<span class="p-org org">Meta</span>)
+     </dl>
+    </div>
+   </details>
+   <div data-fill-with="warning"></div>
+   <p class="copyright" data-fill-with="copyright"><a href="https://www.w3.org/Consortium/Legal/ipr-notice#Copyright">Copyright</a> © 2022 <a href="https://www.w3.org/"><abbr title="World Wide Web Consortium">W3C</abbr></a><sup>®</sup> (<a href="https://www.csail.mit.edu/"><abbr title="Massachusetts Institute of Technology">MIT</abbr></a>, <a href="https://www.ercim.eu/"><abbr title="European Research Consortium for Informatics and Mathematics">ERCIM</abbr></a>, <a href="https://www.keio.ac.jp/">Keio</a>, <a href="https://ev.buaa.edu.cn/">Beihang</a>). W3C <a href="https://www.w3.org/Consortium/Legal/ipr-notice#Legal_Disclaimer">liability</a>, <a href="https://www.w3.org/Consortium/Legal/ipr-notice#W3C_Trademarks">trademark</a> and <a href="https://www.w3.org/Consortium/Legal/2015/copyright-software-and-document" rel="license">permissive document license</a> rules apply. </p>
+   <hr title="Separator for header">
+  </div>
+  <div class="p-summary" data-fill-with="abstract">
+   <h2 class="no-num no-toc no-ref heading settled" id="abstract"><span class="content">Abstract</span></h2>
+   <p>The WebXR Face Tracking module expands the <a href="https://www.w3.org/TR/webxr/">WebXR Device API</a> with the functionality to track face expressions.</p>
+  </div>
+  <h2 class="no-num no-toc no-ref heading settled" id="sotd"><span class="content">Status of this document</span></h2>
+  <div data-fill-with="status">
+   <p></p>
+   <p>This WebXR Module is designed as a module to be implemented in addition to <a href="https://www.w3.org/TR/webxr/">WebXR Device API</a>, and is originally included in WebXR Device API which was divided into core and modules.</p>
+  </div>
+  <div data-fill-with="at-risk"></div>
+  <nav data-fill-with="table-of-contents" id="toc">
+   <h2 class="no-num no-toc no-ref" id="contents">Table of Contents</h2>
+   <ol class="toc" role="directory">
+    <li><a href="#intro"><span class="secno">1</span> <span class="content">Introduction</span></a>
+    <li><a href="#initialization"><span class="secno">2</span> <span class="content">Initialization</span></a>
+    <li>
+     <a href="#expression-access"><span class="secno">3</span> <span class="content">Access to expressions</span></a>
+     <ol class="toc">
+      <li><a href="#expressions"><span class="secno">3.1</span> <span class="content">Expressions</span></a>
+      <li><a href="#expression-visuals"><span class="secno">3.2</span> <span class="content">Visual examples of expressions</span></a>
+      <li><a href="#xrexpressions-type"><span class="secno">3.3</span> <span class="content">XRExpressions</span></a>
+     </ol>
+    <li>
+     <a href="#frame-loop"><span class="secno">4</span> <span class="content">Frame Loop</span></a>
+     <ol class="toc">
+      <li><a href="#xrframe-interface"><span class="secno">4.1</span> <span class="content">XRFrame</span></a>
+     </ol>
+    <li><a href="#privacy-security"><span class="secno">5</span> <span class="content">Privacy &amp; Security Considerations</span></a>
+    <li>
+     <a href="#w3c-conformance"><span class="secno"></span> <span class="content">Conformance</span></a>
+     <ol class="toc">
+      <li><a href="#w3c-conventions"><span class="secno"></span> <span class="content">Document conventions</span></a>
+      <li><a href="#w3c-conformant-algorithms"><span class="secno"></span> <span class="content">Conformant Algorithms</span></a>
+     </ol>
+    <li>
+     <a href="#index"><span class="secno"></span> <span class="content">Index</span></a>
+     <ol class="toc">
+      <li><a href="#index-defined-here"><span class="secno"></span> <span class="content">Terms defined by this specification</span></a>
+      <li><a href="#index-defined-elsewhere"><span class="secno"></span> <span class="content">Terms defined by reference</span></a>
+     </ol>
+    <li>
+     <a href="#references"><span class="secno"></span> <span class="content">References</span></a>
+     <ol class="toc">
+      <li><a href="#normative"><span class="secno"></span> <span class="content">Normative References</span></a>
+      <li><a href="#informative"><span class="secno"></span> <span class="content">Informative References</span></a>
+     </ol>
+    <li><a href="#idl-index"><span class="secno"></span> <span class="content">IDL Index</span></a>
+   </ol>
+  </nav>
+  <main>
+   <h2 class="heading settled" data-level="1" id="intro"><span class="secno">1. </span><span class="content">Introduction</span><a class="self-link" href="#intro"></a></h2>
+   <section class="non-normative"> This API exposes the expressions of the user’s face and the position of their eyes. This can be used to render a more immersive avatar. </section>
+   <h2 class="heading settled" data-level="2" id="initialization"><span class="secno">2. </span><span class="content">Initialization</span><a class="self-link" href="#initialization"></a></h2>
+   <p>If an application wants to get expressions during an immersive session, the session MUST be requested with an appropriate <a data-link-type="dfn" href="https://immersive-web.github.io/webxr/#feature-descriptor" id="ref-for-feature-descriptor">feature descriptor</a>. The string "<dfn class="dfn-paneled" data-dfn-for="feature descriptor" data-dfn-type="dfn" data-noexport id="feature-descriptor-face-tracking">face-tracking</dfn>" is introduced
+by this module as a new valid <a data-link-type="dfn" href="https://immersive-web.github.io/webxr/#feature-descriptor" id="ref-for-feature-descriptor①">feature descriptor</a> for face expressions.</p>
+   <p>The "<a data-link-type="dfn" href="#feature-descriptor-face-tracking" id="ref-for-feature-descriptor-face-tracking">face-tracking</a>" <a data-link-type="dfn" href="https://immersive-web.github.io/webxr/#feature-descriptor" id="ref-for-feature-descriptor②">feature descriptor</a> should only be granted for an <code class="idl"><a data-link-type="idl" href="https://immersive-web.github.io/webxr/#xrsession" id="ref-for-xrsession">XRSession</a></code> when its <a data-link-type="dfn" href="https://immersive-web.github.io/webxr/#xrsession-xr-device" id="ref-for-xrsession-xr-device">XR device</a> has sensor data to support reporting of expressions.</p>
+   <h2 class="heading settled" data-level="3" id="expression-access"><span class="secno">3. </span><span class="content">Access to expressions</span><a class="self-link" href="#expression-access"></a></h2>
+   <h3 class="heading settled" data-level="3.1" id="expressions"><span class="secno">3.1. </span><span class="content">Expressions</span><a class="self-link" href="#expressions"></a></h3>
+   <p>An expression MUST be one of the <code class="idl"><a data-link-type="idl" href="#enumdef-xrexpression" id="ref-for-enumdef-xrexpression">XRExpression</a></code> types.
+A user agent MAY support a subset of <code class="idl"><a data-link-type="idl" href="#enumdef-xrexpression" id="ref-for-enumdef-xrexpression①">XRExpression</a></code> types and this subset is allowed to change during an <code class="idl"><a data-link-type="idl" href="https://immersive-web.github.io/webxr/#xrsession" id="ref-for-xrsession①">XRSession</a></code></p>
+   <p>Following is the <dfn class="dfn-paneled" data-dfn-type="dfn" data-noexport id="list-of-expressions">list of expressions</dfn> and their order:</p>
+<pre class="idl highlight def"><c- b>enum</c-> <dfn class="dfn-paneled idl-code" data-dfn-type="enum" data-export id="enumdef-xrexpression"><code><c- g>XRExpression</c-></code></dfn> {
+  <dfn class="dfn-paneled idl-code" data-dfn-for="XRExpression" data-dfn-type="enum-value" data-export id="dom-xrexpression-brow_lowerer_left"><code><c- s>"brow_lowerer_left"</c-></code></dfn>,
+  <dfn class="dfn-paneled idl-code" data-dfn-for="XRExpression" data-dfn-type="enum-value" data-export id="dom-xrexpression-brow_lowerer_right"><code><c- s>"brow_lowerer_right"</c-></code></dfn>,
+  <dfn class="dfn-paneled idl-code" data-dfn-for="XRExpression" data-dfn-type="enum-value" data-export id="dom-xrexpression-cheek_puff_left"><code><c- s>"cheek_puff_left"</c-></code></dfn>,
+  <dfn class="dfn-paneled idl-code" data-dfn-for="XRExpression" data-dfn-type="enum-value" data-export id="dom-xrexpression-cheek_puff_right"><code><c- s>"cheek_puff_right"</c-></code></dfn>,
+  <dfn class="dfn-paneled idl-code" data-dfn-for="XRExpression" data-dfn-type="enum-value" data-export id="dom-xrexpression-cheek_raiser_left"><code><c- s>"cheek_raiser_left"</c-></code></dfn>,
+  <dfn class="dfn-paneled idl-code" data-dfn-for="XRExpression" data-dfn-type="enum-value" data-export id="dom-xrexpression-cheek_raiser_right"><code><c- s>"cheek_raiser_right"</c-></code></dfn>,
+  <dfn class="dfn-paneled idl-code" data-dfn-for="XRExpression" data-dfn-type="enum-value" data-export id="dom-xrexpression-cheek_suck_left"><code><c- s>"cheek_suck_left"</c-></code></dfn>,
+  <dfn class="dfn-paneled idl-code" data-dfn-for="XRExpression" data-dfn-type="enum-value" data-export id="dom-xrexpression-cheek_suck_right"><code><c- s>"cheek_suck_right"</c-></code></dfn>,
+  <dfn class="dfn-paneled idl-code" data-dfn-for="XRExpression" data-dfn-type="enum-value" data-export id="dom-xrexpression-chin_raiser_bottom"><code><c- s>"chin_raiser_bottom"</c-></code></dfn>,
+  <dfn class="dfn-paneled idl-code" data-dfn-for="XRExpression" data-dfn-type="enum-value" data-export id="dom-xrexpression-chin_raiser_top"><code><c- s>"chin_raiser_top"</c-></code></dfn>,
+  <dfn class="dfn-paneled idl-code" data-dfn-for="XRExpression" data-dfn-type="enum-value" data-export id="dom-xrexpression-dimpler_left"><code><c- s>"dimpler_left"</c-></code></dfn>,
+  <dfn class="dfn-paneled idl-code" data-dfn-for="XRExpression" data-dfn-type="enum-value" data-export id="dom-xrexpression-dimpler_right"><code><c- s>"dimpler_right"</c-></code></dfn>,
+  <dfn class="dfn-paneled idl-code" data-dfn-for="XRExpression" data-dfn-type="enum-value" data-export id="dom-xrexpression-eyes_closed_left"><code><c- s>"eyes_closed_left"</c-></code></dfn>,
+  <dfn class="dfn-paneled idl-code" data-dfn-for="XRExpression" data-dfn-type="enum-value" data-export id="dom-xrexpression-eyes_closed_right"><code><c- s>"eyes_closed_right"</c-></code></dfn>,
+  <dfn class="dfn-paneled idl-code" data-dfn-for="XRExpression" data-dfn-type="enum-value" data-export id="dom-xrexpression-eyes_look_down_left"><code><c- s>"eyes_look_down_left"</c-></code></dfn>,
+  <dfn class="dfn-paneled idl-code" data-dfn-for="XRExpression" data-dfn-type="enum-value" data-export id="dom-xrexpression-eyes_look_down_right"><code><c- s>"eyes_look_down_right"</c-></code></dfn>,
+  <dfn class="dfn-paneled idl-code" data-dfn-for="XRExpression" data-dfn-type="enum-value" data-export id="dom-xrexpression-eyes_look_left_left"><code><c- s>"eyes_look_left_left"</c-></code></dfn>,
+  <dfn class="dfn-paneled idl-code" data-dfn-for="XRExpression" data-dfn-type="enum-value" data-export id="dom-xrexpression-eyes_look_left_right"><code><c- s>"eyes_look_left_right"</c-></code></dfn>,
+  <dfn class="dfn-paneled idl-code" data-dfn-for="XRExpression" data-dfn-type="enum-value" data-export id="dom-xrexpression-eyes_look_right_left"><code><c- s>"eyes_look_right_left"</c-></code></dfn>,
+  <dfn class="dfn-paneled idl-code" data-dfn-for="XRExpression" data-dfn-type="enum-value" data-export id="dom-xrexpression-eyes_look_right_right"><code><c- s>"eyes_look_right_right"</c-></code></dfn>,
+  <dfn class="dfn-paneled idl-code" data-dfn-for="XRExpression" data-dfn-type="enum-value" data-export id="dom-xrexpression-eyes_look_up_left"><code><c- s>"eyes_look_up_left"</c-></code></dfn>,
+  <dfn class="dfn-paneled idl-code" data-dfn-for="XRExpression" data-dfn-type="enum-value" data-export id="dom-xrexpression-eyes_look_up_right"><code><c- s>"eyes_look_up_right"</c-></code></dfn>,
+  <dfn class="dfn-paneled idl-code" data-dfn-for="XRExpression" data-dfn-type="enum-value" data-export id="dom-xrexpression-inner_brow_raiser_left"><code><c- s>"inner_brow_raiser_left"</c-></code></dfn>,
+  <dfn class="dfn-paneled idl-code" data-dfn-for="XRExpression" data-dfn-type="enum-value" data-export id="dom-xrexpression-inner_brow_raiser_right"><code><c- s>"inner_brow_raiser_right"</c-></code></dfn>,
+  <dfn class="dfn-paneled idl-code" data-dfn-for="XRExpression" data-dfn-type="enum-value" data-export id="dom-xrexpression-jaw_drop"><code><c- s>"jaw_drop"</c-></code></dfn>,
+  <dfn class="dfn-paneled idl-code" data-dfn-for="XRExpression" data-dfn-type="enum-value" data-export id="dom-xrexpression-jaw_sideways_left"><code><c- s>"jaw_sideways_left"</c-></code></dfn>,
+  <dfn class="dfn-paneled idl-code" data-dfn-for="XRExpression" data-dfn-type="enum-value" data-export id="dom-xrexpression-jaw_sideways_right"><code><c- s>"jaw_sideways_right"</c-></code></dfn>,
+  <dfn class="dfn-paneled idl-code" data-dfn-for="XRExpression" data-dfn-type="enum-value" data-export id="dom-xrexpression-jaw_thrust"><code><c- s>"jaw_thrust"</c-></code></dfn>,
+  <dfn class="dfn-paneled idl-code" data-dfn-for="XRExpression" data-dfn-type="enum-value" data-export id="dom-xrexpression-lid_tightener_left"><code><c- s>"lid_tightener_left"</c-></code></dfn>,
+  <dfn class="dfn-paneled idl-code" data-dfn-for="XRExpression" data-dfn-type="enum-value" data-export id="dom-xrexpression-lid_tightener_right"><code><c- s>"lid_tightener_right"</c-></code></dfn>,
+  <dfn class="dfn-paneled idl-code" data-dfn-for="XRExpression" data-dfn-type="enum-value" data-export id="dom-xrexpression-lip_corner_depressor_left"><code><c- s>"lip_corner_depressor_left"</c-></code></dfn>,
+  <dfn class="dfn-paneled idl-code" data-dfn-for="XRExpression" data-dfn-type="enum-value" data-export id="dom-xrexpression-lip_corner_depressor_right"><code><c- s>"lip_corner_depressor_right"</c-></code></dfn>,
+  <dfn class="dfn-paneled idl-code" data-dfn-for="XRExpression" data-dfn-type="enum-value" data-export id="dom-xrexpression-lip_corner_puller_left"><code><c- s>"lip_corner_puller_left"</c-></code></dfn>,
+  <dfn class="dfn-paneled idl-code" data-dfn-for="XRExpression" data-dfn-type="enum-value" data-export id="dom-xrexpression-lip_corner_puller_right"><code><c- s>"lip_corner_puller_right"</c-></code></dfn>,
+  <dfn class="dfn-paneled idl-code" data-dfn-for="XRExpression" data-dfn-type="enum-value" data-export id="dom-xrexpression-lip_funneler_left_bottom"><code><c- s>"lip_funneler_left_bottom"</c-></code></dfn>,
+  <dfn class="dfn-paneled idl-code" data-dfn-for="XRExpression" data-dfn-type="enum-value" data-export id="dom-xrexpression-lip_funneler_left_top"><code><c- s>"lip_funneler_left_top"</c-></code></dfn>,
+  <dfn class="dfn-paneled idl-code" data-dfn-for="XRExpression" data-dfn-type="enum-value" data-export id="dom-xrexpression-lip_funneler_right_bottom"><code><c- s>"lip_funneler_right_bottom"</c-></code></dfn>,
+  <dfn class="dfn-paneled idl-code" data-dfn-for="XRExpression" data-dfn-type="enum-value" data-export id="dom-xrexpression-lip_funneler_right_top"><code><c- s>"lip_funneler_right_top"</c-></code></dfn>,
+  <dfn class="dfn-paneled idl-code" data-dfn-for="XRExpression" data-dfn-type="enum-value" data-export id="dom-xrexpression-lip_pressor_left"><code><c- s>"lip_pressor_left"</c-></code></dfn>,
+  <dfn class="dfn-paneled idl-code" data-dfn-for="XRExpression" data-dfn-type="enum-value" data-export id="dom-xrexpression-lip_pressor_right"><code><c- s>"lip_pressor_right"</c-></code></dfn>,
+  <dfn class="dfn-paneled idl-code" data-dfn-for="XRExpression" data-dfn-type="enum-value" data-export id="dom-xrexpression-lip_pucker_left"><code><c- s>"lip_pucker_left"</c-></code></dfn>,
+  <dfn class="dfn-paneled idl-code" data-dfn-for="XRExpression" data-dfn-type="enum-value" data-export id="dom-xrexpression-lip_pucker_right"><code><c- s>"lip_pucker_right"</c-></code></dfn>,
+  <dfn class="dfn-paneled idl-code" data-dfn-for="XRExpression" data-dfn-type="enum-value" data-export id="dom-xrexpression-lip_stretcher_left"><code><c- s>"lip_stretcher_left"</c-></code></dfn>,
+  <dfn class="dfn-paneled idl-code" data-dfn-for="XRExpression" data-dfn-type="enum-value" data-export id="dom-xrexpression-lip_stretcher_right"><code><c- s>"lip_stretcher_right"</c-></code></dfn>,
+  <dfn class="dfn-paneled idl-code" data-dfn-for="XRExpression" data-dfn-type="enum-value" data-export id="dom-xrexpression-lip_suck_left_bottom"><code><c- s>"lip_suck_left_bottom"</c-></code></dfn>,
+  <dfn class="dfn-paneled idl-code" data-dfn-for="XRExpression" data-dfn-type="enum-value" data-export id="dom-xrexpression-lip_suck_left_top"><code><c- s>"lip_suck_left_top"</c-></code></dfn>,
+  <dfn class="dfn-paneled idl-code" data-dfn-for="XRExpression" data-dfn-type="enum-value" data-export id="dom-xrexpression-lip_suck_right_bottom"><code><c- s>"lip_suck_right_bottom"</c-></code></dfn>,
+  <dfn class="dfn-paneled idl-code" data-dfn-for="XRExpression" data-dfn-type="enum-value" data-export id="dom-xrexpression-lip_suck_right_top"><code><c- s>"lip_suck_right_top"</c-></code></dfn>,
+  <dfn class="dfn-paneled idl-code" data-dfn-for="XRExpression" data-dfn-type="enum-value" data-export id="dom-xrexpression-lip_tightener_left"><code><c- s>"lip_tightener_left"</c-></code></dfn>,
+  <dfn class="dfn-paneled idl-code" data-dfn-for="XRExpression" data-dfn-type="enum-value" data-export id="dom-xrexpression-lip_tightener_right"><code><c- s>"lip_tightener_right"</c-></code></dfn>,
+  <dfn class="dfn-paneled idl-code" data-dfn-for="XRExpression" data-dfn-type="enum-value" data-export id="dom-xrexpression-lips_toward"><code><c- s>"lips_toward"</c-></code></dfn>,
+  <dfn class="dfn-paneled idl-code" data-dfn-for="XRExpression" data-dfn-type="enum-value" data-export id="dom-xrexpression-lower_lip_depressor_left"><code><c- s>"lower_lip_depressor_left"</c-></code></dfn>,
+  <dfn class="dfn-paneled idl-code" data-dfn-for="XRExpression" data-dfn-type="enum-value" data-export id="dom-xrexpression-lower_lip_depressor_right"><code><c- s>"lower_lip_depressor_right"</c-></code></dfn>,
+  <dfn class="dfn-paneled idl-code" data-dfn-for="XRExpression" data-dfn-type="enum-value" data-export id="dom-xrexpression-mouth_left"><code><c- s>"mouth_left"</c-></code></dfn>,
+  <dfn class="dfn-paneled idl-code" data-dfn-for="XRExpression" data-dfn-type="enum-value" data-export id="dom-xrexpression-mouth_right"><code><c- s>"mouth_right"</c-></code></dfn>,
+  <dfn class="dfn-paneled idl-code" data-dfn-for="XRExpression" data-dfn-type="enum-value" data-export id="dom-xrexpression-nose_wrinkler_left"><code><c- s>"nose_wrinkler_left"</c-></code></dfn>,
+  <dfn class="dfn-paneled idl-code" data-dfn-for="XRExpression" data-dfn-type="enum-value" data-export id="dom-xrexpression-nose_wrinkler_right"><code><c- s>"nose_wrinkler_right"</c-></code></dfn>,
+  <dfn class="dfn-paneled idl-code" data-dfn-for="XRExpression" data-dfn-type="enum-value" data-export id="dom-xrexpression-outer_brow_raiser_left"><code><c- s>"outer_brow_raiser_left"</c-></code></dfn>,
+  <dfn class="dfn-paneled idl-code" data-dfn-for="XRExpression" data-dfn-type="enum-value" data-export id="dom-xrexpression-outer_brow_raiser_right"><code><c- s>"outer_brow_raiser_right"</c-></code></dfn>,
+  <dfn class="dfn-paneled idl-code" data-dfn-for="XRExpression" data-dfn-type="enum-value" data-export id="dom-xrexpression-upper_lid_raiser_left"><code><c- s>"upper_lid_raiser_left"</c-></code></dfn>,
+  <dfn class="dfn-paneled idl-code" data-dfn-for="XRExpression" data-dfn-type="enum-value" data-export id="dom-xrexpression-upper_lid_raiser_right"><code><c- s>"upper_lid_raiser_right"</c-></code></dfn>,
+  <dfn class="dfn-paneled idl-code" data-dfn-for="XRExpression" data-dfn-type="enum-value" data-export id="dom-xrexpression-upper_lip_raiser_left"><code><c- s>"upper_lip_raiser_left"</c-></code></dfn>,
+  <dfn class="dfn-paneled idl-code" data-dfn-for="XRExpression" data-dfn-type="enum-value" data-export id="dom-xrexpression-upper_lip_raiser_right"><code><c- s>"upper_lip_raiser_right"</c-></code></dfn>
+};
+</pre>
+   <h3 class="heading settled" data-level="3.2" id="expression-visuals"><span class="secno">3.2. </span><span class="content">Visual examples of expressions</span><a class="self-link" href="#expression-visuals"></a></h3>
+   <section class="non-normative">
+    <figure>
+      <img height="512" src="media/neutral.png" width="512"> 
+     <figcaption align="center"><b>neutral</b> </figcaption>
+    </figure>
+    <figure>
+      <img height="512" src="media/brow_lowerer_left.png" width="512"> 
+     <figcaption align="center"><b><code class="idl"><a data-link-type="idl" href="#dom-xrexpression-brow_lowerer_left" id="ref-for-dom-xrexpression-brow_lowerer_left">brow_lowerer_left</a></code></b> </figcaption>
+    </figure>
+    <figure>
+      <img height="512" src="media/brow_lowerer_right.png" width="512"> 
+     <figcaption align="center"><b><code class="idl"><a data-link-type="idl" href="#dom-xrexpression-brow_lowerer_right" id="ref-for-dom-xrexpression-brow_lowerer_right">brow_lowerer_right</a></code></b> </figcaption>
+    </figure>
+    <figure>
+      <img height="512" src="media/cheek_puff_left.png" width="512"> 
+     <figcaption align="center"><b><code class="idl"><a data-link-type="idl" href="#dom-xrexpression-cheek_puff_left" id="ref-for-dom-xrexpression-cheek_puff_left">cheek_puff_left</a></code></b> </figcaption>
+    </figure>
+    <figure>
+      <img height="512" src="media/cheek_puff_right.png" width="512"> 
+     <figcaption align="center"><b><code class="idl"><a data-link-type="idl" href="#dom-xrexpression-cheek_puff_right" id="ref-for-dom-xrexpression-cheek_puff_right">cheek_puff_right</a></code></b> </figcaption>
+    </figure>
+    <figure>
+      <img height="512" src="media/cheek_raiser_left.png" width="512"> 
+     <figcaption align="center"><b><code class="idl"><a data-link-type="idl" href="#dom-xrexpression-cheek_raiser_left" id="ref-for-dom-xrexpression-cheek_raiser_left">cheek_raiser_left</a></code></b> </figcaption>
+    </figure>
+    <figure>
+      <img height="512" src="media/cheek_raiser_right.png" width="512"> 
+     <figcaption align="center"><b><code class="idl"><a data-link-type="idl" href="#dom-xrexpression-cheek_raiser_right" id="ref-for-dom-xrexpression-cheek_raiser_right">cheek_raiser_right</a></code></b> </figcaption>
+    </figure>
+    <figure>
+      <img height="512" src="media/cheek_suck_left.png" width="512"> 
+     <figcaption align="center"><b><code class="idl"><a data-link-type="idl" href="#dom-xrexpression-cheek_suck_left" id="ref-for-dom-xrexpression-cheek_suck_left">cheek_suck_left</a></code></b> </figcaption>
+    </figure>
+    <figure>
+      <img height="512" src="media/cheek_suck_right.png" width="512"> 
+     <figcaption align="center"><b><code class="idl"><a data-link-type="idl" href="#dom-xrexpression-cheek_suck_right" id="ref-for-dom-xrexpression-cheek_suck_right">cheek_suck_right</a></code></b> </figcaption>
+    </figure>
+    <figure>
+      <img height="512" src="media/chin_raiser_bottom.png" width="512"> 
+     <figcaption align="center"><b><code class="idl"><a data-link-type="idl" href="#dom-xrexpression-chin_raiser_bottom" id="ref-for-dom-xrexpression-chin_raiser_bottom">chin_raiser_bottom</a></code></b> </figcaption>
+    </figure>
+    <figure>
+      <img height="512" src="media/chin_raiser_top.png" width="512"> 
+     <figcaption align="center"><b><code class="idl"><a data-link-type="idl" href="#dom-xrexpression-chin_raiser_top" id="ref-for-dom-xrexpression-chin_raiser_top">chin_raiser_top</a></code></b> </figcaption>
+    </figure>
+    <figure>
+      <img height="512" src="media/dimpler_left.png" width="512"> 
+     <figcaption align="center"><b><code class="idl"><a data-link-type="idl" href="#dom-xrexpression-dimpler_left" id="ref-for-dom-xrexpression-dimpler_left">dimpler_left</a></code></b> </figcaption>
+    </figure>
+    <figure>
+      <img height="512" src="media/dimpler_right.png" width="512"> 
+     <figcaption align="center"><b><code class="idl"><a data-link-type="idl" href="#dom-xrexpression-dimpler_right" id="ref-for-dom-xrexpression-dimpler_right">dimpler_right</a></code></b> </figcaption>
+    </figure>
+    <figure>
+      <img height="512" src="media/eyes_closed_left.png" width="512"> 
+     <figcaption align="center"><b><code class="idl"><a data-link-type="idl" href="#dom-xrexpression-eyes_closed_left" id="ref-for-dom-xrexpression-eyes_closed_left">eyes_closed_left</a></code></b> </figcaption>
+    </figure>
+    <figure>
+      <img height="512" src="media/eyes_closed_right.png" width="512"> 
+     <figcaption align="center"><b><code class="idl"><a data-link-type="idl" href="#dom-xrexpression-eyes_closed_right" id="ref-for-dom-xrexpression-eyes_closed_right">eyes_closed_right</a></code></b> </figcaption>
+    </figure>
+    <figure>
+      <img height="512" src="media/eyes_look_down_left.png" width="512"> 
+     <figcaption align="center"><b><code class="idl"><a data-link-type="idl" href="#dom-xrexpression-eyes_look_down_left" id="ref-for-dom-xrexpression-eyes_look_down_left">eyes_look_down_left</a></code></b> </figcaption>
+    </figure>
+    <figure>
+      <img height="512" src="media/eyes_look_down_right.png" width="512"> 
+     <figcaption align="center"><b><code class="idl"><a data-link-type="idl" href="#dom-xrexpression-eyes_look_down_right" id="ref-for-dom-xrexpression-eyes_look_down_right">eyes_look_down_right</a></code></b> </figcaption>
+    </figure>
+    <figure>
+      <img height="512" src="media/eyes_look_left_left.png" width="512"> 
+     <figcaption align="center"><b><code class="idl"><a data-link-type="idl" href="#dom-xrexpression-eyes_look_left_left" id="ref-for-dom-xrexpression-eyes_look_left_left">eyes_look_left_left</a></code></b> </figcaption>
+    </figure>
+    <figure>
+      <img height="512" src="media/eyes_look_left_right.png" width="512"> 
+     <figcaption align="center"><b><code class="idl"><a data-link-type="idl" href="#dom-xrexpression-eyes_look_left_right" id="ref-for-dom-xrexpression-eyes_look_left_right">eyes_look_left_right</a></code></b> </figcaption>
+    </figure>
+    <figure>
+      <img height="512" src="media/eyes_look_right_left.png" width="512"> 
+     <figcaption align="center"><b><code class="idl"><a data-link-type="idl" href="#dom-xrexpression-eyes_look_right_left" id="ref-for-dom-xrexpression-eyes_look_right_left">eyes_look_right_left</a></code></b> </figcaption>
+    </figure>
+    <figure>
+      <img height="512" src="media/eyes_look_right_right.png" width="512"> 
+     <figcaption align="center"><b><code class="idl"><a data-link-type="idl" href="#dom-xrexpression-eyes_look_right_right" id="ref-for-dom-xrexpression-eyes_look_right_right">eyes_look_right_right</a></code></b> </figcaption>
+    </figure>
+    <figure>
+      <img height="512" src="media/eyes_look_up_left.png" width="512"> 
+     <figcaption align="center"><b><code class="idl"><a data-link-type="idl" href="#dom-xrexpression-eyes_look_up_left" id="ref-for-dom-xrexpression-eyes_look_up_left">eyes_look_up_left</a></code></b> </figcaption>
+    </figure>
+    <figure>
+      <img height="512" src="media/eyes_look_up_right.png" width="512"> 
+     <figcaption align="center"><b><code class="idl"><a data-link-type="idl" href="#dom-xrexpression-eyes_look_up_right" id="ref-for-dom-xrexpression-eyes_look_up_right">eyes_look_up_right</a></code></b> </figcaption>
+    </figure>
+    <figure>
+      <img height="512" src="media/inner_brow_raiser_left.png" width="512"> 
+     <figcaption align="center"><b><code class="idl"><a data-link-type="idl" href="#dom-xrexpression-inner_brow_raiser_left" id="ref-for-dom-xrexpression-inner_brow_raiser_left">inner_brow_raiser_left</a></code></b> </figcaption>
+    </figure>
+    <figure>
+      <img height="512" src="media/inner_brow_raiser_right.png" width="512"> 
+     <figcaption align="center"><b><code class="idl"><a data-link-type="idl" href="#dom-xrexpression-inner_brow_raiser_right" id="ref-for-dom-xrexpression-inner_brow_raiser_right">inner_brow_raiser_right</a></code></b> </figcaption>
+    </figure>
+    <figure>
+      <img height="512" src="media/jaw_drop.png" width="512"> 
+     <figcaption align="center"><b><code class="idl"><a data-link-type="idl" href="#dom-xrexpression-jaw_drop" id="ref-for-dom-xrexpression-jaw_drop">jaw_drop</a></code></b> </figcaption>
+    </figure>
+    <figure>
+      <img height="512" src="media/jaw_sideways_left.png" width="512"> 
+     <figcaption align="center"><b><code class="idl"><a data-link-type="idl" href="#dom-xrexpression-jaw_sideways_left" id="ref-for-dom-xrexpression-jaw_sideways_left">jaw_sideways_left</a></code></b> </figcaption>
+    </figure>
+    <figure>
+      <img height="512" src="media/jaw_sideways_right.png" width="512"> 
+     <figcaption align="center"><b><code class="idl"><a data-link-type="idl" href="#dom-xrexpression-jaw_sideways_right" id="ref-for-dom-xrexpression-jaw_sideways_right">jaw_sideways_right</a></code></b> </figcaption>
+    </figure>
+    <figure>
+      <img height="512" src="media/jaw_thrust.png" width="512"> 
+     <figcaption align="center"><b><code class="idl"><a data-link-type="idl" href="#dom-xrexpression-jaw_thrust" id="ref-for-dom-xrexpression-jaw_thrust">jaw_thrust</a></code></b> </figcaption>
+    </figure>
+    <figure>
+      <img height="512" src="media/lid_tightener_left.png" width="512"> 
+     <figcaption align="center"><b><code class="idl"><a data-link-type="idl" href="#dom-xrexpression-lid_tightener_left" id="ref-for-dom-xrexpression-lid_tightener_left">lid_tightener_left</a></code></b> </figcaption>
+    </figure>
+    <figure>
+      <img height="512" src="media/lid_tightener_right.png" width="512"> 
+     <figcaption align="center"><b><code class="idl"><a data-link-type="idl" href="#dom-xrexpression-lid_tightener_right" id="ref-for-dom-xrexpression-lid_tightener_right">lid_tightener_right</a></code></b> </figcaption>
+    </figure>
+    <figure>
+      <img height="512" src="media/lip_corner_depressor_left.png" width="512"> 
+     <figcaption align="center"><b><code class="idl"><a data-link-type="idl" href="#dom-xrexpression-lip_corner_depressor_left" id="ref-for-dom-xrexpression-lip_corner_depressor_left">lip_corner_depressor_left</a></code></b> </figcaption>
+    </figure>
+    <figure>
+      <img height="512" src="media/lip_corner_depressor_right.png" width="512"> 
+     <figcaption align="center"><b><code class="idl"><a data-link-type="idl" href="#dom-xrexpression-lip_corner_depressor_right" id="ref-for-dom-xrexpression-lip_corner_depressor_right">lip_corner_depressor_right</a></code></b> </figcaption>
+    </figure>
+    <figure>
+      <img height="512" src="media/lip_corner_puller_left.png" width="512"> 
+     <figcaption align="center"><b><code class="idl"><a data-link-type="idl" href="#dom-xrexpression-lip_corner_puller_left" id="ref-for-dom-xrexpression-lip_corner_puller_left">lip_corner_puller_left</a></code></b> </figcaption>
+    </figure>
+    <figure>
+      <img height="512" src="media/lip_corner_puller_right.png" width="512"> 
+     <figcaption align="center"><b><code class="idl"><a data-link-type="idl" href="#dom-xrexpression-lip_corner_puller_right" id="ref-for-dom-xrexpression-lip_corner_puller_right">lip_corner_puller_right</a></code></b> </figcaption>
+    </figure>
+    <figure>
+      <img height="512" src="media/lip_funneler_left_bottom.png" width="512"> 
+     <figcaption align="center"><b><code class="idl"><a data-link-type="idl" href="#dom-xrexpression-lip_funneler_left_bottom" id="ref-for-dom-xrexpression-lip_funneler_left_bottom">lip_funneler_left_bottom</a></code></b> </figcaption>
+    </figure>
+    <figure>
+      <img height="512" src="media/lip_funneler_left_top.png" width="512"> 
+     <figcaption align="center"><b><code class="idl"><a data-link-type="idl" href="#dom-xrexpression-lip_funneler_left_top" id="ref-for-dom-xrexpression-lip_funneler_left_top">lip_funneler_left_top</a></code></b> </figcaption>
+    </figure>
+    <figure>
+      <img height="512" src="media/lip_funneler_right_bottom.png" width="512"> 
+     <figcaption align="center"><b><code class="idl"><a data-link-type="idl" href="#dom-xrexpression-lip_funneler_right_bottom" id="ref-for-dom-xrexpression-lip_funneler_right_bottom">lip_funneler_right_bottom</a></code></b> </figcaption>
+    </figure>
+    <figure>
+      <img height="512" src="media/lip_funneler_right_top.png" width="512"> 
+     <figcaption align="center"><b><code class="idl"><a data-link-type="idl" href="#dom-xrexpression-lip_funneler_right_top" id="ref-for-dom-xrexpression-lip_funneler_right_top">lip_funneler_right_top</a></code></b> </figcaption>
+    </figure>
+    <figure>
+      <img height="512" src="media/lip_pressor_left.png" width="512"> 
+     <figcaption align="center"><b><code class="idl"><a data-link-type="idl" href="#dom-xrexpression-lip_pressor_left" id="ref-for-dom-xrexpression-lip_pressor_left">lip_pressor_left</a></code></b> </figcaption>
+    </figure>
+    <figure>
+      <img height="512" src="media/lip_pressor_right.png" width="512"> 
+     <figcaption align="center"><b><code class="idl"><a data-link-type="idl" href="#dom-xrexpression-lip_pressor_right" id="ref-for-dom-xrexpression-lip_pressor_right">lip_pressor_right</a></code></b> </figcaption>
+    </figure>
+    <figure>
+      <img height="512" src="media/lip_pucker_left.png" width="512"> 
+     <figcaption align="center"><b><code class="idl"><a data-link-type="idl" href="#dom-xrexpression-lip_pucker_left" id="ref-for-dom-xrexpression-lip_pucker_left">lip_pucker_left</a></code></b> </figcaption>
+    </figure>
+    <figure>
+      <img height="512" src="media/lip_pucker_right.png" width="512"> 
+     <figcaption align="center"><b><code class="idl"><a data-link-type="idl" href="#dom-xrexpression-lip_pucker_right" id="ref-for-dom-xrexpression-lip_pucker_right">lip_pucker_right</a></code></b> </figcaption>
+    </figure>
+    <figure>
+      <img height="512" src="media/lip_stretcher_left.png" width="512"> 
+     <figcaption align="center"><b><code class="idl"><a data-link-type="idl" href="#dom-xrexpression-lip_stretcher_left" id="ref-for-dom-xrexpression-lip_stretcher_left">lip_stretcher_left</a></code></b> </figcaption>
+    </figure>
+    <figure>
+      <img height="512" src="media/lip_stretcher_right.png" width="512"> 
+     <figcaption align="center"><b><code class="idl"><a data-link-type="idl" href="#dom-xrexpression-lip_stretcher_right" id="ref-for-dom-xrexpression-lip_stretcher_right">lip_stretcher_right</a></code></b> </figcaption>
+    </figure>
+    <figure>
+      <img height="512" src="media/lip_suck_left_bottom.png" width="512"> 
+     <figcaption align="center"><b><code class="idl"><a data-link-type="idl" href="#dom-xrexpression-lip_suck_left_bottom" id="ref-for-dom-xrexpression-lip_suck_left_bottom">lip_suck_left_bottom</a></code></b> </figcaption>
+    </figure>
+    <figure>
+      <img height="512" src="media/lip_suck_left_top.png" width="512"> 
+     <figcaption align="center"><b><code class="idl"><a data-link-type="idl" href="#dom-xrexpression-lip_suck_left_top" id="ref-for-dom-xrexpression-lip_suck_left_top">lip_suck_left_top</a></code></b> </figcaption>
+    </figure>
+    <figure>
+      <img height="512" src="media/lip_suck_right_bottom.png" width="512"> 
+     <figcaption align="center"><b><code class="idl"><a data-link-type="idl" href="#dom-xrexpression-lip_suck_right_bottom" id="ref-for-dom-xrexpression-lip_suck_right_bottom">lip_suck_right_bottom</a></code></b> </figcaption>
+    </figure>
+    <figure>
+      <img height="512" src="media/lip_suck_right_top.png" width="512"> 
+     <figcaption align="center"><b><code class="idl"><a data-link-type="idl" href="#dom-xrexpression-lip_suck_right_top" id="ref-for-dom-xrexpression-lip_suck_right_top">lip_suck_right_top</a></code></b> </figcaption>
+    </figure>
+    <figure>
+      <img height="512" src="media/lip_tightener_left.png" width="512"> 
+     <figcaption align="center"><b><code class="idl"><a data-link-type="idl" href="#dom-xrexpression-lip_tightener_left" id="ref-for-dom-xrexpression-lip_tightener_left">lip_tightener_left</a></code></b> </figcaption>
+    </figure>
+    <figure>
+      <img height="512" src="media/lip_tightener_right.png" width="512"> 
+     <figcaption align="center"><b><code class="idl"><a data-link-type="idl" href="#dom-xrexpression-lip_tightener_right" id="ref-for-dom-xrexpression-lip_tightener_right">lip_tightener_right</a></code></b> </figcaption>
+    </figure>
+    <figure>
+      <img height="512" src="media/lips_toward.png" width="512"> 
+     <figcaption align="center"><b><code class="idl"><a data-link-type="idl" href="#dom-xrexpression-lips_toward" id="ref-for-dom-xrexpression-lips_toward">lips_toward</a></code></b> </figcaption>
+    </figure>
+    <figure>
+      <img height="512" src="media/lower_lip_depressor_left.png" width="512"> 
+     <figcaption align="center"><b><code class="idl"><a data-link-type="idl" href="#dom-xrexpression-lower_lip_depressor_left" id="ref-for-dom-xrexpression-lower_lip_depressor_left">lower_lip_depressor_left</a></code></b> </figcaption>
+    </figure>
+    <figure>
+      <img height="512" src="media/lower_lip_depressor_right.png" width="512"> 
+     <figcaption align="center"><b><code class="idl"><a data-link-type="idl" href="#dom-xrexpression-lower_lip_depressor_right" id="ref-for-dom-xrexpression-lower_lip_depressor_right">lower_lip_depressor_right</a></code></b> </figcaption>
+    </figure>
+    <figure>
+      <img height="512" src="media/mouth_left.png" width="512"> 
+     <figcaption align="center"><b><code class="idl"><a data-link-type="idl" href="#dom-xrexpression-mouth_left" id="ref-for-dom-xrexpression-mouth_left">mouth_left</a></code></b> </figcaption>
+    </figure>
+    <figure>
+      <img height="512" src="media/mouth_right.png" width="512"> 
+     <figcaption align="center"><b><code class="idl"><a data-link-type="idl" href="#dom-xrexpression-mouth_right" id="ref-for-dom-xrexpression-mouth_right">mouth_right</a></code></b> </figcaption>
+    </figure>
+    <figure>
+      <img height="512" src="media/nose_wrinkler_left.png" width="512"> 
+     <figcaption align="center"><b><code class="idl"><a data-link-type="idl" href="#dom-xrexpression-nose_wrinkler_left" id="ref-for-dom-xrexpression-nose_wrinkler_left">nose_wrinkler_left</a></code></b> </figcaption>
+    </figure>
+    <figure>
+      <img height="512" src="media/nose_wrinkler_right.png" width="512"> 
+     <figcaption align="center"><b><code class="idl"><a data-link-type="idl" href="#dom-xrexpression-nose_wrinkler_right" id="ref-for-dom-xrexpression-nose_wrinkler_right">nose_wrinkler_right</a></code></b> </figcaption>
+    </figure>
+    <figure>
+      <img height="512" src="media/outer_brow_raiser_left.png" width="512"> 
+     <figcaption align="center"><b><code class="idl"><a data-link-type="idl" href="#dom-xrexpression-outer_brow_raiser_left" id="ref-for-dom-xrexpression-outer_brow_raiser_left">outer_brow_raiser_left</a></code></b> </figcaption>
+    </figure>
+    <figure>
+      <img height="512" src="media/outer_brow_raiser_right.png" width="512"> 
+     <figcaption align="center"><b><code class="idl"><a data-link-type="idl" href="#dom-xrexpression-outer_brow_raiser_right" id="ref-for-dom-xrexpression-outer_brow_raiser_right">outer_brow_raiser_right</a></code></b> </figcaption>
+    </figure>
+    <figure>
+      <img height="512" src="media/upper_lid_raiser_left.png" width="512"> 
+     <figcaption align="center"><b><code class="idl"><a data-link-type="idl" href="#dom-xrexpression-upper_lid_raiser_left" id="ref-for-dom-xrexpression-upper_lid_raiser_left">upper_lid_raiser_left</a></code></b> </figcaption>
+    </figure>
+    <figure>
+      <img height="512" src="media/upper_lid_raiser_right.png" width="512"> 
+     <figcaption align="center"><b><code class="idl"><a data-link-type="idl" href="#dom-xrexpression-upper_lid_raiser_right" id="ref-for-dom-xrexpression-upper_lid_raiser_right">upper_lid_raiser_right</a></code></b> </figcaption>
+    </figure>
+    <figure>
+      <img height="512" src="media/upper_lip_raiser_left.png" width="512"> 
+     <figcaption align="center"><b><code class="idl"><a data-link-type="idl" href="#dom-xrexpression-upper_lip_raiser_left" id="ref-for-dom-xrexpression-upper_lip_raiser_left">upper_lip_raiser_left</a></code></b> </figcaption>
+    </figure>
+    <figure>
+      <img height="512" src="media/upper_lip_raiser_right.png" width="512"> 
+     <figcaption align="center"><b><code class="idl"><a data-link-type="idl" href="#dom-xrexpression-upper_lip_raiser_right" id="ref-for-dom-xrexpression-upper_lip_raiser_right">upper_lip_raiser_right</a></code></b> </figcaption>
+    </figure>
+   </section>
+   <h3 class="heading settled" data-level="3.3" id="xrexpressions-type"><span class="secno">3.3. </span><span class="content">XRExpressions</span><a class="self-link" href="#xrexpressions-type"></a></h3>
+<pre class="idl highlight def"><c- b>interface</c-> <dfn class="dfn-paneled idl-code" data-dfn-type="interface" data-export id="xrexpressions"><code><c- g>XRExpressions</c-></code></dfn> {
+    <c- b>iterable</c->&lt;<a data-link-type="idl-name" href="#enumdef-xrexpression" id="ref-for-enumdef-xrexpression②"><c- n>XRExpression</c-></a>, <a class="idl-code" data-link-type="interface" href="https://webidl.spec.whatwg.org/#idl-float" id="ref-for-idl-float"><c- b>float</c-></a>>;
+
+    <c- b>readonly</c-> <c- b>attribute</c-> <a class="idl-code" data-link-type="interface" href="https://webidl.spec.whatwg.org/#idl-unsigned-long" id="ref-for-idl-unsigned-long"><c- b>unsigned</c-> <c- b>long</c-></a> <dfn class="idl-code" data-dfn-for="XRExpressions" data-dfn-type="attribute" data-export data-readonly data-type="unsigned long" id="dom-xrexpressions-size"><code><c- g>size</c-></code><a class="self-link" href="#dom-xrexpressions-size"></a></dfn>;
+    <a class="idl-code" data-link-type="interface" href="https://webidl.spec.whatwg.org/#idl-float" id="ref-for-idl-float①"><c- b>float</c-></a> <dfn class="idl-code" data-dfn-for="XRExpressions" data-dfn-type="method" data-export data-lt="get(key)" id="dom-xrexpressions-get"><code><c- g>get</c-></code><a class="self-link" href="#dom-xrexpressions-get"></a></dfn>(<a data-link-type="idl-name" href="#enumdef-xrexpression" id="ref-for-enumdef-xrexpression③"><c- n>XRExpression</c-></a> <dfn class="idl-code" data-dfn-for="XRExpressions/get(key)" data-dfn-type="argument" data-export id="dom-xrexpressions-get-key-key"><code><c- g>key</c-></code><a class="self-link" href="#dom-xrexpressions-get-key-key"></a></dfn>);
+};
+</pre>
+   <p>The <code class="idl"><a data-link-type="idl" href="#enumdef-xrexpression" id="ref-for-enumdef-xrexpression④">XRExpression</a></code> enum defines the various expressions that could be reported by the user agent.</p>
+   <div class="algorithm" data-algorithm="XRExpressions.[[expressions]]">
+     Each <code class="idl"><a data-link-type="idl" href="#xrexpressions" id="ref-for-xrexpressions">XRExpressions</a></code> object has a <dfn class="dfn-paneled idl-code" data-dfn-for="XRExpressions" data-dfn-type="attribute" data-export id="dom-xrexpressions-expressions-slot"><code>[[expressions]]</code></dfn> internal slot,
+    which is an <a data-link-type="dfn" href="https://infra.spec.whatwg.org/#ordered-map" id="ref-for-ordered-map">ordered map</a> of pairs with the key of type <code class="idl"><a data-link-type="idl" href="#enumdef-xrexpression" id="ref-for-enumdef-xrexpression⑤">XRExpression</a></code> and the value of type <code>float</code>. Each <code class="idl"><a data-link-type="idl" href="#enumdef-xrexpression" id="ref-for-enumdef-xrexpression⑥">XRExpression</a></code> MUST have a value between <code>0</code> and <code>1</code> with <code>0</code> being undected (or rest pose) and <code>1</code> the maximum expression. 
+    <p>The ordering of the <code class="idl"><a data-link-type="idl" href="#dom-xrexpressions-expressions-slot" id="ref-for-dom-xrexpressions-expressions-slot">[[expressions]]</a></code> internal slot is given by the <a data-link-type="dfn" href="#list-of-expressions" id="ref-for-list-of-expressions">list of expressions</a>.</p>
+    <p><code class="idl"><a data-link-type="idl" href="#dom-xrexpressions-expressions-slot" id="ref-for-dom-xrexpressions-expressions-slot①">[[expressions]]</a></code> MAY change over the course of a session but MUST stay the same during the <code class="idl"><a data-link-type="idl" href="https://immersive-web.github.io/webxr/#xrframe" id="ref-for-xrframe">XRFrame</a></code>.</p>
+   </div>
+   <div class="algorithm" data-algorithm="XRExpressions.iterator"> The <a data-link-type="dfn" href="https://webidl.spec.whatwg.org/#dfn-value-pairs-to-iterate-over" id="ref-for-dfn-value-pairs-to-iterate-over">value pairs to iterate over</a> for an <code class="idl"><a data-link-type="idl" href="#xrexpressions" id="ref-for-xrexpressions①">XRExpressions</a></code> object are the list of <a data-link-type="dfn" href="https://webidl.spec.whatwg.org/#value-pair" id="ref-for-value-pair">value pairs</a> with the key being
+    the <code class="idl"><a data-link-type="idl" href="#enumdef-xrexpression" id="ref-for-enumdef-xrexpression⑦">XRExpression</a></code> and the value being the <code>float</code> corresponding to that <code class="idl"><a data-link-type="idl" href="#enumdef-xrexpression" id="ref-for-enumdef-xrexpression⑧">XRExpression</a></code>, ordered by <a data-link-type="dfn" href="#list-of-expressions" id="ref-for-list-of-expressions①">list of expressions</a>. </div>
+   <p>If the user agent does not support or can report an expression defined, it MUST NOT be reported.</p>
+   <h2 class="heading settled" data-level="4" id="frame-loop"><span class="secno">4. </span><span class="content">Frame Loop</span><a class="self-link" href="#frame-loop"></a></h2>
+   <h3 class="heading settled" data-level="4.1" id="xrframe-interface"><span class="secno">4.1. </span><span class="content">XRFrame</span><a class="self-link" href="#xrframe-interface"></a></h3>
+<pre class="idl highlight def"><c- b>partial</c-> <c- b>interface</c-> <a class="idl-code" data-link-type="interface" href="https://immersive-web.github.io/webxr/#xrframe" id="ref-for-xrframe①"><c- g>XRFrame</c-></a> {
+    <c- b>readonly</c-> <c- b>attribute</c-> <a data-link-type="idl-name" href="#xrexpressions" id="ref-for-xrexpressions②"><c- n>XRExpressions</c-></a>? <dfn class="idl-code" data-dfn-for="XRFrame" data-dfn-type="attribute" data-export data-readonly data-type="XRExpressions?" id="dom-xrframe-expressions"><code><c- g>expressions</c-></code><a class="self-link" href="#dom-xrframe-expressions"></a></dfn>;
+};
+</pre>
+   <h2 class="heading settled" data-level="5" id="privacy-security"><span class="secno">5. </span><span class="content">Privacy &amp; Security Considerations</span><a class="self-link" href="#privacy-security"></a></h2>
+    The WebXR Face Tracking API is a powerful feature that carries significant privacy risks. 
+   <p>Since this feature returns new sensor data, the User Agent MUST ask for <a data-link-type="dfn" href="https://immersive-web.github.io/webxr/#explicit-consent" id="ref-for-explicit-consent">explicit consent</a> from the user at session creation time.</p>
+   <p>Data returned from this API, MUST NOT be so specific that one can detect individual users.
+If the underlying hardware returns data that is too precise, the User Agent MUST anonymize this data
+before revealing it through the WebXR Face Tracking API.</p>
+   <p>This API MUST only be supported in XRSessions created with XRSessionMode of <code class="idl"><a data-link-type="idl" href="https://immersive-web.github.io/webxr/#dom-xrsessionmode-immersive-vr" id="ref-for-dom-xrsessionmode-immersive-vr">"immersive-vr"</a></code> or <code class="idl"><a data-link-type="idl" href="https://immersive-web.github.io/webxr-ar-module/#dom-xrsessionmode-immersive-ar" id="ref-for-dom-xrsessionmode-immersive-ar">"immersive-ar"</a></code>. <code class="idl"><a data-link-type="idl" href="https://immersive-web.github.io/webxr/#dom-xrsessionmode-inline" id="ref-for-dom-xrsessionmode-inline">"inline"</a></code> sessions MUST not support this API.</p>
+   <div class="note" role="note">
+     When anonymizing the expression data, the UA can follow these guidelines: 
+    <ul>
+     <li data-md>
+      <p>Noising is discouraged in favour of rounding.</p>
+     <li data-md>
+      <p>If the UA uses rounding, each expression must not be rounded independently.</p>
+     <li data-md>
+      <p>If noising, the noised data must not reveal any information over time:</p>
+      <ul>
+       <li data-md>
+        <p>Each new WebXR session in the same <a data-link-type="dfn" href="https://html.spec.whatwg.org/multipage/browsers.html#browsing-context" id="ref-for-browsing-context">browsing context</a> must use the same noise to make sure that the data cannot be de-noised by creating multiple sessions.</p>
+       <li data-md>
+        <p>Each new <a data-link-type="dfn" href="https://html.spec.whatwg.org/multipage/browsers.html#browsing-context" id="ref-for-browsing-context①">browsing context</a> must use a different noise vector.</p>
+       <li data-md>
+        <p>Any seed used to initialize the noise must not be predictable.</p>
+      </ul>
+     <li data-md>
+      <p>Anonymization must be done in a trusted environment.</p>
+    </ul>
+   </div>
+  </main>
+  <div data-fill-with="conformance">
+   <h2 class="no-ref no-num heading settled" id="w3c-conformance"><span class="content">Conformance</span><a class="self-link" href="#w3c-conformance"></a></h2>
+   <h3 class="no-ref no-num heading settled" id="w3c-conventions"><span class="content">Document conventions</span><a class="self-link" href="#w3c-conventions"></a></h3>
+   <p>Conformance requirements are expressed
+    with a combination of descriptive assertions
+    and RFC 2119 terminology.
+    The key words “MUST”, “MUST NOT”, “REQUIRED”, “SHALL”, “SHALL NOT”, “SHOULD”, “SHOULD NOT”, “RECOMMENDED”, “MAY”, and “OPTIONAL”
+    in the normative parts of this document
+    are to be interpreted as described in RFC 2119.
+    However, for readability,
+    these words do not appear in all uppercase letters in this specification. </p>
+   <p>All of the text of this specification is normative
+    except sections explicitly marked as non-normative, examples, and notes. <a data-link-type="biblio" href="#biblio-rfc2119" title="Key words for use in RFCs to Indicate Requirement Levels">[RFC2119]</a> </p>
+   <p>Examples in this specification are introduced with the words “for example”
+    or are set apart from the normative text
+    with <code>class="example"</code>,
+    like this: </p>
+   <div class="example" id="w3c-example">
+    <a class="self-link" href="#w3c-example"></a> 
+    <p>This is an example of an informative example. </p>
+   </div>
+   <p>Informative notes begin with the word “Note”
+    and are set apart from the normative text
+    with <code>class="note"</code>,
+    like this: </p>
+   <p class="note" role="note">Note, this is an informative note.</p>
+   <h3 class="no-ref no-num heading settled" id="w3c-conformant-algorithms"><span class="content">Conformant Algorithms</span><a class="self-link" href="#w3c-conformant-algorithms"></a></h3>
+   <p>Requirements phrased in the imperative as part of algorithms
+    (such as "strip any leading space characters"
+    or "return false and abort these steps")
+    are to be interpreted with the meaning of the key word
+    ("must", "should", "may", etc)
+    used in introducing the algorithm. </p>
+   <p>Conformance requirements phrased as algorithms or specific steps
+    can be implemented in any manner,
+    so long as the end result is equivalent.
+    In particular, the algorithms defined in this specification
+    are intended to be easy to understand
+    and are not intended to be performant.
+    Implementers are encouraged to optimize. </p>
+  </div>
+<script src="https://www.w3.org/scripts/TR/2021/fixup.js"></script>
+  <h2 class="no-num no-ref heading settled" id="index"><span class="content">Index</span><a class="self-link" href="#index"></a></h2>
+  <h3 class="no-num no-ref heading settled" id="index-defined-here"><span class="content">Terms defined by this specification</span><a class="self-link" href="#index-defined-here"></a></h3>
+  <ul class="index">
+   <li><a href="#dom-xrexpression-brow_lowerer_left">"brow_lowerer_left"</a><span>, in § 3.1</span>
+   <li><a href="#dom-xrexpression-brow_lowerer_right">"brow_lowerer_right"</a><span>, in § 3.1</span>
+   <li><a href="#dom-xrexpression-cheek_puff_left">"cheek_puff_left"</a><span>, in § 3.1</span>
+   <li><a href="#dom-xrexpression-cheek_puff_right">"cheek_puff_right"</a><span>, in § 3.1</span>
+   <li><a href="#dom-xrexpression-cheek_raiser_left">"cheek_raiser_left"</a><span>, in § 3.1</span>
+   <li><a href="#dom-xrexpression-cheek_raiser_right">"cheek_raiser_right"</a><span>, in § 3.1</span>
+   <li><a href="#dom-xrexpression-cheek_suck_left">"cheek_suck_left"</a><span>, in § 3.1</span>
+   <li><a href="#dom-xrexpression-cheek_suck_right">"cheek_suck_right"</a><span>, in § 3.1</span>
+   <li><a href="#dom-xrexpression-chin_raiser_bottom">"chin_raiser_bottom"</a><span>, in § 3.1</span>
+   <li><a href="#dom-xrexpression-chin_raiser_top">"chin_raiser_top"</a><span>, in § 3.1</span>
+   <li><a href="#dom-xrexpression-dimpler_left">"dimpler_left"</a><span>, in § 3.1</span>
+   <li><a href="#dom-xrexpression-dimpler_right">"dimpler_right"</a><span>, in § 3.1</span>
+   <li><a href="#dom-xrexpressions-expressions-slot">[[expressions]]</a><span>, in § 3.3</span>
+   <li><a href="#dom-xrframe-expressions">expressions</a><span>, in § 4.1</span>
+   <li><a href="#dom-xrexpression-eyes_closed_left">"eyes_closed_left"</a><span>, in § 3.1</span>
+   <li><a href="#dom-xrexpression-eyes_closed_right">"eyes_closed_right"</a><span>, in § 3.1</span>
+   <li><a href="#dom-xrexpression-eyes_look_down_left">"eyes_look_down_left"</a><span>, in § 3.1</span>
+   <li><a href="#dom-xrexpression-eyes_look_down_right">"eyes_look_down_right"</a><span>, in § 3.1</span>
+   <li><a href="#dom-xrexpression-eyes_look_left_left">"eyes_look_left_left"</a><span>, in § 3.1</span>
+   <li><a href="#dom-xrexpression-eyes_look_left_right">"eyes_look_left_right"</a><span>, in § 3.1</span>
+   <li><a href="#dom-xrexpression-eyes_look_right_left">"eyes_look_right_left"</a><span>, in § 3.1</span>
+   <li><a href="#dom-xrexpression-eyes_look_right_right">"eyes_look_right_right"</a><span>, in § 3.1</span>
+   <li><a href="#dom-xrexpression-eyes_look_up_left">"eyes_look_up_left"</a><span>, in § 3.1</span>
+   <li><a href="#dom-xrexpression-eyes_look_up_right">"eyes_look_up_right"</a><span>, in § 3.1</span>
+   <li><a href="#feature-descriptor-face-tracking">face-tracking</a><span>, in § 2</span>
+   <li><a href="#dom-xrexpressions-get">get(key)</a><span>, in § 3.3</span>
+   <li><a href="#dom-xrexpression-inner_brow_raiser_left">"inner_brow_raiser_left"</a><span>, in § 3.1</span>
+   <li><a href="#dom-xrexpression-inner_brow_raiser_right">"inner_brow_raiser_right"</a><span>, in § 3.1</span>
+   <li><a href="#dom-xrexpression-jaw_drop">"jaw_drop"</a><span>, in § 3.1</span>
+   <li><a href="#dom-xrexpression-jaw_sideways_left">"jaw_sideways_left"</a><span>, in § 3.1</span>
+   <li><a href="#dom-xrexpression-jaw_sideways_right">"jaw_sideways_right"</a><span>, in § 3.1</span>
+   <li><a href="#dom-xrexpression-jaw_thrust">"jaw_thrust"</a><span>, in § 3.1</span>
+   <li><a href="#dom-xrexpression-lid_tightener_left">"lid_tightener_left"</a><span>, in § 3.1</span>
+   <li><a href="#dom-xrexpression-lid_tightener_right">"lid_tightener_right"</a><span>, in § 3.1</span>
+   <li><a href="#dom-xrexpression-lip_corner_depressor_left">"lip_corner_depressor_left"</a><span>, in § 3.1</span>
+   <li><a href="#dom-xrexpression-lip_corner_depressor_right">"lip_corner_depressor_right"</a><span>, in § 3.1</span>
+   <li><a href="#dom-xrexpression-lip_corner_puller_left">"lip_corner_puller_left"</a><span>, in § 3.1</span>
+   <li><a href="#dom-xrexpression-lip_corner_puller_right">"lip_corner_puller_right"</a><span>, in § 3.1</span>
+   <li><a href="#dom-xrexpression-lip_funneler_left_bottom">"lip_funneler_left_bottom"</a><span>, in § 3.1</span>
+   <li><a href="#dom-xrexpression-lip_funneler_left_top">"lip_funneler_left_top"</a><span>, in § 3.1</span>
+   <li><a href="#dom-xrexpression-lip_funneler_right_bottom">"lip_funneler_right_bottom"</a><span>, in § 3.1</span>
+   <li><a href="#dom-xrexpression-lip_funneler_right_top">"lip_funneler_right_top"</a><span>, in § 3.1</span>
+   <li><a href="#dom-xrexpression-lip_pressor_left">"lip_pressor_left"</a><span>, in § 3.1</span>
+   <li><a href="#dom-xrexpression-lip_pressor_right">"lip_pressor_right"</a><span>, in § 3.1</span>
+   <li><a href="#dom-xrexpression-lip_pucker_left">"lip_pucker_left"</a><span>, in § 3.1</span>
+   <li><a href="#dom-xrexpression-lip_pucker_right">"lip_pucker_right"</a><span>, in § 3.1</span>
+   <li><a href="#dom-xrexpression-lips_toward">"lips_toward"</a><span>, in § 3.1</span>
+   <li><a href="#dom-xrexpression-lip_stretcher_left">"lip_stretcher_left"</a><span>, in § 3.1</span>
+   <li><a href="#dom-xrexpression-lip_stretcher_right">"lip_stretcher_right"</a><span>, in § 3.1</span>
+   <li><a href="#dom-xrexpression-lip_suck_left_bottom">"lip_suck_left_bottom"</a><span>, in § 3.1</span>
+   <li><a href="#dom-xrexpression-lip_suck_left_top">"lip_suck_left_top"</a><span>, in § 3.1</span>
+   <li><a href="#dom-xrexpression-lip_suck_right_bottom">"lip_suck_right_bottom"</a><span>, in § 3.1</span>
+   <li><a href="#dom-xrexpression-lip_suck_right_top">"lip_suck_right_top"</a><span>, in § 3.1</span>
+   <li><a href="#dom-xrexpression-lip_tightener_left">"lip_tightener_left"</a><span>, in § 3.1</span>
+   <li><a href="#dom-xrexpression-lip_tightener_right">"lip_tightener_right"</a><span>, in § 3.1</span>
+   <li><a href="#list-of-expressions">list of expressions</a><span>, in § 3.1</span>
+   <li><a href="#dom-xrexpression-lower_lip_depressor_left">"lower_lip_depressor_left"</a><span>, in § 3.1</span>
+   <li><a href="#dom-xrexpression-lower_lip_depressor_right">"lower_lip_depressor_right"</a><span>, in § 3.1</span>
+   <li><a href="#dom-xrexpression-mouth_left">"mouth_left"</a><span>, in § 3.1</span>
+   <li><a href="#dom-xrexpression-mouth_right">"mouth_right"</a><span>, in § 3.1</span>
+   <li><a href="#dom-xrexpression-nose_wrinkler_left">"nose_wrinkler_left"</a><span>, in § 3.1</span>
+   <li><a href="#dom-xrexpression-nose_wrinkler_right">"nose_wrinkler_right"</a><span>, in § 3.1</span>
+   <li><a href="#dom-xrexpression-outer_brow_raiser_left">"outer_brow_raiser_left"</a><span>, in § 3.1</span>
+   <li><a href="#dom-xrexpression-outer_brow_raiser_right">"outer_brow_raiser_right"</a><span>, in § 3.1</span>
+   <li><a href="#dom-xrexpressions-size">size</a><span>, in § 3.3</span>
+   <li><a href="#dom-xrexpression-upper_lid_raiser_left">"upper_lid_raiser_left"</a><span>, in § 3.1</span>
+   <li><a href="#dom-xrexpression-upper_lid_raiser_right">"upper_lid_raiser_right"</a><span>, in § 3.1</span>
+   <li><a href="#dom-xrexpression-upper_lip_raiser_left">"upper_lip_raiser_left"</a><span>, in § 3.1</span>
+   <li><a href="#dom-xrexpression-upper_lip_raiser_right">"upper_lip_raiser_right"</a><span>, in § 3.1</span>
+   <li><a href="#enumdef-xrexpression">XRExpression</a><span>, in § 3.1</span>
+   <li><a href="#xrexpressions">XRExpressions</a><span>, in § 3.3</span>
+  </ul>
+  <aside class="dfn-panel" data-for="term-for-browsing-context">
+   <a href="https://html.spec.whatwg.org/multipage/browsers.html#browsing-context">https://html.spec.whatwg.org/multipage/browsers.html#browsing-context</a><b>Referenced in:</b>
+   <ul>
+    <li><a href="#ref-for-browsing-context">5. Privacy &amp; Security Considerations</a> <a href="#ref-for-browsing-context①">(2)</a>
+   </ul>
+  </aside>
+  <aside class="dfn-panel" data-for="term-for-ordered-map">
+   <a href="https://infra.spec.whatwg.org/#ordered-map">https://infra.spec.whatwg.org/#ordered-map</a><b>Referenced in:</b>
+   <ul>
+    <li><a href="#ref-for-ordered-map">3.3. XRExpressions</a>
+   </ul>
+  </aside>
+  <aside class="dfn-panel" data-for="term-for-idl-float">
+   <a href="https://webidl.spec.whatwg.org/#idl-float">https://webidl.spec.whatwg.org/#idl-float</a><b>Referenced in:</b>
+   <ul>
+    <li><a href="#ref-for-idl-float">3.3. XRExpressions</a> <a href="#ref-for-idl-float①">(2)</a>
+   </ul>
+  </aside>
+  <aside class="dfn-panel" data-for="term-for-idl-unsigned-long">
+   <a href="https://webidl.spec.whatwg.org/#idl-unsigned-long">https://webidl.spec.whatwg.org/#idl-unsigned-long</a><b>Referenced in:</b>
+   <ul>
+    <li><a href="#ref-for-idl-unsigned-long">3.3. XRExpressions</a>
+   </ul>
+  </aside>
+  <aside class="dfn-panel" data-for="term-for-value-pair">
+   <a href="https://webidl.spec.whatwg.org/#value-pair">https://webidl.spec.whatwg.org/#value-pair</a><b>Referenced in:</b>
+   <ul>
+    <li><a href="#ref-for-value-pair">3.3. XRExpressions</a>
+   </ul>
+  </aside>
+  <aside class="dfn-panel" data-for="term-for-dfn-value-pairs-to-iterate-over">
+   <a href="https://webidl.spec.whatwg.org/#dfn-value-pairs-to-iterate-over">https://webidl.spec.whatwg.org/#dfn-value-pairs-to-iterate-over</a><b>Referenced in:</b>
+   <ul>
+    <li><a href="#ref-for-dfn-value-pairs-to-iterate-over">3.3. XRExpressions</a>
+   </ul>
+  </aside>
+  <aside class="dfn-panel" data-for="term-for-dom-xrsessionmode-immersive-vr">
+   <a href="https://immersive-web.github.io/webxr/#dom-xrsessionmode-immersive-vr">https://immersive-web.github.io/webxr/#dom-xrsessionmode-immersive-vr</a><b>Referenced in:</b>
+   <ul>
+    <li><a href="#ref-for-dom-xrsessionmode-immersive-vr">5. Privacy &amp; Security Considerations</a>
+   </ul>
+  </aside>
+  <aside class="dfn-panel" data-for="term-for-dom-xrsessionmode-inline">
+   <a href="https://immersive-web.github.io/webxr/#dom-xrsessionmode-inline">https://immersive-web.github.io/webxr/#dom-xrsessionmode-inline</a><b>Referenced in:</b>
+   <ul>
+    <li><a href="#ref-for-dom-xrsessionmode-inline">5. Privacy &amp; Security Considerations</a>
+   </ul>
+  </aside>
+  <aside class="dfn-panel" data-for="term-for-xrframe">
+   <a href="https://immersive-web.github.io/webxr/#xrframe">https://immersive-web.github.io/webxr/#xrframe</a><b>Referenced in:</b>
+   <ul>
+    <li><a href="#ref-for-xrframe">3.3. XRExpressions</a>
+    <li><a href="#ref-for-xrframe①">4.1. XRFrame</a>
+   </ul>
+  </aside>
+  <aside class="dfn-panel" data-for="term-for-xrsession">
+   <a href="https://immersive-web.github.io/webxr/#xrsession">https://immersive-web.github.io/webxr/#xrsession</a><b>Referenced in:</b>
+   <ul>
+    <li><a href="#ref-for-xrsession">2. Initialization</a>
+    <li><a href="#ref-for-xrsession①">3.1. Expressions</a>
+   </ul>
+  </aside>
+  <aside class="dfn-panel" data-for="term-for-explicit-consent">
+   <a href="https://immersive-web.github.io/webxr/#explicit-consent">https://immersive-web.github.io/webxr/#explicit-consent</a><b>Referenced in:</b>
+   <ul>
+    <li><a href="#ref-for-explicit-consent">5. Privacy &amp; Security Considerations</a>
+   </ul>
+  </aside>
+  <aside class="dfn-panel" data-for="term-for-feature-descriptor">
+   <a href="https://immersive-web.github.io/webxr/#feature-descriptor">https://immersive-web.github.io/webxr/#feature-descriptor</a><b>Referenced in:</b>
+   <ul>
+    <li><a href="#ref-for-feature-descriptor">2. Initialization</a> <a href="#ref-for-feature-descriptor①">(2)</a> <a href="#ref-for-feature-descriptor②">(3)</a>
+   </ul>
+  </aside>
+  <aside class="dfn-panel" data-for="term-for-xrsession-xr-device">
+   <a href="https://immersive-web.github.io/webxr/#xrsession-xr-device">https://immersive-web.github.io/webxr/#xrsession-xr-device</a><b>Referenced in:</b>
+   <ul>
+    <li><a href="#ref-for-xrsession-xr-device">2. Initialization</a>
+   </ul>
+  </aside>
+  <aside class="dfn-panel" data-for="term-for-dom-xrsessionmode-immersive-ar">
+   <a href="https://immersive-web.github.io/webxr-ar-module/#dom-xrsessionmode-immersive-ar">https://immersive-web.github.io/webxr-ar-module/#dom-xrsessionmode-immersive-ar</a><b>Referenced in:</b>
+   <ul>
+    <li><a href="#ref-for-dom-xrsessionmode-immersive-ar">5. Privacy &amp; Security Considerations</a>
+   </ul>
+  </aside>
+  <h3 class="no-num no-ref heading settled" id="index-defined-elsewhere"><span class="content">Terms defined by reference</span><a class="self-link" href="#index-defined-elsewhere"></a></h3>
+  <ul class="index">
+   <li>
+    <a data-link-type="biblio">[HTML]</a> defines the following terms:
+    <ul>
+     <li><span class="dfn-paneled" id="term-for-browsing-context">browsing context</span>
+    </ul>
+   <li>
+    <a data-link-type="biblio">[INFRA]</a> defines the following terms:
+    <ul>
+     <li><span class="dfn-paneled" id="term-for-ordered-map">ordered map</span>
+    </ul>
+   <li>
+    <a data-link-type="biblio">[WEBIDL]</a> defines the following terms:
+    <ul>
+     <li><span class="dfn-paneled" id="term-for-idl-float">float</span>
+     <li><span class="dfn-paneled" id="term-for-idl-unsigned-long">unsigned long</span>
+     <li><span class="dfn-paneled" id="term-for-value-pair">value pair</span>
+     <li><span class="dfn-paneled" id="term-for-dfn-value-pairs-to-iterate-over">value pairs to iterate over</span>
+    </ul>
+   <li>
+    <a data-link-type="biblio">[WEBXR]</a> defines the following terms:
+    <ul>
+     <li><span class="dfn-paneled" id="term-for-dom-xrsessionmode-immersive-vr">"immersive-vr"</span>
+     <li><span class="dfn-paneled" id="term-for-dom-xrsessionmode-inline">"inline"</span>
+     <li><span class="dfn-paneled" id="term-for-xrframe">XRFrame</span>
+     <li><span class="dfn-paneled" id="term-for-xrsession">XRSession</span>
+     <li><span class="dfn-paneled" id="term-for-explicit-consent">explicit consent</span>
+     <li><span class="dfn-paneled" id="term-for-feature-descriptor">feature descriptor</span>
+     <li><span class="dfn-paneled" id="term-for-xrsession-xr-device">xr device</span>
+    </ul>
+   <li>
+    <a data-link-type="biblio">[WEBXR-AR-MODULE-1]</a> defines the following terms:
+    <ul>
+     <li><span class="dfn-paneled" id="term-for-dom-xrsessionmode-immersive-ar">"immersive-ar"</span>
+    </ul>
+  </ul>
+  <h2 class="no-num no-ref heading settled" id="references"><span class="content">References</span><a class="self-link" href="#references"></a></h2>
+  <h3 class="no-num no-ref heading settled" id="normative"><span class="content">Normative References</span><a class="self-link" href="#normative"></a></h3>
+  <dl>
+   <dt id="biblio-infra">[INFRA]
+   <dd>Anne van Kesteren; Domenic Denicola. <a href="https://infra.spec.whatwg.org/"><cite>Infra Standard</cite></a>. Living Standard. URL: <a href="https://infra.spec.whatwg.org/">https://infra.spec.whatwg.org/</a>
+   <dt id="biblio-rfc2119">[RFC2119]
+   <dd>S. Bradner. <a href="https://datatracker.ietf.org/doc/html/rfc2119"><cite>Key words for use in RFCs to Indicate Requirement Levels</cite></a>. March 1997. Best Current Practice. URL: <a href="https://datatracker.ietf.org/doc/html/rfc2119">https://datatracker.ietf.org/doc/html/rfc2119</a>
+   <dt id="biblio-webidl">[WEBIDL]
+   <dd>Edgar Chen; Timothy Gu. <a href="https://webidl.spec.whatwg.org/"><cite>Web IDL Standard</cite></a>. Living Standard. URL: <a href="https://webidl.spec.whatwg.org/">https://webidl.spec.whatwg.org/</a>
+   <dt id="biblio-webxr">[WEBXR]
+   <dd>Brandon Jones; Manish Goregaokar; Rik Cabanier. <a href="https://immersive-web.github.io/webxr/"><cite>WebXR Device API</cite></a>. URL: <a href="https://immersive-web.github.io/webxr/">https://immersive-web.github.io/webxr/</a>
+   <dt id="biblio-webxr-ar-module-1">[WEBXR-AR-MODULE-1]
+   <dd>Brandon Jones; Manish Goregaokar; Rik Cabanier. <a href="https://immersive-web.github.io/webxr-ar-module/"><cite>WebXR Augmented Reality Module - Level 1</cite></a>. URL: <a href="https://immersive-web.github.io/webxr-ar-module/">https://immersive-web.github.io/webxr-ar-module/</a>
+  </dl>
+  <h3 class="no-num no-ref heading settled" id="informative"><span class="content">Informative References</span><a class="self-link" href="#informative"></a></h3>
+  <dl>
+   <dt id="biblio-html">[HTML]
+   <dd>Anne van Kesteren; et al. <a href="https://html.spec.whatwg.org/multipage/"><cite>HTML Standard</cite></a>. Living Standard. URL: <a href="https://html.spec.whatwg.org/multipage/">https://html.spec.whatwg.org/multipage/</a>
+  </dl>
+  <h2 class="no-num no-ref heading settled" id="idl-index"><span class="content">IDL Index</span><a class="self-link" href="#idl-index"></a></h2>
+<pre class="idl highlight def"><c- b>enum</c-> <a href="#enumdef-xrexpression"><code><c- g>XRExpression</c-></code></a> {
+  <a href="#dom-xrexpression-brow_lowerer_left"><code><c- s>"brow_lowerer_left"</c-></code></a>,
+  <a href="#dom-xrexpression-brow_lowerer_right"><code><c- s>"brow_lowerer_right"</c-></code></a>,
+  <a href="#dom-xrexpression-cheek_puff_left"><code><c- s>"cheek_puff_left"</c-></code></a>,
+  <a href="#dom-xrexpression-cheek_puff_right"><code><c- s>"cheek_puff_right"</c-></code></a>,
+  <a href="#dom-xrexpression-cheek_raiser_left"><code><c- s>"cheek_raiser_left"</c-></code></a>,
+  <a href="#dom-xrexpression-cheek_raiser_right"><code><c- s>"cheek_raiser_right"</c-></code></a>,
+  <a href="#dom-xrexpression-cheek_suck_left"><code><c- s>"cheek_suck_left"</c-></code></a>,
+  <a href="#dom-xrexpression-cheek_suck_right"><code><c- s>"cheek_suck_right"</c-></code></a>,
+  <a href="#dom-xrexpression-chin_raiser_bottom"><code><c- s>"chin_raiser_bottom"</c-></code></a>,
+  <a href="#dom-xrexpression-chin_raiser_top"><code><c- s>"chin_raiser_top"</c-></code></a>,
+  <a href="#dom-xrexpression-dimpler_left"><code><c- s>"dimpler_left"</c-></code></a>,
+  <a href="#dom-xrexpression-dimpler_right"><code><c- s>"dimpler_right"</c-></code></a>,
+  <a href="#dom-xrexpression-eyes_closed_left"><code><c- s>"eyes_closed_left"</c-></code></a>,
+  <a href="#dom-xrexpression-eyes_closed_right"><code><c- s>"eyes_closed_right"</c-></code></a>,
+  <a href="#dom-xrexpression-eyes_look_down_left"><code><c- s>"eyes_look_down_left"</c-></code></a>,
+  <a href="#dom-xrexpression-eyes_look_down_right"><code><c- s>"eyes_look_down_right"</c-></code></a>,
+  <a href="#dom-xrexpression-eyes_look_left_left"><code><c- s>"eyes_look_left_left"</c-></code></a>,
+  <a href="#dom-xrexpression-eyes_look_left_right"><code><c- s>"eyes_look_left_right"</c-></code></a>,
+  <a href="#dom-xrexpression-eyes_look_right_left"><code><c- s>"eyes_look_right_left"</c-></code></a>,
+  <a href="#dom-xrexpression-eyes_look_right_right"><code><c- s>"eyes_look_right_right"</c-></code></a>,
+  <a href="#dom-xrexpression-eyes_look_up_left"><code><c- s>"eyes_look_up_left"</c-></code></a>,
+  <a href="#dom-xrexpression-eyes_look_up_right"><code><c- s>"eyes_look_up_right"</c-></code></a>,
+  <a href="#dom-xrexpression-inner_brow_raiser_left"><code><c- s>"inner_brow_raiser_left"</c-></code></a>,
+  <a href="#dom-xrexpression-inner_brow_raiser_right"><code><c- s>"inner_brow_raiser_right"</c-></code></a>,
+  <a href="#dom-xrexpression-jaw_drop"><code><c- s>"jaw_drop"</c-></code></a>,
+  <a href="#dom-xrexpression-jaw_sideways_left"><code><c- s>"jaw_sideways_left"</c-></code></a>,
+  <a href="#dom-xrexpression-jaw_sideways_right"><code><c- s>"jaw_sideways_right"</c-></code></a>,
+  <a href="#dom-xrexpression-jaw_thrust"><code><c- s>"jaw_thrust"</c-></code></a>,
+  <a href="#dom-xrexpression-lid_tightener_left"><code><c- s>"lid_tightener_left"</c-></code></a>,
+  <a href="#dom-xrexpression-lid_tightener_right"><code><c- s>"lid_tightener_right"</c-></code></a>,
+  <a href="#dom-xrexpression-lip_corner_depressor_left"><code><c- s>"lip_corner_depressor_left"</c-></code></a>,
+  <a href="#dom-xrexpression-lip_corner_depressor_right"><code><c- s>"lip_corner_depressor_right"</c-></code></a>,
+  <a href="#dom-xrexpression-lip_corner_puller_left"><code><c- s>"lip_corner_puller_left"</c-></code></a>,
+  <a href="#dom-xrexpression-lip_corner_puller_right"><code><c- s>"lip_corner_puller_right"</c-></code></a>,
+  <a href="#dom-xrexpression-lip_funneler_left_bottom"><code><c- s>"lip_funneler_left_bottom"</c-></code></a>,
+  <a href="#dom-xrexpression-lip_funneler_left_top"><code><c- s>"lip_funneler_left_top"</c-></code></a>,
+  <a href="#dom-xrexpression-lip_funneler_right_bottom"><code><c- s>"lip_funneler_right_bottom"</c-></code></a>,
+  <a href="#dom-xrexpression-lip_funneler_right_top"><code><c- s>"lip_funneler_right_top"</c-></code></a>,
+  <a href="#dom-xrexpression-lip_pressor_left"><code><c- s>"lip_pressor_left"</c-></code></a>,
+  <a href="#dom-xrexpression-lip_pressor_right"><code><c- s>"lip_pressor_right"</c-></code></a>,
+  <a href="#dom-xrexpression-lip_pucker_left"><code><c- s>"lip_pucker_left"</c-></code></a>,
+  <a href="#dom-xrexpression-lip_pucker_right"><code><c- s>"lip_pucker_right"</c-></code></a>,
+  <a href="#dom-xrexpression-lip_stretcher_left"><code><c- s>"lip_stretcher_left"</c-></code></a>,
+  <a href="#dom-xrexpression-lip_stretcher_right"><code><c- s>"lip_stretcher_right"</c-></code></a>,
+  <a href="#dom-xrexpression-lip_suck_left_bottom"><code><c- s>"lip_suck_left_bottom"</c-></code></a>,
+  <a href="#dom-xrexpression-lip_suck_left_top"><code><c- s>"lip_suck_left_top"</c-></code></a>,
+  <a href="#dom-xrexpression-lip_suck_right_bottom"><code><c- s>"lip_suck_right_bottom"</c-></code></a>,
+  <a href="#dom-xrexpression-lip_suck_right_top"><code><c- s>"lip_suck_right_top"</c-></code></a>,
+  <a href="#dom-xrexpression-lip_tightener_left"><code><c- s>"lip_tightener_left"</c-></code></a>,
+  <a href="#dom-xrexpression-lip_tightener_right"><code><c- s>"lip_tightener_right"</c-></code></a>,
+  <a href="#dom-xrexpression-lips_toward"><code><c- s>"lips_toward"</c-></code></a>,
+  <a href="#dom-xrexpression-lower_lip_depressor_left"><code><c- s>"lower_lip_depressor_left"</c-></code></a>,
+  <a href="#dom-xrexpression-lower_lip_depressor_right"><code><c- s>"lower_lip_depressor_right"</c-></code></a>,
+  <a href="#dom-xrexpression-mouth_left"><code><c- s>"mouth_left"</c-></code></a>,
+  <a href="#dom-xrexpression-mouth_right"><code><c- s>"mouth_right"</c-></code></a>,
+  <a href="#dom-xrexpression-nose_wrinkler_left"><code><c- s>"nose_wrinkler_left"</c-></code></a>,
+  <a href="#dom-xrexpression-nose_wrinkler_right"><code><c- s>"nose_wrinkler_right"</c-></code></a>,
+  <a href="#dom-xrexpression-outer_brow_raiser_left"><code><c- s>"outer_brow_raiser_left"</c-></code></a>,
+  <a href="#dom-xrexpression-outer_brow_raiser_right"><code><c- s>"outer_brow_raiser_right"</c-></code></a>,
+  <a href="#dom-xrexpression-upper_lid_raiser_left"><code><c- s>"upper_lid_raiser_left"</c-></code></a>,
+  <a href="#dom-xrexpression-upper_lid_raiser_right"><code><c- s>"upper_lid_raiser_right"</c-></code></a>,
+  <a href="#dom-xrexpression-upper_lip_raiser_left"><code><c- s>"upper_lip_raiser_left"</c-></code></a>,
+  <a href="#dom-xrexpression-upper_lip_raiser_right"><code><c- s>"upper_lip_raiser_right"</c-></code></a>
+};
+
+<c- b>interface</c-> <a href="#xrexpressions"><code><c- g>XRExpressions</c-></code></a> {
+    <c- b>iterable</c->&lt;<a data-link-type="idl-name" href="#enumdef-xrexpression"><c- n>XRExpression</c-></a>, <a class="idl-code" data-link-type="interface" href="https://webidl.spec.whatwg.org/#idl-float"><c- b>float</c-></a>>;
+
+    <c- b>readonly</c-> <c- b>attribute</c-> <a class="idl-code" data-link-type="interface" href="https://webidl.spec.whatwg.org/#idl-unsigned-long"><c- b>unsigned</c-> <c- b>long</c-></a> <a data-readonly data-type="unsigned long" href="#dom-xrexpressions-size"><code><c- g>size</c-></code></a>;
+    <a class="idl-code" data-link-type="interface" href="https://webidl.spec.whatwg.org/#idl-float"><c- b>float</c-></a> <a href="#dom-xrexpressions-get"><code><c- g>get</c-></code></a>(<a data-link-type="idl-name" href="#enumdef-xrexpression"><c- n>XRExpression</c-></a> <a href="#dom-xrexpressions-get-key-key"><code><c- g>key</c-></code></a>);
+};
+
+<c- b>partial</c-> <c- b>interface</c-> <a class="idl-code" data-link-type="interface" href="https://immersive-web.github.io/webxr/#xrframe"><c- g>XRFrame</c-></a> {
+    <c- b>readonly</c-> <c- b>attribute</c-> <a data-link-type="idl-name" href="#xrexpressions"><c- n>XRExpressions</c-></a>? <a data-readonly data-type="XRExpressions?" href="#dom-xrframe-expressions"><code><c- g>expressions</c-></code></a>;
+};
+
+</pre>
+  <aside class="dfn-panel" data-for="feature-descriptor-face-tracking">
+   <b><a href="#feature-descriptor-face-tracking">#feature-descriptor-face-tracking</a></b><b>Referenced in:</b>
+   <ul>
+    <li><a href="#ref-for-feature-descriptor-face-tracking">2. Initialization</a>
+   </ul>
+  </aside>
+  <aside class="dfn-panel" data-for="list-of-expressions">
+   <b><a href="#list-of-expressions">#list-of-expressions</a></b><b>Referenced in:</b>
+   <ul>
+    <li><a href="#ref-for-list-of-expressions">3.3. XRExpressions</a> <a href="#ref-for-list-of-expressions①">(2)</a>
+   </ul>
+  </aside>
+  <aside class="dfn-panel" data-for="enumdef-xrexpression">
+   <b><a href="#enumdef-xrexpression">#enumdef-xrexpression</a></b><b>Referenced in:</b>
+   <ul>
+    <li><a href="#ref-for-enumdef-xrexpression">3.1. Expressions</a> <a href="#ref-for-enumdef-xrexpression①">(2)</a>
+    <li><a href="#ref-for-enumdef-xrexpression②">3.3. XRExpressions</a> <a href="#ref-for-enumdef-xrexpression③">(2)</a> <a href="#ref-for-enumdef-xrexpression④">(3)</a> <a href="#ref-for-enumdef-xrexpression⑤">(4)</a> <a href="#ref-for-enumdef-xrexpression⑥">(5)</a> <a href="#ref-for-enumdef-xrexpression⑦">(6)</a> <a href="#ref-for-enumdef-xrexpression⑧">(7)</a>
+   </ul>
+  </aside>
+  <aside class="dfn-panel" data-for="dom-xrexpression-brow_lowerer_left">
+   <b><a href="#dom-xrexpression-brow_lowerer_left">#dom-xrexpression-brow_lowerer_left</a></b><b>Referenced in:</b>
+   <ul>
+    <li><a href="#ref-for-dom-xrexpression-brow_lowerer_left">3.2. Visual examples of expressions</a>
+   </ul>
+  </aside>
+  <aside class="dfn-panel" data-for="dom-xrexpression-brow_lowerer_right">
+   <b><a href="#dom-xrexpression-brow_lowerer_right">#dom-xrexpression-brow_lowerer_right</a></b><b>Referenced in:</b>
+   <ul>
+    <li><a href="#ref-for-dom-xrexpression-brow_lowerer_right">3.2. Visual examples of expressions</a>
+   </ul>
+  </aside>
+  <aside class="dfn-panel" data-for="dom-xrexpression-cheek_puff_left">
+   <b><a href="#dom-xrexpression-cheek_puff_left">#dom-xrexpression-cheek_puff_left</a></b><b>Referenced in:</b>
+   <ul>
+    <li><a href="#ref-for-dom-xrexpression-cheek_puff_left">3.2. Visual examples of expressions</a>
+   </ul>
+  </aside>
+  <aside class="dfn-panel" data-for="dom-xrexpression-cheek_puff_right">
+   <b><a href="#dom-xrexpression-cheek_puff_right">#dom-xrexpression-cheek_puff_right</a></b><b>Referenced in:</b>
+   <ul>
+    <li><a href="#ref-for-dom-xrexpression-cheek_puff_right">3.2. Visual examples of expressions</a>
+   </ul>
+  </aside>
+  <aside class="dfn-panel" data-for="dom-xrexpression-cheek_raiser_left">
+   <b><a href="#dom-xrexpression-cheek_raiser_left">#dom-xrexpression-cheek_raiser_left</a></b><b>Referenced in:</b>
+   <ul>
+    <li><a href="#ref-for-dom-xrexpression-cheek_raiser_left">3.2. Visual examples of expressions</a>
+   </ul>
+  </aside>
+  <aside class="dfn-panel" data-for="dom-xrexpression-cheek_raiser_right">
+   <b><a href="#dom-xrexpression-cheek_raiser_right">#dom-xrexpression-cheek_raiser_right</a></b><b>Referenced in:</b>
+   <ul>
+    <li><a href="#ref-for-dom-xrexpression-cheek_raiser_right">3.2. Visual examples of expressions</a>
+   </ul>
+  </aside>
+  <aside class="dfn-panel" data-for="dom-xrexpression-cheek_suck_left">
+   <b><a href="#dom-xrexpression-cheek_suck_left">#dom-xrexpression-cheek_suck_left</a></b><b>Referenced in:</b>
+   <ul>
+    <li><a href="#ref-for-dom-xrexpression-cheek_suck_left">3.2. Visual examples of expressions</a>
+   </ul>
+  </aside>
+  <aside class="dfn-panel" data-for="dom-xrexpression-cheek_suck_right">
+   <b><a href="#dom-xrexpression-cheek_suck_right">#dom-xrexpression-cheek_suck_right</a></b><b>Referenced in:</b>
+   <ul>
+    <li><a href="#ref-for-dom-xrexpression-cheek_suck_right">3.2. Visual examples of expressions</a>
+   </ul>
+  </aside>
+  <aside class="dfn-panel" data-for="dom-xrexpression-chin_raiser_bottom">
+   <b><a href="#dom-xrexpression-chin_raiser_bottom">#dom-xrexpression-chin_raiser_bottom</a></b><b>Referenced in:</b>
+   <ul>
+    <li><a href="#ref-for-dom-xrexpression-chin_raiser_bottom">3.2. Visual examples of expressions</a>
+   </ul>
+  </aside>
+  <aside class="dfn-panel" data-for="dom-xrexpression-chin_raiser_top">
+   <b><a href="#dom-xrexpression-chin_raiser_top">#dom-xrexpression-chin_raiser_top</a></b><b>Referenced in:</b>
+   <ul>
+    <li><a href="#ref-for-dom-xrexpression-chin_raiser_top">3.2. Visual examples of expressions</a>
+   </ul>
+  </aside>
+  <aside class="dfn-panel" data-for="dom-xrexpression-dimpler_left">
+   <b><a href="#dom-xrexpression-dimpler_left">#dom-xrexpression-dimpler_left</a></b><b>Referenced in:</b>
+   <ul>
+    <li><a href="#ref-for-dom-xrexpression-dimpler_left">3.2. Visual examples of expressions</a>
+   </ul>
+  </aside>
+  <aside class="dfn-panel" data-for="dom-xrexpression-dimpler_right">
+   <b><a href="#dom-xrexpression-dimpler_right">#dom-xrexpression-dimpler_right</a></b><b>Referenced in:</b>
+   <ul>
+    <li><a href="#ref-for-dom-xrexpression-dimpler_right">3.2. Visual examples of expressions</a>
+   </ul>
+  </aside>
+  <aside class="dfn-panel" data-for="dom-xrexpression-eyes_closed_left">
+   <b><a href="#dom-xrexpression-eyes_closed_left">#dom-xrexpression-eyes_closed_left</a></b><b>Referenced in:</b>
+   <ul>
+    <li><a href="#ref-for-dom-xrexpression-eyes_closed_left">3.2. Visual examples of expressions</a>
+   </ul>
+  </aside>
+  <aside class="dfn-panel" data-for="dom-xrexpression-eyes_closed_right">
+   <b><a href="#dom-xrexpression-eyes_closed_right">#dom-xrexpression-eyes_closed_right</a></b><b>Referenced in:</b>
+   <ul>
+    <li><a href="#ref-for-dom-xrexpression-eyes_closed_right">3.2. Visual examples of expressions</a>
+   </ul>
+  </aside>
+  <aside class="dfn-panel" data-for="dom-xrexpression-eyes_look_down_left">
+   <b><a href="#dom-xrexpression-eyes_look_down_left">#dom-xrexpression-eyes_look_down_left</a></b><b>Referenced in:</b>
+   <ul>
+    <li><a href="#ref-for-dom-xrexpression-eyes_look_down_left">3.2. Visual examples of expressions</a>
+   </ul>
+  </aside>
+  <aside class="dfn-panel" data-for="dom-xrexpression-eyes_look_down_right">
+   <b><a href="#dom-xrexpression-eyes_look_down_right">#dom-xrexpression-eyes_look_down_right</a></b><b>Referenced in:</b>
+   <ul>
+    <li><a href="#ref-for-dom-xrexpression-eyes_look_down_right">3.2. Visual examples of expressions</a>
+   </ul>
+  </aside>
+  <aside class="dfn-panel" data-for="dom-xrexpression-eyes_look_left_left">
+   <b><a href="#dom-xrexpression-eyes_look_left_left">#dom-xrexpression-eyes_look_left_left</a></b><b>Referenced in:</b>
+   <ul>
+    <li><a href="#ref-for-dom-xrexpression-eyes_look_left_left">3.2. Visual examples of expressions</a>
+   </ul>
+  </aside>
+  <aside class="dfn-panel" data-for="dom-xrexpression-eyes_look_left_right">
+   <b><a href="#dom-xrexpression-eyes_look_left_right">#dom-xrexpression-eyes_look_left_right</a></b><b>Referenced in:</b>
+   <ul>
+    <li><a href="#ref-for-dom-xrexpression-eyes_look_left_right">3.2. Visual examples of expressions</a>
+   </ul>
+  </aside>
+  <aside class="dfn-panel" data-for="dom-xrexpression-eyes_look_right_left">
+   <b><a href="#dom-xrexpression-eyes_look_right_left">#dom-xrexpression-eyes_look_right_left</a></b><b>Referenced in:</b>
+   <ul>
+    <li><a href="#ref-for-dom-xrexpression-eyes_look_right_left">3.2. Visual examples of expressions</a>
+   </ul>
+  </aside>
+  <aside class="dfn-panel" data-for="dom-xrexpression-eyes_look_right_right">
+   <b><a href="#dom-xrexpression-eyes_look_right_right">#dom-xrexpression-eyes_look_right_right</a></b><b>Referenced in:</b>
+   <ul>
+    <li><a href="#ref-for-dom-xrexpression-eyes_look_right_right">3.2. Visual examples of expressions</a>
+   </ul>
+  </aside>
+  <aside class="dfn-panel" data-for="dom-xrexpression-eyes_look_up_left">
+   <b><a href="#dom-xrexpression-eyes_look_up_left">#dom-xrexpression-eyes_look_up_left</a></b><b>Referenced in:</b>
+   <ul>
+    <li><a href="#ref-for-dom-xrexpression-eyes_look_up_left">3.2. Visual examples of expressions</a>
+   </ul>
+  </aside>
+  <aside class="dfn-panel" data-for="dom-xrexpression-eyes_look_up_right">
+   <b><a href="#dom-xrexpression-eyes_look_up_right">#dom-xrexpression-eyes_look_up_right</a></b><b>Referenced in:</b>
+   <ul>
+    <li><a href="#ref-for-dom-xrexpression-eyes_look_up_right">3.2. Visual examples of expressions</a>
+   </ul>
+  </aside>
+  <aside class="dfn-panel" data-for="dom-xrexpression-inner_brow_raiser_left">
+   <b><a href="#dom-xrexpression-inner_brow_raiser_left">#dom-xrexpression-inner_brow_raiser_left</a></b><b>Referenced in:</b>
+   <ul>
+    <li><a href="#ref-for-dom-xrexpression-inner_brow_raiser_left">3.2. Visual examples of expressions</a>
+   </ul>
+  </aside>
+  <aside class="dfn-panel" data-for="dom-xrexpression-inner_brow_raiser_right">
+   <b><a href="#dom-xrexpression-inner_brow_raiser_right">#dom-xrexpression-inner_brow_raiser_right</a></b><b>Referenced in:</b>
+   <ul>
+    <li><a href="#ref-for-dom-xrexpression-inner_brow_raiser_right">3.2. Visual examples of expressions</a>
+   </ul>
+  </aside>
+  <aside class="dfn-panel" data-for="dom-xrexpression-jaw_drop">
+   <b><a href="#dom-xrexpression-jaw_drop">#dom-xrexpression-jaw_drop</a></b><b>Referenced in:</b>
+   <ul>
+    <li><a href="#ref-for-dom-xrexpression-jaw_drop">3.2. Visual examples of expressions</a>
+   </ul>
+  </aside>
+  <aside class="dfn-panel" data-for="dom-xrexpression-jaw_sideways_left">
+   <b><a href="#dom-xrexpression-jaw_sideways_left">#dom-xrexpression-jaw_sideways_left</a></b><b>Referenced in:</b>
+   <ul>
+    <li><a href="#ref-for-dom-xrexpression-jaw_sideways_left">3.2. Visual examples of expressions</a>
+   </ul>
+  </aside>
+  <aside class="dfn-panel" data-for="dom-xrexpression-jaw_sideways_right">
+   <b><a href="#dom-xrexpression-jaw_sideways_right">#dom-xrexpression-jaw_sideways_right</a></b><b>Referenced in:</b>
+   <ul>
+    <li><a href="#ref-for-dom-xrexpression-jaw_sideways_right">3.2. Visual examples of expressions</a>
+   </ul>
+  </aside>
+  <aside class="dfn-panel" data-for="dom-xrexpression-jaw_thrust">
+   <b><a href="#dom-xrexpression-jaw_thrust">#dom-xrexpression-jaw_thrust</a></b><b>Referenced in:</b>
+   <ul>
+    <li><a href="#ref-for-dom-xrexpression-jaw_thrust">3.2. Visual examples of expressions</a>
+   </ul>
+  </aside>
+  <aside class="dfn-panel" data-for="dom-xrexpression-lid_tightener_left">
+   <b><a href="#dom-xrexpression-lid_tightener_left">#dom-xrexpression-lid_tightener_left</a></b><b>Referenced in:</b>
+   <ul>
+    <li><a href="#ref-for-dom-xrexpression-lid_tightener_left">3.2. Visual examples of expressions</a>
+   </ul>
+  </aside>
+  <aside class="dfn-panel" data-for="dom-xrexpression-lid_tightener_right">
+   <b><a href="#dom-xrexpression-lid_tightener_right">#dom-xrexpression-lid_tightener_right</a></b><b>Referenced in:</b>
+   <ul>
+    <li><a href="#ref-for-dom-xrexpression-lid_tightener_right">3.2. Visual examples of expressions</a>
+   </ul>
+  </aside>
+  <aside class="dfn-panel" data-for="dom-xrexpression-lip_corner_depressor_left">
+   <b><a href="#dom-xrexpression-lip_corner_depressor_left">#dom-xrexpression-lip_corner_depressor_left</a></b><b>Referenced in:</b>
+   <ul>
+    <li><a href="#ref-for-dom-xrexpression-lip_corner_depressor_left">3.2. Visual examples of expressions</a>
+   </ul>
+  </aside>
+  <aside class="dfn-panel" data-for="dom-xrexpression-lip_corner_depressor_right">
+   <b><a href="#dom-xrexpression-lip_corner_depressor_right">#dom-xrexpression-lip_corner_depressor_right</a></b><b>Referenced in:</b>
+   <ul>
+    <li><a href="#ref-for-dom-xrexpression-lip_corner_depressor_right">3.2. Visual examples of expressions</a>
+   </ul>
+  </aside>
+  <aside class="dfn-panel" data-for="dom-xrexpression-lip_corner_puller_left">
+   <b><a href="#dom-xrexpression-lip_corner_puller_left">#dom-xrexpression-lip_corner_puller_left</a></b><b>Referenced in:</b>
+   <ul>
+    <li><a href="#ref-for-dom-xrexpression-lip_corner_puller_left">3.2. Visual examples of expressions</a>
+   </ul>
+  </aside>
+  <aside class="dfn-panel" data-for="dom-xrexpression-lip_corner_puller_right">
+   <b><a href="#dom-xrexpression-lip_corner_puller_right">#dom-xrexpression-lip_corner_puller_right</a></b><b>Referenced in:</b>
+   <ul>
+    <li><a href="#ref-for-dom-xrexpression-lip_corner_puller_right">3.2. Visual examples of expressions</a>
+   </ul>
+  </aside>
+  <aside class="dfn-panel" data-for="dom-xrexpression-lip_funneler_left_bottom">
+   <b><a href="#dom-xrexpression-lip_funneler_left_bottom">#dom-xrexpression-lip_funneler_left_bottom</a></b><b>Referenced in:</b>
+   <ul>
+    <li><a href="#ref-for-dom-xrexpression-lip_funneler_left_bottom">3.2. Visual examples of expressions</a>
+   </ul>
+  </aside>
+  <aside class="dfn-panel" data-for="dom-xrexpression-lip_funneler_left_top">
+   <b><a href="#dom-xrexpression-lip_funneler_left_top">#dom-xrexpression-lip_funneler_left_top</a></b><b>Referenced in:</b>
+   <ul>
+    <li><a href="#ref-for-dom-xrexpression-lip_funneler_left_top">3.2. Visual examples of expressions</a>
+   </ul>
+  </aside>
+  <aside class="dfn-panel" data-for="dom-xrexpression-lip_funneler_right_bottom">
+   <b><a href="#dom-xrexpression-lip_funneler_right_bottom">#dom-xrexpression-lip_funneler_right_bottom</a></b><b>Referenced in:</b>
+   <ul>
+    <li><a href="#ref-for-dom-xrexpression-lip_funneler_right_bottom">3.2. Visual examples of expressions</a>
+   </ul>
+  </aside>
+  <aside class="dfn-panel" data-for="dom-xrexpression-lip_funneler_right_top">
+   <b><a href="#dom-xrexpression-lip_funneler_right_top">#dom-xrexpression-lip_funneler_right_top</a></b><b>Referenced in:</b>
+   <ul>
+    <li><a href="#ref-for-dom-xrexpression-lip_funneler_right_top">3.2. Visual examples of expressions</a>
+   </ul>
+  </aside>
+  <aside class="dfn-panel" data-for="dom-xrexpression-lip_pressor_left">
+   <b><a href="#dom-xrexpression-lip_pressor_left">#dom-xrexpression-lip_pressor_left</a></b><b>Referenced in:</b>
+   <ul>
+    <li><a href="#ref-for-dom-xrexpression-lip_pressor_left">3.2. Visual examples of expressions</a>
+   </ul>
+  </aside>
+  <aside class="dfn-panel" data-for="dom-xrexpression-lip_pressor_right">
+   <b><a href="#dom-xrexpression-lip_pressor_right">#dom-xrexpression-lip_pressor_right</a></b><b>Referenced in:</b>
+   <ul>
+    <li><a href="#ref-for-dom-xrexpression-lip_pressor_right">3.2. Visual examples of expressions</a>
+   </ul>
+  </aside>
+  <aside class="dfn-panel" data-for="dom-xrexpression-lip_pucker_left">
+   <b><a href="#dom-xrexpression-lip_pucker_left">#dom-xrexpression-lip_pucker_left</a></b><b>Referenced in:</b>
+   <ul>
+    <li><a href="#ref-for-dom-xrexpression-lip_pucker_left">3.2. Visual examples of expressions</a>
+   </ul>
+  </aside>
+  <aside class="dfn-panel" data-for="dom-xrexpression-lip_pucker_right">
+   <b><a href="#dom-xrexpression-lip_pucker_right">#dom-xrexpression-lip_pucker_right</a></b><b>Referenced in:</b>
+   <ul>
+    <li><a href="#ref-for-dom-xrexpression-lip_pucker_right">3.2. Visual examples of expressions</a>
+   </ul>
+  </aside>
+  <aside class="dfn-panel" data-for="dom-xrexpression-lip_stretcher_left">
+   <b><a href="#dom-xrexpression-lip_stretcher_left">#dom-xrexpression-lip_stretcher_left</a></b><b>Referenced in:</b>
+   <ul>
+    <li><a href="#ref-for-dom-xrexpression-lip_stretcher_left">3.2. Visual examples of expressions</a>
+   </ul>
+  </aside>
+  <aside class="dfn-panel" data-for="dom-xrexpression-lip_stretcher_right">
+   <b><a href="#dom-xrexpression-lip_stretcher_right">#dom-xrexpression-lip_stretcher_right</a></b><b>Referenced in:</b>
+   <ul>
+    <li><a href="#ref-for-dom-xrexpression-lip_stretcher_right">3.2. Visual examples of expressions</a>
+   </ul>
+  </aside>
+  <aside class="dfn-panel" data-for="dom-xrexpression-lip_suck_left_bottom">
+   <b><a href="#dom-xrexpression-lip_suck_left_bottom">#dom-xrexpression-lip_suck_left_bottom</a></b><b>Referenced in:</b>
+   <ul>
+    <li><a href="#ref-for-dom-xrexpression-lip_suck_left_bottom">3.2. Visual examples of expressions</a>
+   </ul>
+  </aside>
+  <aside class="dfn-panel" data-for="dom-xrexpression-lip_suck_left_top">
+   <b><a href="#dom-xrexpression-lip_suck_left_top">#dom-xrexpression-lip_suck_left_top</a></b><b>Referenced in:</b>
+   <ul>
+    <li><a href="#ref-for-dom-xrexpression-lip_suck_left_top">3.2. Visual examples of expressions</a>
+   </ul>
+  </aside>
+  <aside class="dfn-panel" data-for="dom-xrexpression-lip_suck_right_bottom">
+   <b><a href="#dom-xrexpression-lip_suck_right_bottom">#dom-xrexpression-lip_suck_right_bottom</a></b><b>Referenced in:</b>
+   <ul>
+    <li><a href="#ref-for-dom-xrexpression-lip_suck_right_bottom">3.2. Visual examples of expressions</a>
+   </ul>
+  </aside>
+  <aside class="dfn-panel" data-for="dom-xrexpression-lip_suck_right_top">
+   <b><a href="#dom-xrexpression-lip_suck_right_top">#dom-xrexpression-lip_suck_right_top</a></b><b>Referenced in:</b>
+   <ul>
+    <li><a href="#ref-for-dom-xrexpression-lip_suck_right_top">3.2. Visual examples of expressions</a>
+   </ul>
+  </aside>
+  <aside class="dfn-panel" data-for="dom-xrexpression-lip_tightener_left">
+   <b><a href="#dom-xrexpression-lip_tightener_left">#dom-xrexpression-lip_tightener_left</a></b><b>Referenced in:</b>
+   <ul>
+    <li><a href="#ref-for-dom-xrexpression-lip_tightener_left">3.2. Visual examples of expressions</a>
+   </ul>
+  </aside>
+  <aside class="dfn-panel" data-for="dom-xrexpression-lip_tightener_right">
+   <b><a href="#dom-xrexpression-lip_tightener_right">#dom-xrexpression-lip_tightener_right</a></b><b>Referenced in:</b>
+   <ul>
+    <li><a href="#ref-for-dom-xrexpression-lip_tightener_right">3.2. Visual examples of expressions</a>
+   </ul>
+  </aside>
+  <aside class="dfn-panel" data-for="dom-xrexpression-lips_toward">
+   <b><a href="#dom-xrexpression-lips_toward">#dom-xrexpression-lips_toward</a></b><b>Referenced in:</b>
+   <ul>
+    <li><a href="#ref-for-dom-xrexpression-lips_toward">3.2. Visual examples of expressions</a>
+   </ul>
+  </aside>
+  <aside class="dfn-panel" data-for="dom-xrexpression-lower_lip_depressor_left">
+   <b><a href="#dom-xrexpression-lower_lip_depressor_left">#dom-xrexpression-lower_lip_depressor_left</a></b><b>Referenced in:</b>
+   <ul>
+    <li><a href="#ref-for-dom-xrexpression-lower_lip_depressor_left">3.2. Visual examples of expressions</a>
+   </ul>
+  </aside>
+  <aside class="dfn-panel" data-for="dom-xrexpression-lower_lip_depressor_right">
+   <b><a href="#dom-xrexpression-lower_lip_depressor_right">#dom-xrexpression-lower_lip_depressor_right</a></b><b>Referenced in:</b>
+   <ul>
+    <li><a href="#ref-for-dom-xrexpression-lower_lip_depressor_right">3.2. Visual examples of expressions</a>
+   </ul>
+  </aside>
+  <aside class="dfn-panel" data-for="dom-xrexpression-mouth_left">
+   <b><a href="#dom-xrexpression-mouth_left">#dom-xrexpression-mouth_left</a></b><b>Referenced in:</b>
+   <ul>
+    <li><a href="#ref-for-dom-xrexpression-mouth_left">3.2. Visual examples of expressions</a>
+   </ul>
+  </aside>
+  <aside class="dfn-panel" data-for="dom-xrexpression-mouth_right">
+   <b><a href="#dom-xrexpression-mouth_right">#dom-xrexpression-mouth_right</a></b><b>Referenced in:</b>
+   <ul>
+    <li><a href="#ref-for-dom-xrexpression-mouth_right">3.2. Visual examples of expressions</a>
+   </ul>
+  </aside>
+  <aside class="dfn-panel" data-for="dom-xrexpression-nose_wrinkler_left">
+   <b><a href="#dom-xrexpression-nose_wrinkler_left">#dom-xrexpression-nose_wrinkler_left</a></b><b>Referenced in:</b>
+   <ul>
+    <li><a href="#ref-for-dom-xrexpression-nose_wrinkler_left">3.2. Visual examples of expressions</a>
+   </ul>
+  </aside>
+  <aside class="dfn-panel" data-for="dom-xrexpression-nose_wrinkler_right">
+   <b><a href="#dom-xrexpression-nose_wrinkler_right">#dom-xrexpression-nose_wrinkler_right</a></b><b>Referenced in:</b>
+   <ul>
+    <li><a href="#ref-for-dom-xrexpression-nose_wrinkler_right">3.2. Visual examples of expressions</a>
+   </ul>
+  </aside>
+  <aside class="dfn-panel" data-for="dom-xrexpression-outer_brow_raiser_left">
+   <b><a href="#dom-xrexpression-outer_brow_raiser_left">#dom-xrexpression-outer_brow_raiser_left</a></b><b>Referenced in:</b>
+   <ul>
+    <li><a href="#ref-for-dom-xrexpression-outer_brow_raiser_left">3.2. Visual examples of expressions</a>
+   </ul>
+  </aside>
+  <aside class="dfn-panel" data-for="dom-xrexpression-outer_brow_raiser_right">
+   <b><a href="#dom-xrexpression-outer_brow_raiser_right">#dom-xrexpression-outer_brow_raiser_right</a></b><b>Referenced in:</b>
+   <ul>
+    <li><a href="#ref-for-dom-xrexpression-outer_brow_raiser_right">3.2. Visual examples of expressions</a>
+   </ul>
+  </aside>
+  <aside class="dfn-panel" data-for="dom-xrexpression-upper_lid_raiser_left">
+   <b><a href="#dom-xrexpression-upper_lid_raiser_left">#dom-xrexpression-upper_lid_raiser_left</a></b><b>Referenced in:</b>
+   <ul>
+    <li><a href="#ref-for-dom-xrexpression-upper_lid_raiser_left">3.2. Visual examples of expressions</a>
+   </ul>
+  </aside>
+  <aside class="dfn-panel" data-for="dom-xrexpression-upper_lid_raiser_right">
+   <b><a href="#dom-xrexpression-upper_lid_raiser_right">#dom-xrexpression-upper_lid_raiser_right</a></b><b>Referenced in:</b>
+   <ul>
+    <li><a href="#ref-for-dom-xrexpression-upper_lid_raiser_right">3.2. Visual examples of expressions</a>
+   </ul>
+  </aside>
+  <aside class="dfn-panel" data-for="dom-xrexpression-upper_lip_raiser_left">
+   <b><a href="#dom-xrexpression-upper_lip_raiser_left">#dom-xrexpression-upper_lip_raiser_left</a></b><b>Referenced in:</b>
+   <ul>
+    <li><a href="#ref-for-dom-xrexpression-upper_lip_raiser_left">3.2. Visual examples of expressions</a>
+   </ul>
+  </aside>
+  <aside class="dfn-panel" data-for="dom-xrexpression-upper_lip_raiser_right">
+   <b><a href="#dom-xrexpression-upper_lip_raiser_right">#dom-xrexpression-upper_lip_raiser_right</a></b><b>Referenced in:</b>
+   <ul>
+    <li><a href="#ref-for-dom-xrexpression-upper_lip_raiser_right">3.2. Visual examples of expressions</a>
+   </ul>
+  </aside>
+  <aside class="dfn-panel" data-for="xrexpressions">
+   <b><a href="#xrexpressions">#xrexpressions</a></b><b>Referenced in:</b>
+   <ul>
+    <li><a href="#ref-for-xrexpressions">3.3. XRExpressions</a> <a href="#ref-for-xrexpressions①">(2)</a>
+    <li><a href="#ref-for-xrexpressions②">4.1. XRFrame</a>
+   </ul>
+  </aside>
+  <aside class="dfn-panel" data-for="dom-xrexpressions-expressions-slot">
+   <b><a href="#dom-xrexpressions-expressions-slot">#dom-xrexpressions-expressions-slot</a></b><b>Referenced in:</b>
+   <ul>
+    <li><a href="#ref-for-dom-xrexpressions-expressions-slot">3.3. XRExpressions</a> <a href="#ref-for-dom-xrexpressions-expressions-slot①">(2)</a>
+   </ul>
+  </aside>
+<script>/* script-dfn-panel */
+
+document.body.addEventListener("click", function(e) {
+    var queryAll = function(sel) { return [].slice.call(document.querySelectorAll(sel)); }
+    // Find the dfn element or panel, if any, that was clicked on.
+    var el = e.target;
+    var target;
+    var hitALink = false;
+    while(el.parentElement) {
+        if(el.tagName == "A") {
+            // Clicking on a link in a <dfn> shouldn't summon the panel
+            hitALink = true;
+        }
+        if(el.classList.contains("dfn-paneled")) {
+            target = "dfn";
+            break;
+        }
+        if(el.classList.contains("dfn-panel")) {
+            target = "dfn-panel";
+            break;
+        }
+        el = el.parentElement;
+    }
+    if(target != "dfn-panel") {
+        // Turn off any currently "on" or "activated" panels.
+        queryAll(".dfn-panel.on, .dfn-panel.activated").forEach(function(el){
+            el.classList.remove("on");
+            el.classList.remove("activated");
+        });
+    }
+    if(target == "dfn" && !hitALink) {
+        // open the panel
+        var dfnPanel = document.querySelector(".dfn-panel[data-for='" + el.id + "']");
+        if(dfnPanel) {
+            dfnPanel.classList.add("on");
+            var rect = el.getBoundingClientRect();
+            dfnPanel.style.left = window.scrollX + rect.right + 5 + "px";
+            dfnPanel.style.top = window.scrollY + rect.top + "px";
+            var panelRect = dfnPanel.getBoundingClientRect();
+            var panelWidth = panelRect.right - panelRect.left;
+            if(panelRect.right > document.body.scrollWidth && (rect.left - (panelWidth + 5)) > 0) {
+                // Reposition, because the panel is overflowing
+                dfnPanel.style.left = window.scrollX + rect.left - (panelWidth + 5) + "px";
+            }
+        } else {
+            console.log("Couldn't find .dfn-panel[data-for='" + el.id + "']");
+        }
+    } else if(target == "dfn-panel") {
+        // Switch it to "activated" state, which pins it.
+        el.classList.add("activated");
+        el.style.left = null;
+        el.style.top = null;
+    }
+
+});
+</script>

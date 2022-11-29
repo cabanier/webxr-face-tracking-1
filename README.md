@@ -15,7 +15,7 @@ This API will define an extensive set of expression and will on a per frame basi
 For instance, if the device's eye tracking is functional and the user looks left, it will return that both eyes are looking left.
 
 ```webidl
-enum XRExpressionType {
+enum XRExpression {
   "brow_lowerer_left",
   "brow_lowerer_right",
   "cheek_puff_left",
@@ -24,8 +24,8 @@ enum XRExpressionType {
   "cheek_raiser_right",
   "cheek_suck_left",
   "cheek_suck_right",
-  "chin_raiser_left",
-  "chin_raiser_right",
+  "chin_raiser_bottom",
+  "chin_raiser_top",
   "dimpler_left",
   "dimpler_right",
   "eyes_closed_left",
@@ -66,22 +66,13 @@ enum XRExpressionType {
   "lip_suck_right_top",
   "lip_tightener_left",
   "lip_tightener_right",
-  "lips_toward_left_bottom",
-  "lips_toward_left_top",
-  "lips_toward_right_bottom",
-  "lips_toward_right_top",
+  "lips_toward",
   "lower_lip_depressor_left",
   "lower_lip_depressor_right",
   "mouth_left",
   "mouth_right",
-  "nasolabial_furrow_left",
-  "nasolabial_furrow_right",
   "nose_wrinkler_left",
   "nose_wrinkler_right",
-  "nostril_compressor_left",
-  "nostril_compressor_right",
-  "nostril_dilator_left",
-  "nostril_dilator_right",
   "outer_brow_raiser_left",
   "outer_brow_raiser_right",
   "upper_lid_raiser_left",
@@ -91,10 +82,10 @@ enum XRExpressionType {
 };
 
 interface XRExpressions {
-    iterable<XRExpressionType, float>;
+    iterable<XRExpression, float>;
 
     readonly attribute unsigned long size;
-    float get(XRExpressionType key);
+    float get(XRExpression key);
 };
 
 partial interface XRFrame {

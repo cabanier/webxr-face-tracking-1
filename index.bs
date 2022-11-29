@@ -1,0 +1,661 @@
+<pre class="metadata">
+Shortname: webxr-face-tracking
+Title: WebXR Face Tracking - Level 1
+Group: immersivewebwg
+Status: UD
+
+ED: https://cabanier.github.io/webxr-face-tracking-1/
+Repository: cabanier/webxr-face-tracking-1
+Level: 1
+Mailing List Archives: https://lists.w3.org/Archives/Public/public-immersive-web-wg/
+
+Editor: Rik Cabanier, Meta, cabanier@meta.com
+
+Abstract: The WebXR Face Tracking module expands the <a href="https://www.w3.org/TR/webxr/">WebXR Device API</a> with the functionality to track face expressions.
+
+Status Text: This WebXR Module is designed as a module to be implemented in addition to <a href="https://www.w3.org/TR/webxr/">WebXR Device API</a>, and is originally included in WebXR Device API which was divided into core and modules.
+</pre>
+
+
+<link rel="icon" type="image/png" sizes="32x32" href="favicon-32x32.png">
+<link rel="icon" type="image/png" sizes="96x96" href="favicon-96x96.png">
+
+<style>
+<style>
+  .non-normative::before {
+    content: "This section is non-normative.";
+    font-style: italic;
+  }
+  .tg {
+    border-collapse: collapse;
+    border-spacing: 0;
+  }
+  .tg th {
+    border-style: solid;
+    border-width: 1px;
+    background: #90b8de;
+    color: #fff;
+    font-family: sans-serif;
+    font-weight: bold;
+    border-color: grey;
+  }
+  .tg td {
+    padding: 4px 5px;
+    background-color: rgb(221, 238, 255);
+    font-family: monospace;
+    border-style: solid;
+    border-width: 1px;
+    border-color: grey;
+    overflow: hidden;
+    word-break: normal;
+  }
+  .unstable::before {
+    content: "This section is not stable";
+    display: block;
+    font-weight: bold;
+    text-align: right;
+    color: red;
+  }
+  .unstable {
+    border: thin solid pink;
+    border-radius: .5em;
+    padding: .5em;
+    margin: .5em calc(-0.5em - 1px);
+    background-image: url("data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' width='300' height='290'><text transform='rotate(-45)' text-anchor='middle' font-family='sans-serif' font-weight='bold' font-size='70' y='210' opacity='.1' fill='white'>Unstable</text></svg>");
+    background-repeat: repeat;
+    background-color: #282828;
+  }
+  @media (prefers-color-scheme: light) {
+    .unstable {
+      background-image: url("data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' width='300' height='290'><text transform='rotate(-45)' text-anchor='middle' font-family='sans-serif' font-weight='bold' font-size='70' y='210' opacity='.1'>Unstable</text></svg>");
+      background-color: #FFF4F4;
+    }
+  }
+  .unstable h3:first-of-type {
+    margin-top: 0.5rem;
+  }
+  .unstable.example:not(.no-marker)::before {
+    content: "Example " counter(example) " (Unstable)";
+    float: none;
+  }
+</style>
+
+
+<pre class="link-defaults">
+spec: webxr-1;
+    type: dfn; text: xr device; for: /
+    type: dfn; text: xr device; for: XRSession
+    type: dfn; text: animation frame; for: XRSession
+    type: dfn; text: explicit consent
+    type: dfn; text: native origin
+    type: dfn; text: feature descriptor
+    type: dfn; text: populate the pose
+    type: dfn; text: session; for: XRFrame
+    type: dfn; text: time; for: XRFrame
+    type: dfn; text: session; for: XRSpace
+    type: dfn; text: input profile name; for: XRInputSource
+    type: dfn; text: primary action; for: /
+    type: dfn; text: primary squeeze action; for: /
+spec:infra; type:dfn; text:list
+spec:webxr-ar-module-1; type:enum-value; text:"immersive-ar"
+spec:webidl;
+    type:dfn; text:value pairs
+</pre>
+
+<pre class="anchors">
+spec:html; urlPrefix: https://html.spec.whatwg.org/multipage/
+    type: dfn; text: browsing context; url: browsers.html#browsing-context
+</pre>
+
+Introduction {#intro}
+============
+
+<section class="non-normative">
+This API exposes the expressions of the user's face and the position of their eyes. This can be used to render a more immersive avatar.
+</section>
+
+
+Initialization {#initialization}
+==============
+
+If an application wants to get expressions during an immersive session, the session MUST be requested with an appropriate [=feature descriptor=]. The string "<dfn for="feature descriptor">face-tracking</dfn>" is introduced
+by this module as a new valid [=feature descriptor=] for face expressions.
+
+The "[=face-tracking=]" [=feature descriptor=] should only be granted for an {{XRSession}} when its [=XRSession/XR device=] has sensor data to support reporting of expressions.
+
+Access to expressions {#expression-access}
+=====================
+
+
+Expressions {#expressions}
+-----------
+
+An expression MUST be one of the {{XRExpression}} types.
+A user agent MAY support a subset of {{XRExpression}} types and this subset is allowed to change during an {{XRSession}}
+
+Following is the <dfn>list of expressions</dfn> and their order:
+<pre class="idl">
+enum XRExpression {
+  "brow_lowerer_left",
+  "brow_lowerer_right",
+  "cheek_puff_left",
+  "cheek_puff_right",
+  "cheek_raiser_left",
+  "cheek_raiser_right",
+  "cheek_suck_left",
+  "cheek_suck_right",
+  "chin_raiser_bottom",
+  "chin_raiser_top",
+  "dimpler_left",
+  "dimpler_right",
+  "eyes_closed_left",
+  "eyes_closed_right",
+  "eyes_look_down_left",
+  "eyes_look_down_right",
+  "eyes_look_left_left",
+  "eyes_look_left_right",
+  "eyes_look_right_left",
+  "eyes_look_right_right",
+  "eyes_look_up_left",
+  "eyes_look_up_right",
+  "inner_brow_raiser_left",
+  "inner_brow_raiser_right",
+  "jaw_drop",
+  "jaw_sideways_left",
+  "jaw_sideways_right",
+  "jaw_thrust",
+  "lid_tightener_left",
+  "lid_tightener_right",
+  "lip_corner_depressor_left",
+  "lip_corner_depressor_right",
+  "lip_corner_puller_left",
+  "lip_corner_puller_right",
+  "lip_funneler_left_bottom",
+  "lip_funneler_left_top",
+  "lip_funneler_right_bottom",
+  "lip_funneler_right_top",
+  "lip_pressor_left",
+  "lip_pressor_right",
+  "lip_pucker_left",
+  "lip_pucker_right",
+  "lip_stretcher_left",
+  "lip_stretcher_right",
+  "lip_suck_left_bottom",
+  "lip_suck_left_top",
+  "lip_suck_right_bottom",
+  "lip_suck_right_top",
+  "lip_tightener_left",
+  "lip_tightener_right",
+  "lips_toward",
+  "lower_lip_depressor_left",
+  "lower_lip_depressor_right",
+  "mouth_left",
+  "mouth_right",
+  "nose_wrinkler_left",
+  "nose_wrinkler_right",
+  "outer_brow_raiser_left",
+  "outer_brow_raiser_right",
+  "upper_lid_raiser_left",
+  "upper_lid_raiser_right",
+  "upper_lip_raiser_left",
+  "upper_lip_raiser_right"
+};
+</pre>
+
+Visual examples of expressions {#expression-visuals}
+------------------------------
+
+<section class="non-normative">
+
+<figure>
+<img src="media/neutral.png"/>
+<figcaption align="center"><b>neutral</b>
+</figcaption>
+</figure>
+
+<figure>
+<img src="media/brow_lowerer_left.png"/>
+<figcaption align="center"><b>{{brow_lowerer_left}}</b>
+</figcaption>
+</figure>
+
+<figure>
+ <img src="media/brow_lowerer_right.png"/>
+<figcaption align="center"><b>{{brow_lowerer_right}}</b>
+</figcaption>
+</figure>
+
+<figure>
+ <img src="media/cheek_puff_left.png"/>
+<figcaption align="center"><b>{{cheek_puff_left}}</b>
+</figcaption>
+</figure>
+
+<figure>
+ <img src="media/cheek_puff_right.png"/>
+<figcaption align="center"><b>{{cheek_puff_right}}</b>
+</figcaption>
+</figure>
+
+<figure>
+ <img src="media/cheek_raiser_left.png"/>
+<figcaption align="center"><b>{{cheek_raiser_left}}</b>
+</figcaption>
+</figure>
+
+<figure>
+ <img src="media/cheek_raiser_right.png"/>
+<figcaption align="center"><b>{{cheek_raiser_right}}</b>
+</figcaption>
+</figure>
+
+<figure>
+ <img src="media/cheek_suck_left.png"/>
+<figcaption align="center"><b>{{cheek_suck_left}}</b>
+</figcaption>
+</figure>
+
+<figure>
+ <img src="media/cheek_suck_right.png"/>
+<figcaption align="center"><b>{{cheek_suck_right}}</b>
+</figcaption>
+</figure>
+
+<figure>
+ <img src="media/chin_raiser_bottom.png"/>
+<figcaption align="center"><b>{{chin_raiser_bottom}}</b>
+</figcaption>
+</figure>
+
+<figure>
+ <img src="media/chin_raiser_top.png"/>
+<figcaption align="center"><b>{{chin_raiser_top}}</b>
+</figcaption>
+</figure>
+
+<figure>
+ <img src="media/dimpler_left.png"/>
+<figcaption align="center"><b>{{dimpler_left}}</b>
+</figcaption>
+</figure>
+
+<figure>
+ <img src="media/dimpler_right.png"/>
+<figcaption align="center"><b>{{dimpler_right}}</b>
+</figcaption>
+</figure>
+
+<figure>
+ <img src="media/eyes_closed_left.png"/>
+<figcaption align="center"><b>{{eyes_closed_left}}</b>
+</figcaption>
+</figure>
+
+<figure>
+ <img src="media/eyes_closed_right.png"/>
+<figcaption align="center"><b>{{eyes_closed_right}}</b>
+</figcaption>
+</figure>
+
+<figure>
+ <img src="media/eyes_look_down_left.png"/>
+<figcaption align="center"><b>{{eyes_look_down_left}}</b>
+</figcaption>
+</figure>
+
+<figure>
+ <img src="media/eyes_look_down_right.png"/>
+<figcaption align="center"><b>{{eyes_look_down_right}}</b>
+</figcaption>
+</figure>
+
+<figure>
+ <img src="media/eyes_look_left_left.png"/>
+<figcaption align="center"><b>{{eyes_look_left_left}}</b>
+</figcaption>
+</figure>
+
+<figure>
+ <img src="media/eyes_look_left_right.png"/>
+<figcaption align="center"><b>{{eyes_look_left_right}}</b>
+</figcaption>
+</figure>
+
+<figure>
+ <img src="media/eyes_look_right_left.png"/>
+<figcaption align="center"><b>{{eyes_look_right_left}}</b>
+</figcaption>
+</figure>
+
+<figure>
+ <img src="media/eyes_look_right_right.png"/>
+<figcaption align="center"><b>{{eyes_look_right_right}}</b>
+</figcaption>
+</figure>
+
+<figure>
+ <img src="media/eyes_look_up_left.png"/>
+<figcaption align="center"><b>{{eyes_look_up_left}}</b>
+</figcaption>
+</figure>
+
+<figure>
+ <img src="media/eyes_look_up_right.png"/>
+<figcaption align="center"><b>{{eyes_look_up_right}}</b>
+</figcaption>
+</figure>
+
+<figure>
+ <img src="media/inner_brow_raiser_left.png"/>
+<figcaption align="center"><b>{{inner_brow_raiser_left}}</b>
+</figcaption>
+</figure>
+
+<figure>
+ <img src="media/inner_brow_raiser_right.png"/>
+<figcaption align="center"><b>{{inner_brow_raiser_right}}</b>
+</figcaption>
+</figure>
+
+<figure>
+ <img src="media/jaw_drop.png"/>
+<figcaption align="center"><b>{{jaw_drop}}</b>
+</figcaption>
+</figure>
+
+<figure>
+ <img src="media/jaw_sideways_left.png"/>
+<figcaption align="center"><b>{{jaw_sideways_left}}</b>
+</figcaption>
+</figure>
+
+<figure>
+ <img src="media/jaw_sideways_right.png"/>
+<figcaption align="center"><b>{{jaw_sideways_right}}</b>
+</figcaption>
+</figure>
+
+<figure>
+ <img src="media/jaw_thrust.png"/>
+<figcaption align="center"><b>{{jaw_thrust}}</b>
+</figcaption>
+</figure>
+
+<figure>
+ <img src="media/lid_tightener_left.png"/>
+<figcaption align="center"><b>{{lid_tightener_left}}</b>
+</figcaption>
+</figure>
+
+<figure>
+ <img src="media/lid_tightener_right.png"/>
+<figcaption align="center"><b>{{lid_tightener_right}}</b>
+</figcaption>
+</figure>
+
+<figure>
+ <img src="media/lip_corner_depressor_left.png"/>
+<figcaption align="center"><b>{{lip_corner_depressor_left}}</b>
+</figcaption>
+</figure>
+
+<figure>
+ <img src="media/lip_corner_depressor_right.png"/>
+<figcaption align="center"><b>{{lip_corner_depressor_right}}</b>
+</figcaption>
+</figure>
+
+<figure>
+ <img src="media/lip_corner_puller_left.png"/>
+<figcaption align="center"><b>{{lip_corner_puller_left}}</b>
+</figcaption>
+</figure>
+
+<figure>
+ <img src="media/lip_corner_puller_right.png"/>
+<figcaption align="center"><b>{{lip_corner_puller_right}}</b>
+</figcaption>
+</figure>
+
+<figure>
+ <img src="media/lip_funneler_left_bottom.png"/>
+<figcaption align="center"><b>{{lip_funneler_left_bottom}}</b>
+</figcaption>
+</figure>
+
+<figure>
+ <img src="media/lip_funneler_left_top.png"/>
+<figcaption align="center"><b>{{lip_funneler_left_top}}</b>
+</figcaption>
+</figure>
+
+<figure>
+ <img src="media/lip_funneler_right_bottom.png"/>
+<figcaption align="center"><b>{{lip_funneler_right_bottom}}</b>
+</figcaption>
+</figure>
+
+<figure>
+ <img src="media/lip_funneler_right_top.png"/>
+<figcaption align="center"><b>{{lip_funneler_right_top}}</b>
+</figcaption>
+</figure>
+
+<figure>
+ <img src="media/lip_pressor_left.png"/>
+<figcaption align="center"><b>{{lip_pressor_left}}</b>
+</figcaption>
+</figure>
+
+<figure>
+ <img src="media/lip_pressor_right.png"/>
+<figcaption align="center"><b>{{lip_pressor_right}}</b>
+</figcaption>
+</figure>
+
+<figure>
+ <img src="media/lip_pucker_left.png"/>
+<figcaption align="center"><b>{{lip_pucker_left}}</b>
+</figcaption>
+</figure>
+
+<figure>
+ <img src="media/lip_pucker_right.png"/>
+<figcaption align="center"><b>{{lip_pucker_right}}</b>
+</figcaption>
+</figure>
+
+<figure>
+ <img src="media/lip_stretcher_left.png"/>
+<figcaption align="center"><b>{{lip_stretcher_left}}</b>
+</figcaption>
+</figure>
+
+<figure>
+ <img src="media/lip_stretcher_right.png"/>
+<figcaption align="center"><b>{{lip_stretcher_right}}</b>
+</figcaption>
+</figure>
+
+<figure>
+ <img src="media/lip_suck_left_bottom.png"/>
+<figcaption align="center"><b>{{lip_suck_left_bottom}}</b>
+</figcaption>
+</figure>
+
+<figure>
+ <img src="media/lip_suck_left_top.png"/>
+<figcaption align="center"><b>{{lip_suck_left_top}}</b>
+</figcaption>
+</figure>
+
+<figure>
+ <img src="media/lip_suck_right_bottom.png"/>
+<figcaption align="center"><b>{{lip_suck_right_bottom}}</b>
+</figcaption>
+</figure>
+
+<figure>
+ <img src="media/lip_suck_right_top.png"/>
+<figcaption align="center"><b>{{lip_suck_right_top}}</b>
+</figcaption>
+</figure>
+
+<figure>
+ <img src="media/lip_tightener_left.png"/>
+<figcaption align="center"><b>{{lip_tightener_left}}</b>
+</figcaption>
+</figure>
+
+<figure>
+ <img src="media/lip_tightener_right.png"/>
+<figcaption align="center"><b>{{lip_tightener_right}}</b>
+</figcaption>
+</figure>
+
+<figure>
+ <img src="media/lips_toward.png"/>
+<figcaption align="center"><b>{{lips_toward}}</b>
+</figcaption>
+</figure>
+
+<figure>
+ <img src="media/lower_lip_depressor_left.png"/>
+<figcaption align="center"><b>{{lower_lip_depressor_left}}</b>
+</figcaption>
+</figure>
+
+<figure>
+ <img src="media/lower_lip_depressor_right.png"/>
+<figcaption align="center"><b>{{lower_lip_depressor_right}}</b>
+</figcaption>
+</figure>
+
+<figure>
+ <img src="media/mouth_left.png"/>
+<figcaption align="center"><b>{{mouth_left}}</b>
+</figcaption>
+</figure>
+
+<figure>
+ <img src="media/mouth_right.png"/>
+<figcaption align="center"><b>{{mouth_right}}</b>
+</figcaption>
+</figure>
+
+<figure>
+ <img src="media/nose_wrinkler_left.png"/>
+<figcaption align="center"><b>{{nose_wrinkler_left}}</b>
+</figcaption>
+</figure>
+
+<figure>
+ <img src="media/nose_wrinkler_right.png"/>
+<figcaption align="center"><b>{{nose_wrinkler_right}}</b>
+</figcaption>
+</figure>
+
+ <figure>
+ <img src="media/outer_brow_raiser_left.png"/>
+<figcaption align="center"><b>{{outer_brow_raiser_left}}</b>
+</figcaption>
+</figure>
+
+ <figure>
+ <img src="media/outer_brow_raiser_right.png"/>
+<figcaption align="center"><b>{{outer_brow_raiser_right}}</b>
+</figcaption>
+</figure>
+
+ <figure>
+ <img src="media/upper_lid_raiser_left.png"/>
+<figcaption align="center"><b>{{upper_lid_raiser_left}}</b>
+</figcaption>
+</figure>
+
+ <figure>
+ <img src="media/upper_lid_raiser_right.png"/>
+<figcaption align="center"><b>{{upper_lid_raiser_right}}</b>
+</figcaption>
+</figure>
+
+ <figure>
+ <img src="media/upper_lip_raiser_left.png"/>
+<figcaption align="center"><b>{{upper_lip_raiser_left}}</b>
+</figcaption>
+</figure>
+
+ <figure>
+ <img src="media/upper_lip_raiser_right.png"/>
+<figcaption align="center"><b>{{upper_lip_raiser_right}}</b>
+</figcaption>
+</figure>
+
+</section>
+
+XRExpressions {#xrexpressions-type}
+-------------
+
+<pre class="idl">
+interface XRExpressions {
+    iterable&lt;XRExpression, float>;
+
+    readonly attribute unsigned long size;
+    float get(XRExpression key);
+};
+</pre>
+
+The {{XRExpression}} enum defines the various expressions that could be reported by the user agent.
+
+<div algorithm="XRExpressions.[[expressions]]">
+    Each {{XRExpressions}} object has a <dfn attribute for="XRExpressions">\[[expressions]]</dfn> internal slot,
+    which is an [=ordered map=] of pairs with the key of type {{XRExpression}} and the value of type <code>float</code>. Each {{XRExpression}} MUST have a value between <code>0</code> and <code>1</code> with <code>0</code> being undected (or rest pose) and <code>1</code> the maximum expression.
+
+    The ordering of the {{[[expressions]]}} internal slot is given by the [=list of expressions=].
+
+    {{[[expressions]]}} MAY change over the course of a session but MUST stay the same during the {{XRFrame}}.
+</div>
+
+<div algorithm="XRExpressions.iterator">
+    The [=value pairs to iterate over=] for an {{XRExpressions}} object are the list of [=value pairs=] with the key being
+    the {{XRExpression}} and the value being the <code>float</code> corresponding to that {{XRExpression}}, ordered by [=list of expressions=].
+</div>
+
+If the user agent does not support or can report an expression defined, it MUST NOT be reported.
+
+Frame Loop {#frame-loop}
+==========
+
+XRFrame {#xrframe-interface}
+-------
+
+<pre class="idl">
+partial interface XRFrame {
+    readonly attribute XRExpressions? expressions;
+};
+</pre>
+
+Privacy & Security Considerations {#privacy-security}
+=================================
+The WebXR Face Tracking API is a powerful feature that carries significant privacy risks.
+
+Since this feature returns new sensor data, the User Agent MUST ask for [=explicit consent=] from the user at session creation time.
+
+Data returned from this API, MUST NOT be so specific that one can detect individual users.
+If the underlying hardware returns data that is too precise, the User Agent MUST anonymize this data
+before revealing it through the WebXR Face Tracking API.
+
+This API MUST only be supported in XRSessions created with XRSessionMode of {{XRSessionMode/"immersive-vr"}}
+or {{XRSessionMode/"immersive-ar"}}. {{XRSessionMode/"inline"}} sessions MUST not support this API.
+
+<div class="note">
+When anonymizing the expression data, the UA can follow these guidelines:
+ * Noising is discouraged in favour of rounding.
+ * If the UA uses rounding, each expression must not be rounded independently.
+ * If noising, the noised data must not reveal any information over time:
+    - Each new WebXR session in the same [=browsing context=] must use the same noise to make sure that the data cannot be de-noised by creating multiple sessions.
+    - Each new [=browsing context=] must use a different noise vector.
+    - Any seed used to initialize the noise must not be predictable.
+ * Anonymization must be done in a trusted environment.
+
+</div>
