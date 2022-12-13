@@ -1,7 +1,7 @@
-# WebXR Face Tracking
+# WebXR Expression Tracking
 
 ## Introduction
-Face tracking is a technology that reports a set of expressions of the current user. The expressions report how much a portion of the face or an eye move. They don't report actual positions or other real world data.
+Expression tracking is a technology that reports a set of expressions of the current user. The expressions report how much a portion of the face or an eye move. They don't report actual positions or other real world data.
 
 ## Use cases
 The main use case is to render the user's face and eyes using an avatar for increased social presence.
