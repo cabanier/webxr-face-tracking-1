@@ -2,13 +2,12 @@
  <head>
   <meta content="text/html; charset=utf-8" http-equiv="Content-Type">
   <meta content="width=device-width, initial-scale=1, shrink-to-fit=no" name="viewport">
-  <title>WebXR Face Tracking - Level 1</title>
+  <title>WebXR Expression Tracking - Level 1</title>
   <meta content="UD" name="w3c-status">
   <link href="https://www.w3.org/StyleSheets/TR/2021/W3C-UD" rel="stylesheet">
   <link href="https://www.w3.org/2008/site/images/favicon.ico" rel="icon">
-  <meta content="Bikeshed version f683df408, updated Tue Nov 29 13:46:10 2022 -0800" name="generator">
-  <link href="https://cabanier.github.io/webxr-face-tracking-1/" rel="canonical">
-  <meta content="65e901869a898157211a1583b2075c710a345683" name="document-revision">
+  <meta content="Bikeshed version 26e85e599, updated Thu Dec 8 15:29:31 2022 -0800" name="generator">
+  <link href="https://cabanier.github.io/webxr-expression-tracking-1/" rel="canonical">
   <link href="favicon-32x32.png" rel="icon" sizes="32x32" type="image/png">
   <link href="favicon-96x96.png" rel="icon" sizes="96x96" type="image/png">
 <style>
@@ -647,16 +646,16 @@ c-[il] { color: #000000 } /* Literal.Number.Integer.Long */
  <body class="h-entry">
   <div class="head">
    <p data-fill-with="logo"><a class="logo" href="https://www.w3.org/"> <img alt="W3C" height="48" src="https://www.w3.org/StyleSheets/TR/2021/logos/W3C" width="72"> </a> </p>
-   <h1 class="p-name no-ref" id="title">WebXR Face Tracking - Level 1</h1>
-   <p id="w3c-state"><a href="https://www.w3.org/standards/types#UD">Unofficial Proposal Draft</a>, <time class="dt-updated" datetime="2022-11-29">29 November 2022</time></p>
+   <h1 class="p-name no-ref" id="title">WebXR Expression Tracking - Level 1</h1>
+   <p id="w3c-state"><a href="https://www.w3.org/standards/types#UD">Unofficial Proposal Draft</a>, <time class="dt-updated" datetime="2022-12-13">13 December 2022</time></p>
    <details open>
     <summary>More details about this document</summary>
     <div data-fill-with="spec-metadata">
      <dl>
       <dt>This version:
-      <dd><a class="u-url" href="https://cabanier.github.io/webxr-face-tracking-1/">https://cabanier.github.io/webxr-face-tracking-1/</a>
+      <dd><a class="u-url" href="https://cabanier.github.io/webxr-expression-tracking-1/">https://cabanier.github.io/webxr-expression-tracking-1/</a>
       <dt>Issue Tracking:
-      <dd><a href="https://github.com/cabanier/webxr-face-tracking-1/issues/">GitHub</a>
+      <dd><a href="https://github.com/cabanier/webxr-expression-tracking-1/issues/">GitHub</a>
       <dt class="editor">Editor:
       <dd class="editor p-author h-card vcard"><a class="p-name fn u-email email" href="mailto:cabanier@meta.com">Rik Cabanier</a> (<span class="p-org org">Meta</span>)
      </dl>
@@ -668,7 +667,7 @@ c-[il] { color: #000000 } /* Literal.Number.Integer.Long */
   </div>
   <div class="p-summary" data-fill-with="abstract">
    <h2 class="no-num no-toc no-ref heading settled" id="abstract"><span class="content">Abstract</span></h2>
-   <p>The WebXR Face Tracking module expands the <a href="https://www.w3.org/TR/webxr/">WebXR Device API</a> with the functionality to track face expressions.</p>
+   <p>The WebXR Expression Tracking module expands the <a href="https://www.w3.org/TR/webxr/">WebXR Device API</a> with the functionality to track expressions.</p>
   </div>
   <h2 class="no-num no-toc no-ref heading settled" id="sotd"><span class="content">Status of this document</span></h2>
   <div data-fill-with="status">
@@ -719,9 +718,9 @@ c-[il] { color: #000000 } /* Literal.Number.Integer.Long */
    <h2 class="heading settled" data-level="1" id="intro"><span class="secno">1. </span><span class="content">Introduction</span><a class="self-link" href="#intro"></a></h2>
    <section class="non-normative"> This API exposes the expressions of the user’s face and the position of their eyes. This can be used to render a more immersive avatar. </section>
    <h2 class="heading settled" data-level="2" id="initialization"><span class="secno">2. </span><span class="content">Initialization</span><a class="self-link" href="#initialization"></a></h2>
-   <p>If an application wants to get expressions during an immersive session, the session MUST be requested with an appropriate <a data-link-type="dfn" href="https://immersive-web.github.io/webxr/#feature-descriptor" id="ref-for-feature-descriptor">feature descriptor</a>. The string "<dfn class="dfn-paneled" data-dfn-for="feature descriptor" data-dfn-type="dfn" data-noexport id="feature-descriptor-face-tracking">face-tracking</dfn>" is introduced
+   <p>If an application wants to get expressions during an immersive session, the session MUST be requested with an appropriate <a data-link-type="dfn" href="https://immersive-web.github.io/webxr/#feature-descriptor" id="ref-for-feature-descriptor">feature descriptor</a>. The string "<dfn class="dfn-paneled" data-dfn-for="feature descriptor" data-dfn-type="dfn" data-noexport id="feature-descriptor-expression-tracking">expression-tracking</dfn>" is introduced
 by this module as a new valid <a data-link-type="dfn" href="https://immersive-web.github.io/webxr/#feature-descriptor" id="ref-for-feature-descriptor①">feature descriptor</a> for face expressions.</p>
-   <p>The "<a data-link-type="dfn" href="#feature-descriptor-face-tracking" id="ref-for-feature-descriptor-face-tracking">face-tracking</a>" <a data-link-type="dfn" href="https://immersive-web.github.io/webxr/#feature-descriptor" id="ref-for-feature-descriptor②">feature descriptor</a> should only be granted for an <code class="idl"><a data-link-type="idl" href="https://immersive-web.github.io/webxr/#xrsession" id="ref-for-xrsession">XRSession</a></code> when its <a data-link-type="dfn" href="https://immersive-web.github.io/webxr/#xrsession-xr-device" id="ref-for-xrsession-xr-device">XR device</a> has sensor data to support reporting of expressions.</p>
+   <p>The "<a data-link-type="dfn" href="#feature-descriptor-expression-tracking" id="ref-for-feature-descriptor-expression-tracking">expression-tracking</a>" <a data-link-type="dfn" href="https://immersive-web.github.io/webxr/#feature-descriptor" id="ref-for-feature-descriptor②">feature descriptor</a> should only be granted for an <code class="idl"><a data-link-type="idl" href="https://immersive-web.github.io/webxr/#xrsession" id="ref-for-xrsession">XRSession</a></code> when its <a data-link-type="dfn" href="https://immersive-web.github.io/webxr/#xrsession-xr-device" id="ref-for-xrsession-xr-device">XR device</a> has sensor data to support reporting of expressions.</p>
    <h2 class="heading settled" data-level="3" id="expression-access"><span class="secno">3. </span><span class="content">Access to expressions</span><a class="self-link" href="#expression-access"></a></h2>
    <h3 class="heading settled" data-level="3.1" id="expressions"><span class="secno">3.1. </span><span class="content">Expressions</span><a class="self-link" href="#expressions"></a></h3>
    <p>An expression MUST be one of the <code class="idl"><a data-link-type="idl" href="#enumdef-xrexpression" id="ref-for-enumdef-xrexpression">XRExpression</a></code> types.
@@ -796,259 +795,259 @@ A user agent MAY support a subset of <code class="idl"><a data-link-type="idl" h
    <h3 class="heading settled" data-level="3.2" id="expression-visuals"><span class="secno">3.2. </span><span class="content">Visual examples of expressions</span><a class="self-link" href="#expression-visuals"></a></h3>
    <section class="non-normative">
     <figure>
-      <img height="512" src="media/neutral.png" width="512"> 
+      <img src="media/neutral.png"> 
      <figcaption align="center"><b>neutral</b> </figcaption>
     </figure>
     <figure>
-      <img height="512" src="media/brow_lowerer_left.png" width="512"> 
+      <img src="media/brow_lowerer_left.png"> 
      <figcaption align="center"><b><code class="idl"><a data-link-type="idl" href="#dom-xrexpression-brow_lowerer_left" id="ref-for-dom-xrexpression-brow_lowerer_left">brow_lowerer_left</a></code></b> </figcaption>
     </figure>
     <figure>
-      <img height="512" src="media/brow_lowerer_right.png" width="512"> 
+      <img src="media/brow_lowerer_right.png"> 
      <figcaption align="center"><b><code class="idl"><a data-link-type="idl" href="#dom-xrexpression-brow_lowerer_right" id="ref-for-dom-xrexpression-brow_lowerer_right">brow_lowerer_right</a></code></b> </figcaption>
     </figure>
     <figure>
-      <img height="512" src="media/cheek_puff_left.png" width="512"> 
+      <img src="media/cheek_puff_left.png"> 
      <figcaption align="center"><b><code class="idl"><a data-link-type="idl" href="#dom-xrexpression-cheek_puff_left" id="ref-for-dom-xrexpression-cheek_puff_left">cheek_puff_left</a></code></b> </figcaption>
     </figure>
     <figure>
-      <img height="512" src="media/cheek_puff_right.png" width="512"> 
+      <img src="media/cheek_puff_right.png"> 
      <figcaption align="center"><b><code class="idl"><a data-link-type="idl" href="#dom-xrexpression-cheek_puff_right" id="ref-for-dom-xrexpression-cheek_puff_right">cheek_puff_right</a></code></b> </figcaption>
     </figure>
     <figure>
-      <img height="512" src="media/cheek_raiser_left.png" width="512"> 
+      <img src="media/cheek_raiser_left.png"> 
      <figcaption align="center"><b><code class="idl"><a data-link-type="idl" href="#dom-xrexpression-cheek_raiser_left" id="ref-for-dom-xrexpression-cheek_raiser_left">cheek_raiser_left</a></code></b> </figcaption>
     </figure>
     <figure>
-      <img height="512" src="media/cheek_raiser_right.png" width="512"> 
+      <img src="media/cheek_raiser_right.png"> 
      <figcaption align="center"><b><code class="idl"><a data-link-type="idl" href="#dom-xrexpression-cheek_raiser_right" id="ref-for-dom-xrexpression-cheek_raiser_right">cheek_raiser_right</a></code></b> </figcaption>
     </figure>
     <figure>
-      <img height="512" src="media/cheek_suck_left.png" width="512"> 
+      <img src="media/cheek_suck_left.png"> 
      <figcaption align="center"><b><code class="idl"><a data-link-type="idl" href="#dom-xrexpression-cheek_suck_left" id="ref-for-dom-xrexpression-cheek_suck_left">cheek_suck_left</a></code></b> </figcaption>
     </figure>
     <figure>
-      <img height="512" src="media/cheek_suck_right.png" width="512"> 
+      <img src="media/cheek_suck_right.png"> 
      <figcaption align="center"><b><code class="idl"><a data-link-type="idl" href="#dom-xrexpression-cheek_suck_right" id="ref-for-dom-xrexpression-cheek_suck_right">cheek_suck_right</a></code></b> </figcaption>
     </figure>
     <figure>
-      <img height="512" src="media/chin_raiser_bottom.png" width="512"> 
+      <img src="media/chin_raiser_bottom.png"> 
      <figcaption align="center"><b><code class="idl"><a data-link-type="idl" href="#dom-xrexpression-chin_raiser_bottom" id="ref-for-dom-xrexpression-chin_raiser_bottom">chin_raiser_bottom</a></code></b> </figcaption>
     </figure>
     <figure>
-      <img height="512" src="media/chin_raiser_top.png" width="512"> 
+      <img src="media/chin_raiser_top.png"> 
      <figcaption align="center"><b><code class="idl"><a data-link-type="idl" href="#dom-xrexpression-chin_raiser_top" id="ref-for-dom-xrexpression-chin_raiser_top">chin_raiser_top</a></code></b> </figcaption>
     </figure>
     <figure>
-      <img height="512" src="media/dimpler_left.png" width="512"> 
+      <img src="media/dimpler_left.png"> 
      <figcaption align="center"><b><code class="idl"><a data-link-type="idl" href="#dom-xrexpression-dimpler_left" id="ref-for-dom-xrexpression-dimpler_left">dimpler_left</a></code></b> </figcaption>
     </figure>
     <figure>
-      <img height="512" src="media/dimpler_right.png" width="512"> 
+      <img src="media/dimpler_right.png"> 
      <figcaption align="center"><b><code class="idl"><a data-link-type="idl" href="#dom-xrexpression-dimpler_right" id="ref-for-dom-xrexpression-dimpler_right">dimpler_right</a></code></b> </figcaption>
     </figure>
     <figure>
-      <img height="512" src="media/eyes_closed_left.png" width="512"> 
+      <img src="media/eyes_closed_left.png"> 
      <figcaption align="center"><b><code class="idl"><a data-link-type="idl" href="#dom-xrexpression-eyes_closed_left" id="ref-for-dom-xrexpression-eyes_closed_left">eyes_closed_left</a></code></b> </figcaption>
     </figure>
     <figure>
-      <img height="512" src="media/eyes_closed_right.png" width="512"> 
+      <img src="media/eyes_closed_right.png"> 
      <figcaption align="center"><b><code class="idl"><a data-link-type="idl" href="#dom-xrexpression-eyes_closed_right" id="ref-for-dom-xrexpression-eyes_closed_right">eyes_closed_right</a></code></b> </figcaption>
     </figure>
     <figure>
-      <img height="512" src="media/eyes_look_down_left.png" width="512"> 
+      <img src="media/eyes_look_down_left.png"> 
      <figcaption align="center"><b><code class="idl"><a data-link-type="idl" href="#dom-xrexpression-eyes_look_down_left" id="ref-for-dom-xrexpression-eyes_look_down_left">eyes_look_down_left</a></code></b> </figcaption>
     </figure>
     <figure>
-      <img height="512" src="media/eyes_look_down_right.png" width="512"> 
+      <img src="media/eyes_look_down_right.png"> 
      <figcaption align="center"><b><code class="idl"><a data-link-type="idl" href="#dom-xrexpression-eyes_look_down_right" id="ref-for-dom-xrexpression-eyes_look_down_right">eyes_look_down_right</a></code></b> </figcaption>
     </figure>
     <figure>
-      <img height="512" src="media/eyes_look_left_left.png" width="512"> 
+      <img src="media/eyes_look_left_left.png"> 
      <figcaption align="center"><b><code class="idl"><a data-link-type="idl" href="#dom-xrexpression-eyes_look_left_left" id="ref-for-dom-xrexpression-eyes_look_left_left">eyes_look_left_left</a></code></b> </figcaption>
     </figure>
     <figure>
-      <img height="512" src="media/eyes_look_left_right.png" width="512"> 
+      <img src="media/eyes_look_left_right.png"> 
      <figcaption align="center"><b><code class="idl"><a data-link-type="idl" href="#dom-xrexpression-eyes_look_left_right" id="ref-for-dom-xrexpression-eyes_look_left_right">eyes_look_left_right</a></code></b> </figcaption>
     </figure>
     <figure>
-      <img height="512" src="media/eyes_look_right_left.png" width="512"> 
+      <img src="media/eyes_look_right_left.png"> 
      <figcaption align="center"><b><code class="idl"><a data-link-type="idl" href="#dom-xrexpression-eyes_look_right_left" id="ref-for-dom-xrexpression-eyes_look_right_left">eyes_look_right_left</a></code></b> </figcaption>
     </figure>
     <figure>
-      <img height="512" src="media/eyes_look_right_right.png" width="512"> 
+      <img src="media/eyes_look_right_right.png"> 
      <figcaption align="center"><b><code class="idl"><a data-link-type="idl" href="#dom-xrexpression-eyes_look_right_right" id="ref-for-dom-xrexpression-eyes_look_right_right">eyes_look_right_right</a></code></b> </figcaption>
     </figure>
     <figure>
-      <img height="512" src="media/eyes_look_up_left.png" width="512"> 
+      <img src="media/eyes_look_up_left.png"> 
      <figcaption align="center"><b><code class="idl"><a data-link-type="idl" href="#dom-xrexpression-eyes_look_up_left" id="ref-for-dom-xrexpression-eyes_look_up_left">eyes_look_up_left</a></code></b> </figcaption>
     </figure>
     <figure>
-      <img height="512" src="media/eyes_look_up_right.png" width="512"> 
+      <img src="media/eyes_look_up_right.png"> 
      <figcaption align="center"><b><code class="idl"><a data-link-type="idl" href="#dom-xrexpression-eyes_look_up_right" id="ref-for-dom-xrexpression-eyes_look_up_right">eyes_look_up_right</a></code></b> </figcaption>
     </figure>
     <figure>
-      <img height="512" src="media/inner_brow_raiser_left.png" width="512"> 
+      <img src="media/inner_brow_raiser_left.png"> 
      <figcaption align="center"><b><code class="idl"><a data-link-type="idl" href="#dom-xrexpression-inner_brow_raiser_left" id="ref-for-dom-xrexpression-inner_brow_raiser_left">inner_brow_raiser_left</a></code></b> </figcaption>
     </figure>
     <figure>
-      <img height="512" src="media/inner_brow_raiser_right.png" width="512"> 
+      <img src="media/inner_brow_raiser_right.png"> 
      <figcaption align="center"><b><code class="idl"><a data-link-type="idl" href="#dom-xrexpression-inner_brow_raiser_right" id="ref-for-dom-xrexpression-inner_brow_raiser_right">inner_brow_raiser_right</a></code></b> </figcaption>
     </figure>
     <figure>
-      <img height="512" src="media/jaw_drop.png" width="512"> 
+      <img src="media/jaw_drop.png"> 
      <figcaption align="center"><b><code class="idl"><a data-link-type="idl" href="#dom-xrexpression-jaw_drop" id="ref-for-dom-xrexpression-jaw_drop">jaw_drop</a></code></b> </figcaption>
     </figure>
     <figure>
-      <img height="512" src="media/jaw_sideways_left.png" width="512"> 
+      <img src="media/jaw_sideways_left.png"> 
      <figcaption align="center"><b><code class="idl"><a data-link-type="idl" href="#dom-xrexpression-jaw_sideways_left" id="ref-for-dom-xrexpression-jaw_sideways_left">jaw_sideways_left</a></code></b> </figcaption>
     </figure>
     <figure>
-      <img height="512" src="media/jaw_sideways_right.png" width="512"> 
+      <img src="media/jaw_sideways_right.png"> 
      <figcaption align="center"><b><code class="idl"><a data-link-type="idl" href="#dom-xrexpression-jaw_sideways_right" id="ref-for-dom-xrexpression-jaw_sideways_right">jaw_sideways_right</a></code></b> </figcaption>
     </figure>
     <figure>
-      <img height="512" src="media/jaw_thrust.png" width="512"> 
+      <img src="media/jaw_thrust.png"> 
      <figcaption align="center"><b><code class="idl"><a data-link-type="idl" href="#dom-xrexpression-jaw_thrust" id="ref-for-dom-xrexpression-jaw_thrust">jaw_thrust</a></code></b> </figcaption>
     </figure>
     <figure>
-      <img height="512" src="media/lid_tightener_left.png" width="512"> 
+      <img src="media/lid_tightener_left.png"> 
      <figcaption align="center"><b><code class="idl"><a data-link-type="idl" href="#dom-xrexpression-lid_tightener_left" id="ref-for-dom-xrexpression-lid_tightener_left">lid_tightener_left</a></code></b> </figcaption>
     </figure>
     <figure>
-      <img height="512" src="media/lid_tightener_right.png" width="512"> 
+      <img src="media/lid_tightener_right.png"> 
      <figcaption align="center"><b><code class="idl"><a data-link-type="idl" href="#dom-xrexpression-lid_tightener_right" id="ref-for-dom-xrexpression-lid_tightener_right">lid_tightener_right</a></code></b> </figcaption>
     </figure>
     <figure>
-      <img height="512" src="media/lip_corner_depressor_left.png" width="512"> 
+      <img src="media/lip_corner_depressor_left.png"> 
      <figcaption align="center"><b><code class="idl"><a data-link-type="idl" href="#dom-xrexpression-lip_corner_depressor_left" id="ref-for-dom-xrexpression-lip_corner_depressor_left">lip_corner_depressor_left</a></code></b> </figcaption>
     </figure>
     <figure>
-      <img height="512" src="media/lip_corner_depressor_right.png" width="512"> 
+      <img src="media/lip_corner_depressor_right.png"> 
      <figcaption align="center"><b><code class="idl"><a data-link-type="idl" href="#dom-xrexpression-lip_corner_depressor_right" id="ref-for-dom-xrexpression-lip_corner_depressor_right">lip_corner_depressor_right</a></code></b> </figcaption>
     </figure>
     <figure>
-      <img height="512" src="media/lip_corner_puller_left.png" width="512"> 
+      <img src="media/lip_corner_puller_left.png"> 
      <figcaption align="center"><b><code class="idl"><a data-link-type="idl" href="#dom-xrexpression-lip_corner_puller_left" id="ref-for-dom-xrexpression-lip_corner_puller_left">lip_corner_puller_left</a></code></b> </figcaption>
     </figure>
     <figure>
-      <img height="512" src="media/lip_corner_puller_right.png" width="512"> 
+      <img src="media/lip_corner_puller_right.png"> 
      <figcaption align="center"><b><code class="idl"><a data-link-type="idl" href="#dom-xrexpression-lip_corner_puller_right" id="ref-for-dom-xrexpression-lip_corner_puller_right">lip_corner_puller_right</a></code></b> </figcaption>
     </figure>
     <figure>
-      <img height="512" src="media/lip_funneler_left_bottom.png" width="512"> 
+      <img src="media/lip_funneler_left_bottom.png"> 
      <figcaption align="center"><b><code class="idl"><a data-link-type="idl" href="#dom-xrexpression-lip_funneler_left_bottom" id="ref-for-dom-xrexpression-lip_funneler_left_bottom">lip_funneler_left_bottom</a></code></b> </figcaption>
     </figure>
     <figure>
-      <img height="512" src="media/lip_funneler_left_top.png" width="512"> 
+      <img src="media/lip_funneler_left_top.png"> 
      <figcaption align="center"><b><code class="idl"><a data-link-type="idl" href="#dom-xrexpression-lip_funneler_left_top" id="ref-for-dom-xrexpression-lip_funneler_left_top">lip_funneler_left_top</a></code></b> </figcaption>
     </figure>
     <figure>
-      <img height="512" src="media/lip_funneler_right_bottom.png" width="512"> 
+      <img src="media/lip_funneler_right_bottom.png"> 
      <figcaption align="center"><b><code class="idl"><a data-link-type="idl" href="#dom-xrexpression-lip_funneler_right_bottom" id="ref-for-dom-xrexpression-lip_funneler_right_bottom">lip_funneler_right_bottom</a></code></b> </figcaption>
     </figure>
     <figure>
-      <img height="512" src="media/lip_funneler_right_top.png" width="512"> 
+      <img src="media/lip_funneler_right_top.png"> 
      <figcaption align="center"><b><code class="idl"><a data-link-type="idl" href="#dom-xrexpression-lip_funneler_right_top" id="ref-for-dom-xrexpression-lip_funneler_right_top">lip_funneler_right_top</a></code></b> </figcaption>
     </figure>
     <figure>
-      <img height="512" src="media/lip_pressor_left.png" width="512"> 
+      <img src="media/lip_pressor_left.png"> 
      <figcaption align="center"><b><code class="idl"><a data-link-type="idl" href="#dom-xrexpression-lip_pressor_left" id="ref-for-dom-xrexpression-lip_pressor_left">lip_pressor_left</a></code></b> </figcaption>
     </figure>
     <figure>
-      <img height="512" src="media/lip_pressor_right.png" width="512"> 
+      <img src="media/lip_pressor_right.png"> 
      <figcaption align="center"><b><code class="idl"><a data-link-type="idl" href="#dom-xrexpression-lip_pressor_right" id="ref-for-dom-xrexpression-lip_pressor_right">lip_pressor_right</a></code></b> </figcaption>
     </figure>
     <figure>
-      <img height="512" src="media/lip_pucker_left.png" width="512"> 
+      <img src="media/lip_pucker_left.png"> 
      <figcaption align="center"><b><code class="idl"><a data-link-type="idl" href="#dom-xrexpression-lip_pucker_left" id="ref-for-dom-xrexpression-lip_pucker_left">lip_pucker_left</a></code></b> </figcaption>
     </figure>
     <figure>
-      <img height="512" src="media/lip_pucker_right.png" width="512"> 
+      <img src="media/lip_pucker_right.png"> 
      <figcaption align="center"><b><code class="idl"><a data-link-type="idl" href="#dom-xrexpression-lip_pucker_right" id="ref-for-dom-xrexpression-lip_pucker_right">lip_pucker_right</a></code></b> </figcaption>
     </figure>
     <figure>
-      <img height="512" src="media/lip_stretcher_left.png" width="512"> 
+      <img src="media/lip_stretcher_left.png"> 
      <figcaption align="center"><b><code class="idl"><a data-link-type="idl" href="#dom-xrexpression-lip_stretcher_left" id="ref-for-dom-xrexpression-lip_stretcher_left">lip_stretcher_left</a></code></b> </figcaption>
     </figure>
     <figure>
-      <img height="512" src="media/lip_stretcher_right.png" width="512"> 
+      <img src="media/lip_stretcher_right.png"> 
      <figcaption align="center"><b><code class="idl"><a data-link-type="idl" href="#dom-xrexpression-lip_stretcher_right" id="ref-for-dom-xrexpression-lip_stretcher_right">lip_stretcher_right</a></code></b> </figcaption>
     </figure>
     <figure>
-      <img height="512" src="media/lip_suck_left_bottom.png" width="512"> 
+      <img src="media/lip_suck_left_bottom.png"> 
      <figcaption align="center"><b><code class="idl"><a data-link-type="idl" href="#dom-xrexpression-lip_suck_left_bottom" id="ref-for-dom-xrexpression-lip_suck_left_bottom">lip_suck_left_bottom</a></code></b> </figcaption>
     </figure>
     <figure>
-      <img height="512" src="media/lip_suck_left_top.png" width="512"> 
+      <img src="media/lip_suck_left_top.png"> 
      <figcaption align="center"><b><code class="idl"><a data-link-type="idl" href="#dom-xrexpression-lip_suck_left_top" id="ref-for-dom-xrexpression-lip_suck_left_top">lip_suck_left_top</a></code></b> </figcaption>
     </figure>
     <figure>
-      <img height="512" src="media/lip_suck_right_bottom.png" width="512"> 
+      <img src="media/lip_suck_right_bottom.png"> 
      <figcaption align="center"><b><code class="idl"><a data-link-type="idl" href="#dom-xrexpression-lip_suck_right_bottom" id="ref-for-dom-xrexpression-lip_suck_right_bottom">lip_suck_right_bottom</a></code></b> </figcaption>
     </figure>
     <figure>
-      <img height="512" src="media/lip_suck_right_top.png" width="512"> 
+      <img src="media/lip_suck_right_top.png"> 
      <figcaption align="center"><b><code class="idl"><a data-link-type="idl" href="#dom-xrexpression-lip_suck_right_top" id="ref-for-dom-xrexpression-lip_suck_right_top">lip_suck_right_top</a></code></b> </figcaption>
     </figure>
     <figure>
-      <img height="512" src="media/lip_tightener_left.png" width="512"> 
+      <img src="media/lip_tightener_left.png"> 
      <figcaption align="center"><b><code class="idl"><a data-link-type="idl" href="#dom-xrexpression-lip_tightener_left" id="ref-for-dom-xrexpression-lip_tightener_left">lip_tightener_left</a></code></b> </figcaption>
     </figure>
     <figure>
-      <img height="512" src="media/lip_tightener_right.png" width="512"> 
+      <img src="media/lip_tightener_right.png"> 
      <figcaption align="center"><b><code class="idl"><a data-link-type="idl" href="#dom-xrexpression-lip_tightener_right" id="ref-for-dom-xrexpression-lip_tightener_right">lip_tightener_right</a></code></b> </figcaption>
     </figure>
     <figure>
-      <img height="512" src="media/lips_toward.png" width="512"> 
+      <img src="media/lips_toward.png"> 
      <figcaption align="center"><b><code class="idl"><a data-link-type="idl" href="#dom-xrexpression-lips_toward" id="ref-for-dom-xrexpression-lips_toward">lips_toward</a></code></b> </figcaption>
     </figure>
     <figure>
-      <img height="512" src="media/lower_lip_depressor_left.png" width="512"> 
+      <img src="media/lower_lip_depressor_left.png"> 
      <figcaption align="center"><b><code class="idl"><a data-link-type="idl" href="#dom-xrexpression-lower_lip_depressor_left" id="ref-for-dom-xrexpression-lower_lip_depressor_left">lower_lip_depressor_left</a></code></b> </figcaption>
     </figure>
     <figure>
-      <img height="512" src="media/lower_lip_depressor_right.png" width="512"> 
+      <img src="media/lower_lip_depressor_right.png"> 
      <figcaption align="center"><b><code class="idl"><a data-link-type="idl" href="#dom-xrexpression-lower_lip_depressor_right" id="ref-for-dom-xrexpression-lower_lip_depressor_right">lower_lip_depressor_right</a></code></b> </figcaption>
     </figure>
     <figure>
-      <img height="512" src="media/mouth_left.png" width="512"> 
+      <img src="media/mouth_left.png"> 
      <figcaption align="center"><b><code class="idl"><a data-link-type="idl" href="#dom-xrexpression-mouth_left" id="ref-for-dom-xrexpression-mouth_left">mouth_left</a></code></b> </figcaption>
     </figure>
     <figure>
-      <img height="512" src="media/mouth_right.png" width="512"> 
+      <img src="media/mouth_right.png"> 
      <figcaption align="center"><b><code class="idl"><a data-link-type="idl" href="#dom-xrexpression-mouth_right" id="ref-for-dom-xrexpression-mouth_right">mouth_right</a></code></b> </figcaption>
     </figure>
     <figure>
-      <img height="512" src="media/nose_wrinkler_left.png" width="512"> 
+      <img src="media/nose_wrinkler_left.png"> 
      <figcaption align="center"><b><code class="idl"><a data-link-type="idl" href="#dom-xrexpression-nose_wrinkler_left" id="ref-for-dom-xrexpression-nose_wrinkler_left">nose_wrinkler_left</a></code></b> </figcaption>
     </figure>
     <figure>
-      <img height="512" src="media/nose_wrinkler_right.png" width="512"> 
+      <img src="media/nose_wrinkler_right.png"> 
      <figcaption align="center"><b><code class="idl"><a data-link-type="idl" href="#dom-xrexpression-nose_wrinkler_right" id="ref-for-dom-xrexpression-nose_wrinkler_right">nose_wrinkler_right</a></code></b> </figcaption>
     </figure>
     <figure>
-      <img height="512" src="media/outer_brow_raiser_left.png" width="512"> 
+      <img src="media/outer_brow_raiser_left.png"> 
      <figcaption align="center"><b><code class="idl"><a data-link-type="idl" href="#dom-xrexpression-outer_brow_raiser_left" id="ref-for-dom-xrexpression-outer_brow_raiser_left">outer_brow_raiser_left</a></code></b> </figcaption>
     </figure>
     <figure>
-      <img height="512" src="media/outer_brow_raiser_right.png" width="512"> 
+      <img src="media/outer_brow_raiser_right.png"> 
      <figcaption align="center"><b><code class="idl"><a data-link-type="idl" href="#dom-xrexpression-outer_brow_raiser_right" id="ref-for-dom-xrexpression-outer_brow_raiser_right">outer_brow_raiser_right</a></code></b> </figcaption>
     </figure>
     <figure>
-      <img height="512" src="media/upper_lid_raiser_left.png" width="512"> 
+      <img src="media/upper_lid_raiser_left.png"> 
      <figcaption align="center"><b><code class="idl"><a data-link-type="idl" href="#dom-xrexpression-upper_lid_raiser_left" id="ref-for-dom-xrexpression-upper_lid_raiser_left">upper_lid_raiser_left</a></code></b> </figcaption>
     </figure>
     <figure>
-      <img height="512" src="media/upper_lid_raiser_right.png" width="512"> 
+      <img src="media/upper_lid_raiser_right.png"> 
      <figcaption align="center"><b><code class="idl"><a data-link-type="idl" href="#dom-xrexpression-upper_lid_raiser_right" id="ref-for-dom-xrexpression-upper_lid_raiser_right">upper_lid_raiser_right</a></code></b> </figcaption>
     </figure>
     <figure>
-      <img height="512" src="media/upper_lip_raiser_left.png" width="512"> 
+      <img src="media/upper_lip_raiser_left.png"> 
      <figcaption align="center"><b><code class="idl"><a data-link-type="idl" href="#dom-xrexpression-upper_lip_raiser_left" id="ref-for-dom-xrexpression-upper_lip_raiser_left">upper_lip_raiser_left</a></code></b> </figcaption>
     </figure>
     <figure>
-      <img height="512" src="media/upper_lip_raiser_right.png" width="512"> 
+      <img src="media/upper_lip_raiser_right.png"> 
      <figcaption align="center"><b><code class="idl"><a data-link-type="idl" href="#dom-xrexpression-upper_lip_raiser_right" id="ref-for-dom-xrexpression-upper_lip_raiser_right">upper_lip_raiser_right</a></code></b> </figcaption>
     </figure>
    </section>
@@ -1077,11 +1076,11 @@ A user agent MAY support a subset of <code class="idl"><a data-link-type="idl" h
 };
 </pre>
    <h2 class="heading settled" data-level="5" id="privacy-security"><span class="secno">5. </span><span class="content">Privacy &amp; Security Considerations</span><a class="self-link" href="#privacy-security"></a></h2>
-    The WebXR Face Tracking API is a powerful feature that carries significant privacy risks. 
+    The WebXR Expression Tracking API is a powerful feature that carries significant privacy risks. 
    <p>Since this feature returns new sensor data, the User Agent MUST ask for <a data-link-type="dfn" href="https://immersive-web.github.io/webxr/#explicit-consent" id="ref-for-explicit-consent">explicit consent</a> from the user at session creation time.</p>
    <p>Data returned from this API, MUST NOT be so specific that one can detect individual users.
 If the underlying hardware returns data that is too precise, the User Agent MUST anonymize this data
-before revealing it through the WebXR Face Tracking API.</p>
+before revealing it through the WebXR Expression Tracking API.</p>
    <p>This API MUST only be supported in XRSessions created with XRSessionMode of <code class="idl"><a data-link-type="idl" href="https://immersive-web.github.io/webxr/#dom-xrsessionmode-immersive-vr" id="ref-for-dom-xrsessionmode-immersive-vr">"immersive-vr"</a></code> or <code class="idl"><a data-link-type="idl" href="https://immersive-web.github.io/webxr-ar-module/#dom-xrsessionmode-immersive-ar" id="ref-for-dom-xrsessionmode-immersive-ar">"immersive-ar"</a></code>. <code class="idl"><a data-link-type="idl" href="https://immersive-web.github.io/webxr/#dom-xrsessionmode-inline" id="ref-for-dom-xrsessionmode-inline">"inline"</a></code> sessions MUST not support this API.</p>
    <div class="note" role="note">
      When anonymizing the expression data, the UA can follow these guidelines: 
@@ -1164,6 +1163,7 @@ before revealing it through the WebXR Face Tracking API.</p>
    <li><a href="#dom-xrexpression-dimpler_right">"dimpler_right"</a><span>, in § 3.1</span>
    <li><a href="#dom-xrexpressions-expressions-slot">[[expressions]]</a><span>, in § 3.3</span>
    <li><a href="#dom-xrframe-expressions">expressions</a><span>, in § 4.1</span>
+   <li><a href="#feature-descriptor-expression-tracking">expression-tracking</a><span>, in § 2</span>
    <li><a href="#dom-xrexpression-eyes_closed_left">"eyes_closed_left"</a><span>, in § 3.1</span>
    <li><a href="#dom-xrexpression-eyes_closed_right">"eyes_closed_right"</a><span>, in § 3.1</span>
    <li><a href="#dom-xrexpression-eyes_look_down_left">"eyes_look_down_left"</a><span>, in § 3.1</span>
@@ -1174,7 +1174,6 @@ before revealing it through the WebXR Face Tracking API.</p>
    <li><a href="#dom-xrexpression-eyes_look_right_right">"eyes_look_right_right"</a><span>, in § 3.1</span>
    <li><a href="#dom-xrexpression-eyes_look_up_left">"eyes_look_up_left"</a><span>, in § 3.1</span>
    <li><a href="#dom-xrexpression-eyes_look_up_right">"eyes_look_up_right"</a><span>, in § 3.1</span>
-   <li><a href="#feature-descriptor-face-tracking">face-tracking</a><span>, in § 2</span>
    <li><a href="#dom-xrexpressions-get">get(key)</a><span>, in § 3.3</span>
    <li><a href="#dom-xrexpression-inner_brow_raiser_left">"inner_brow_raiser_left"</a><span>, in § 3.1</span>
    <li><a href="#dom-xrexpression-inner_brow_raiser_right">"inner_brow_raiser_right"</a><span>, in § 3.1</span>
@@ -1443,10 +1442,10 @@ before revealing it through the WebXR Face Tracking API.</p>
 };
 
 </pre>
-  <aside class="dfn-panel" data-for="feature-descriptor-face-tracking">
-   <b><a href="#feature-descriptor-face-tracking">#feature-descriptor-face-tracking</a></b><b>Referenced in:</b>
+  <aside class="dfn-panel" data-for="feature-descriptor-expression-tracking">
+   <b><a href="#feature-descriptor-expression-tracking">#feature-descriptor-expression-tracking</a></b><b>Referenced in:</b>
    <ul>
-    <li><a href="#ref-for-feature-descriptor-face-tracking">2. Initialization</a>
+    <li><a href="#ref-for-feature-descriptor-expression-tracking">2. Initialization</a>
    </ul>
   </aside>
   <aside class="dfn-panel" data-for="list-of-expressions">

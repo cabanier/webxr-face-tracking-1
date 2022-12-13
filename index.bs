@@ -1,17 +1,17 @@
 <pre class="metadata">
-Shortname: webxr-face-tracking
-Title: WebXR Face Tracking - Level 1
+Shortname: webxr-expression-tracking
+Title: WebXR Expression Tracking - Level 1
 Group: immersivewebwg
 Status: UD
 
-ED: https://cabanier.github.io/webxr-face-tracking-1/
-Repository: cabanier/webxr-face-tracking-1
+ED: https://cabanier.github.io/webxr-expression-tracking-1/
+Repository: cabanier/webxr-expression-tracking-1
 Level: 1
 Mailing List Archives: https://lists.w3.org/Archives/Public/public-immersive-web-wg/
 
 Editor: Rik Cabanier, Meta, cabanier@meta.com
 
-Abstract: The WebXR Face Tracking module expands the <a href="https://www.w3.org/TR/webxr/">WebXR Device API</a> with the functionality to track face expressions.
+Abstract: The WebXR Expression Tracking module expands the <a href="https://www.w3.org/TR/webxr/">WebXR Device API</a> with the functionality to track expressions.
 
 Status Text: This WebXR Module is designed as a module to be implemented in addition to <a href="https://www.w3.org/TR/webxr/">WebXR Device API</a>, and is originally included in WebXR Device API which was divided into core and modules.
 </pre>
@@ -118,10 +118,10 @@ This API exposes the expressions of the user's face and the position of their ey
 Initialization {#initialization}
 ==============
 
-If an application wants to get expressions during an immersive session, the session MUST be requested with an appropriate [=feature descriptor=]. The string "<dfn for="feature descriptor">face-tracking</dfn>" is introduced
+If an application wants to get expressions during an immersive session, the session MUST be requested with an appropriate [=feature descriptor=]. The string "<dfn for="feature descriptor">expression-tracking</dfn>" is introduced
 by this module as a new valid [=feature descriptor=] for face expressions.
 
-The "[=face-tracking=]" [=feature descriptor=] should only be granted for an {{XRSession}} when its [=XRSession/XR device=] has sensor data to support reporting of expressions.
+The "[=expression-tracking=]" [=feature descriptor=] should only be granted for an {{XRSession}} when its [=XRSession/XR device=] has sensor data to support reporting of expressions.
 
 Access to expressions {#expression-access}
 =====================
@@ -637,13 +637,13 @@ partial interface XRFrame {
 
 Privacy & Security Considerations {#privacy-security}
 =================================
-The WebXR Face Tracking API is a powerful feature that carries significant privacy risks.
+The WebXR Expression Tracking API is a powerful feature that carries significant privacy risks.
 
 Since this feature returns new sensor data, the User Agent MUST ask for [=explicit consent=] from the user at session creation time.
 
 Data returned from this API, MUST NOT be so specific that one can detect individual users.
 If the underlying hardware returns data that is too precise, the User Agent MUST anonymize this data
-before revealing it through the WebXR Face Tracking API.
+before revealing it through the WebXR Expression Tracking API.
 
 This API MUST only be supported in XRSessions created with XRSessionMode of {{XRSessionMode/"immersive-vr"}}
 or {{XRSessionMode/"immersive-ar"}}. {{XRSessionMode/"inline"}} sessions MUST not support this API.
